@@ -532,3 +532,48 @@ a.contact-item:hover { border-color: var(--gold); transform: translateY(-3px); }
   .session-card { padding: 28px 20px; }
   .countdown strong { font-size: 1.5rem; }
 }
+
+/* ---------- Careers ---------- */
+.no-roles {
+  display: grid; grid-template-columns: 64px 1fr auto; gap: 28px; align-items: center;
+  padding: 40px; border-radius: var(--radius-lg); background: var(--paper-2); border: 1px dashed #C8D1E3;
+}
+.no-roles-icon { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: #fff; color: var(--gold); box-shadow: var(--shadow-sm); }
+.no-roles-icon svg { width: 30px; height: 30px; }
+.no-roles h3 { margin-bottom: .35em; }
+.no-roles p { margin: 0; color: var(--muted); max-width: 62ch; }
+.roles-note { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--muted); font-weight: 600; font-size: .95rem; }
+.roles-note span { padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink); font-size: .88rem; }
+.form-card--inline { margin-top: 0; }
+
+/* ---------- Staff email ---------- */
+.staff-hero { min-height: calc(100vh - 120px); display: grid; align-items: center; padding: 80px 0; }
+.staff-wrap { display: grid; place-items: center; }
+.staff-card {
+  position: relative; width: min(560px, 100%); background: #fff; border-radius: 28px; padding: 48px 44px; text-align: center; color: var(--body);
+  box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .65);
+}
+.staff-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; border-radius: 28px 28px 0 0; background: linear-gradient(90deg, var(--blue), var(--gold)); }
+.staff-card h1 { color: var(--ink); font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: .3em; }
+.staff-card .eyebrow { justify-content: center; }
+.staff-icon { width: 72px; height: 72px; margin: 0 auto 22px; border-radius: 20px; display: grid; place-items: center; background: var(--navy); color: var(--gold-300); }
+.staff-icon svg { width: 34px; height: 34px; }
+.staff-lead { font-size: 1.08rem; margin-bottom: 28px; }
+.staff-btn { width: 100%; padding: 17px 26px; font-size: 1.02rem; }
+.staff-url { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 0; font-size: .86rem; color: var(--muted); }
+.staff-url svg { width: 16px; height: 16px; color: #12936B; flex: none; }
+.staff-help { margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--line); text-align: left; }
+.staff-help h2 { font-family: var(--font-body); font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.staff-help ul { list-style: none; display: grid; gap: 10px; }
+.staff-help li { position: relative; padding-left: 20px; font-size: .93rem; line-height: 1.55; }
+.staff-help li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+.staff-help a { color: var(--blue); font-weight: 700; word-break: break-word; }
+.staff-link { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.staff-link:hover { color: var(--gold-300); }
+
+@media (max-width: 860px) {
+  .no-roles { grid-template-columns: 1fr; padding: 30px 24px; }
+}
+@media (max-width: 600px) {
+  .staff-card { padding: 38px 22px; }
+}
