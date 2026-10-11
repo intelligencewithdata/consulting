@@ -106,6 +106,72 @@
     });
   }
 
+  /* Next-session countdown: every Friday 18:00 Europe/London */
+  const cd = document.querySelector("[data-countdown]");
+  if (cd) {
+    const TZ = "Europe/London", DAY = 5, HOUR = 18, LIVE_MINUTES = 90;
+    const londonParts = (d) => {
+      const p = {};
+      new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hourCycle: "h23", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric" })
+        .formatToParts(d).forEach((x) => (p[x.type] = +x.value));
+      return p;
+    };
+    // UTC instant for a London wall-clock time (handles BST/GMT)
+    const londonToUtc = (y, m, d, h) => {
+      const guess = Date.UTC(y, m - 1, d, h);
+      const p = londonParts(new Date(guess));
+      const offset = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - guess;
+      return new Date(guess - offset);
+    };
+    const nextSession = (now) => {
+      for (let i = 0; i < 8; i++) {
+        const day = new Date(now.getTime() + i * 864e5);
+        const p = londonParts(day);
+        const wd = new Date(Date.UTC(p.year, p.month - 1, p.day)).getUTCDay();
+        if (wd !== DAY) continue;
+        const start = londonToUtc(p.year, p.month, p.day, HOUR);
+        if (now < new Date(start.getTime() + LIVE_MINUTES * 6e4)) return start;
+      }
+    };
+    const box = cd.querySelector(".countdown");
+    const els = { d: cd.querySelector('[data-cd="d"]'), h: cd.querySelector('[data-cd="h"]'), m: cd.querySelector('[data-cd="m"]'), s: cd.querySelector('[data-cd="s"]') };
+    let start = nextSession(new Date());
+    const fmt = (opts) => new Intl.DateTimeFormat("en-GB", opts).format(start);
+    const label = () => {
+      cd.querySelector("[data-next-date]").textContent = fmt({ timeZone: TZ, weekday: "long", day: "numeric", month: "long" }) + ", 6:00 PM UK";
+      const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const local = cd.querySelector("[data-local-time]");
+      if (userTz && userTz !== TZ && fmt({ timeZone: userTz, hour: "numeric", minute: "2-digit" }) !== fmt({ timeZone: TZ, hour: "numeric", minute: "2-digit" })) {
+        local.textContent = "That's " + new Intl.DateTimeFormat(undefined, { weekday: "long", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(start) + " where you are";
+      } else local.textContent = "Live on Google Meet";
+    };
+    const pad = (n) => String(n).padStart(2, "0");
+    const tick = () => {
+      const now = new Date();
+      if (now - start > LIVE_MINUTES * 6e4) { start = nextSession(now); label(); }
+      const diff = start - now;
+      if (diff > 0 && box.classList.contains("is-live")) return location.reload();
+      if (diff <= 0) {
+        box.classList.add("is-live");
+        box.textContent = "Live now. Register to get the joining link.";
+        return;
+      }
+      const t = Math.floor(diff / 1000);
+      els.d.textContent = pad(Math.floor(t / 86400));
+      els.h.textContent = pad(Math.floor((t % 86400) / 3600));
+      els.m.textContent = pad(Math.floor((t % 3600) / 60));
+      els.s.textContent = pad(t % 60);
+    };
+    if (start) { label(); tick(); setInterval(tick, 1000); }
+  }
+
+  /* Sticky register bar (mobile) after the hero scrolls away */
+  const sticky = document.querySelector("[data-sticky-reg]");
+  const heroEl = document.querySelector(".free-hero");
+  if (sticky && heroEl && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => sticky.classList.toggle("is-shown", !e.isIntersecting)).observe(heroEl);
+  }
+
   /* Footer year */
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 })();
