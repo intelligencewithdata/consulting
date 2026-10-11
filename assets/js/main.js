@@ -88,12 +88,17 @@
       const endpoint = (form.dataset.endpoint || "").trim();
       if (endpoint) {
         try {
-          const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+          const btn = form.querySelector("button[type=submit]");
+        btn.disabled = true;
+        say("Sending…");
+        const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
           if (!res.ok) throw new Error();
           form.reset();
           say("Thank you — your message has been sent. We'll be in touch soon.");
         } catch {
           say("Sorry, something went wrong. Please email or WhatsApp us directly.", true);
+        } finally {
+          form.querySelector("button[type=submit]").disabled = false;
         }
         return;
       }
