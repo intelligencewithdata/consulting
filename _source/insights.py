@@ -63,7 +63,7 @@ def load():
         })
     # Newest first; launch articles (same date) keep their curated order.
     launch = ["insights-automate-business-reporting", "insights-engineer-to-data-analyst", "insights-microsoft-fabric-explained", "insights-10-sql-queries"]
-    arts.sort(key=lambda a: (a["date"], -launch.index(a["slug"]) if a["slug"] in launch else 0), reverse=True)
+    arts.sort(key=lambda a: (a["date"], -launch.index(a["slug"]) if a["slug"] in launch else 1), reverse=True)
     return arts
 
 

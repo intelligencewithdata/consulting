@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to build a date table in Power BI (and why you need one) | Intelligence With Data</title>
+<meta name="description" content="A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-power-bi-date-table.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How to build a date table in Power BI (and why you need one) | Intelligence With Data">
+<meta property="og:description" content="A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-power-bi-date-table.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-date-table.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=71e59361">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><a href="training.html">Training</a><a href="free-training.html">Free Fridays</a><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Power BI</p>
+    <span class="post-cat post-cat--light">Power BI</span>
+    <h1>How to build a date table in Power BI (and why you need one)</h1>
+    <p class="lead">A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">TF</span><span><strong>Thomas Forrester</strong><small>AI Engineer &middot; 12 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-a-date-table-is">What a date table is</a></li><li><a href="#why-not-just-use-auto-datetime">Why not just use auto date/time?</a></li><li><a href="#step-1-create-the-table-with-dax">Step 1: Create the table with DAX</a></li><li><a href="#step-2-sort-the-month-names-properly">Step 2: Sort the month names properly</a></li><li><a href="#step-3-mark-it-as-a-date-table">Step 3: Mark it as a date table</a></li><li><a href="#step-4-create-the-relationship">Step 4: Create the relationship</a></li><li><a href="#step-5-add-uk-financial-year-columns-and-measures">Step 5: Add UK financial-year columns and measures</a></li><li><a href="#a-note-on-the-newer-calendar-approach">A note on the newer calendar approach</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-date-table.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=How%20to%20build%20a%20date%20table%20in%20Power%20BI%20%28and%20why%20you%20need%20one%29%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-date-table.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=How%20to%20build%20a%20date%20table%20in%20Power%20BI%20%28and%20why%20you%20need%20one%29&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-date-table.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-power-bi-date-table.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>Almost every Power BI report answers a question about time. How did sales do this month? Are we ahead of last year? What is the year-to-date figure for the financial year? Getting those answers right depends on one unglamorous table: the <strong>date table</strong>.</p>
+<p>This guide explains what a date table is, why the built-in option only goes so far, and how to build, mark and use your own with a few lines of DAX.</p>
+<h2 id="what-a-date-table-is">What a date table is</h2>
+<p>A date table is simply a table with <strong>one row for every day</strong> across the period your data covers, plus useful columns describing each day: year, quarter, month name, weekday and so on. Your fact tables (sales, orders, invoices) then relate to it through their date columns.</p>
+<p>Microsoft's guidance sets out clear requirements. The date column must:</p>
+<ul>
+<li>be of data type <strong>Date</strong> (or Date/Time)</li>
+<li>contain <strong>unique values</strong> with <strong>no blanks</strong></li>
+<li>have <strong>no missing dates</strong>, so the range is contiguous</li>
+<li>span <strong>full years</strong> (which need not be calendar years)</li>
+</ul>
+<p>Get that right and every visual slices by year, quarter or month from one consistent source.</p>
+<h2 id="why-not-just-use-auto-datetime">Why not just use auto date/time?</h2>
+<p>Power BI Desktop has an option called <strong>Auto date/time</strong>, switched on by default in a new installation. For each eligible date column in an Import table, it quietly creates a hidden date table with a Year, Quarter, Month and Day hierarchy.</p>
+<p>It is convenient for quick exploration, but it has real limitations:</p>
+<ul>
+<li><strong>Calendar years only.</strong> Years always run from 1 January to 31 December, so a UK financial year starting in April is not supported.</li>
+<li><strong>No shared filter.</strong> Each date column gets its own hidden table, so filtering one does not filter the others.</li>
+<li><strong>Bigger models.</strong> Every hidden table adds to model size and refresh time.</li>
+<li><strong>Limited reach.</strong> The hidden tables aren't available in Analyze in Excel or to non-Power BI report designers.</li>
+</ul>
+<p>Microsoft recommends keeping auto date/time only for simple, calendar-based models or ad hoc exploration. To switch it off for new files, go to <strong>File &gt; Options and settings &gt; Options</strong> and use the <strong>Time intelligence</strong> section of the <strong>Global</strong> page.</p>
+<h2 id="step-1-create-the-table-with-dax">Step 1: Create the table with DAX</h2>
+<p>In Power BI Desktop, go to <strong>Modeling &gt; New table</strong> and enter the following. It assumes a <code>Sales</code> table with an <code>OrderDate</code> column, so swap in your own names.</p>
+<pre><code class="language-dax">Date =
+ADDCOLUMNS (
+    CALENDAR (
+        DATE ( YEAR ( MIN ( Sales[OrderDate] ) ), 1, 1 ),
+        DATE ( YEAR ( MAX ( Sales[OrderDate] ) ), 12, 31 )
+    ),
+    &quot;Year&quot;, YEAR ( [Date] ),
+    &quot;Quarter&quot;, &quot;Q&quot; &amp; QUARTER ( [Date] ),
+    &quot;Month Number&quot;, MONTH ( [Date] ),
+    &quot;Month Name&quot;, FORMAT ( [Date], &quot;mmm&quot; ),
+    &quot;Year Month&quot;, FORMAT ( [Date], &quot;mmm yyyy&quot; ),
+    &quot;Year Month Sort&quot;, YEAR ( [Date] ) * 100 + MONTH ( [Date] ),
+    &quot;Weekday Number&quot;, WEEKDAY ( [Date], 2 ),
+    &quot;Weekday Name&quot;, FORMAT ( [Date], &quot;ddd&quot; )
+)
+</code></pre>
+<p>Here is what each part does:</p>
+<ul>
+<li><strong><code>CALENDAR</code></strong> returns a single column called <code>Date</code> containing every day between a start and end date, inclusive.</li>
+<li>Wrapping the earliest and latest order dates in <code>DATE ( YEAR ( … ), 1, 1 )</code> and <code>DATE ( YEAR ( … ), 12, 31 )</code> <strong>rounds the range out to full years</strong>, which keeps you within the requirements above.</li>
+<li><strong><code>WEEKDAY</code></strong> with a second argument of <code>2</code> numbers the week from Monday (1) to Sunday (7), which suits UK reporting better than the default Sunday start.</li>
+</ul>
+<p>If you would rather the table cover every date found anywhere in the model, <strong><code>CALENDARAUTO()</code></strong> is an alternative to <code>CALENDAR</code>. It also returns full years, but a stray placeholder date such as 1900 elsewhere in the model will stretch the range.</p>
+<p>One thing to watch: <code>FORMAT</code> produces text using the model's locale, so month and day names follow your report's language settings.</p>
+<h2 id="step-2-sort-the-month-names-properly">Step 2: Sort the month names properly</h2>
+<p>Text columns sort alphabetically, so "Apr" will appear before "Jan" in your visuals. Fix this with <strong>Sort by column</strong>:</p>
+<ol>
+<li>Select the <code>Month Name</code> column in the Data pane.</li>
+<li>On the <strong>Column tools</strong> tab, choose <strong>Sort by column</strong> and pick <code>Month Number</code>.</li>
+<li>Repeat for <code>Year Month</code> (sort by <code>Year Month Sort</code>) and <code>Weekday Name</code> (sort by <code>Weekday Number</code>).</li>
+</ol>
+<h2 id="step-3-mark-it-as-a-date-table">Step 3: Mark it as a date table</h2>
+<p>Next, tell Power BI this is your date table. Right-click the <code>Date</code> table in the Data pane and choose <strong>Mark as date table</strong>, then select the <code>Date</code> column.</p>
+<p>Power BI checks that the column has unique values, no blanks and a contiguous range of dates. Marking it is required if you use the standard (classic) DAX time intelligence functions, such as the ones in step 5.</p>
+<p>Two side effects are worth knowing:</p>
+<ul>
+<li>Power BI <strong>removes the hidden auto date/time tables</strong> for that table, so any visual that relied on them will need repointing at your new columns.</li>
+<li>It also stops building the automatic date hierarchy for you. If you want a drill-down path, create your own hierarchy of Year, Quarter, Month Name and Date.</li>
+</ul>
+<h2 id="step-4-create-the-relationship">Step 4: Create the relationship</h2>
+<p>In <strong>Model view</strong>, drag <code>Date[Date]</code> onto <code>Sales[OrderDate]</code> to create a <strong>one-to-many</strong> relationship from the date table to the sales table. From now on, use the columns from the <strong>date table</strong> in your slicers and visuals, not the date column in the sales table.</p>
+<p>If you have several fact tables, such as sales and budgets, relate each one to the same date table. That single, shared calendar is the main reason to build one.</p>
+<h2 id="step-5-add-uk-financial-year-columns-and-measures">Step 5: Add UK financial-year columns and measures</h2>
+<p>Many UK organisations report on a financial year from 1 April to 31 March. Add these as calculated columns on the <code>Date</code> table:</p>
+<pre><code class="language-dax">Fiscal Year =
+VAR FYStart =
+    IF (
+        MONTH ( 'Date'[Date] ) &gt;= 4,
+        YEAR ( 'Date'[Date] ),
+        YEAR ( 'Date'[Date] ) - 1
+    )
+RETURN
+    &quot;FY &quot; &amp; FYStart &amp; &quot;/&quot; &amp; RIGHT ( FORMAT ( FYStart + 1, &quot;0&quot; ), 2 )
+</code></pre>
+<pre><code class="language-dax">Fiscal Month Number = MOD ( MONTH ( 'Date'[Date] ) - 4, 12 ) + 1
+</code></pre>
+<p><code>Fiscal Year</code> labels 15 May 2026 as "FY 2026/27", and <code>Fiscal Month Number</code> makes April month 1 and March month 12. DAX's <code>MOD</code> returns a result with the same sign as the divisor, so January (month 1) correctly becomes fiscal month 10. If you rely on fiscal years, consider starting your table on 1 April and ending it on 31 March so the range covers whole financial years.</p>
+<p>Now the time intelligence measures. Assuming a base measure such as <code>Total Sales = SUM ( Sales[Amount] )</code>:</p>
+<pre><code class="language-dax">Sales YTD = TOTALYTD ( [Total Sales], 'Date'[Date] )
+
+Sales FYTD = TOTALYTD ( [Total Sales], 'Date'[Date], &quot;3/31&quot; )
+
+Sales Last Year =
+CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+</code></pre>
+<p>The last argument of <code>TOTALYTD</code> sets the <strong>year-end date</strong>, so <code>"3/31"</code> gives a financial year-to-date ending on 31 March. Microsoft recommends the month/day form for this string, and notes it must resolve in the locale of the report, so test it with your own settings.</p>
+<h2 id="a-note-on-the-newer-calendar-approach">A note on the newer calendar approach</h2>
+<p>Microsoft has introduced <strong>calendar-based time intelligence</strong>, which defines calendars (including week-based ones) as metadata on a table. At the time of writing it is a <strong>preview</strong> feature, enabled through the Enhanced DAX Time Intelligence preview option. It still builds on a date table like this one, so nothing here is wasted.</p>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>A good date table takes ten minutes to build and saves hours of confusion later. Create it with <code>CALENDAR</code> and <code>ADDCOLUMNS</code>, round it out to full years, sort your month names, <strong>mark it as a date table</strong> and relate it to every fact table. Then build your year-to-date and last-year measures on top of it.</p>
+<p>Better still, save it in a Power BI template so every new project starts with the same trusted calendar.</p>
+      <div class="author-box"><span class="avatar">TF</span><div><strong>Thomas Forrester</strong><p>AI Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Free every Friday</p><h3>Learn Power BI &amp; SQL live, for free</h3><p>Join our free live class every Friday at 6pm UK time: hands-on lessons, live Q&amp;A and career tips from a working Senior Data Analyst.</p><div class="btn-row"><a class="btn btn--gold" href="free-training.html">Reserve your free seat <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="training.html">See all programmes</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-automate-business-reporting.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>5 signs your business reporting should be automated</h3><p>If your team spends hours every week rebuilding the same spreadsheets, you are paying a hidden tax. Here&#x27;s how to spot it, and what to do about it.</p>
+  <span class="post-meta">Efua Angela &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a><a class="post-card reveal" href="insights-engineer-to-data-analyst.html" data-cat="careers">
+  <div class="cover cover--careers " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M7 31 15 22l6 5 12-15" fill="none" stroke-width="2.8"/><path d="M27 12h6v6" fill="none" stroke-width="2.8"/></svg><span class="cover-label">Careers</span></div>
+  <div class="post-body"><span class="post-cat">Careers</span><h3>From oil engineer to UK data analyst in six months: what actually worked</h3><p>I arrived in the UK with an engineering career behind me and no local experience. Here&#x27;s the honest story of how I moved into data, and the lessons I&#x27;d pass on to anyone making the switch.</p>
+  <span class="post-meta">Hakeem Falade &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a><a class="post-card reveal" href="insights-microsoft-fabric-explained.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Microsoft Fabric explained for small and mid-sized businesses</h3><p>What Fabric is, how it relates to Power BI, what it costs to run, and how to tell whether your business actually needs it yet.</p>
+  <span class="post-meta">Elijah Parker &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to build a date table in Power BI (and why you need one)", "description": "A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.", "datePublished": "2026-10-12", "author": {"@type": "Person", "name": "Thomas Forrester", "jobTitle": "AI Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-date-table.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-power-bi-date-table.html"}</script>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=71e59361" defer></script>
+</body>
+</html>
