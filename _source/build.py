@@ -660,7 +660,7 @@ FREE = f'''
 <div class="sticky-reg" data-sticky-reg><div><strong>Power BI &amp; SQL Fridays</strong><span>Free &middot; 6pm UK</span></div><a class="btn btn--gold btn--sm" {REG}>Register free</a></div>
 '''
 
-NOINDEX = {"staff.html"}  # insights pages added below while in preview
+NOINDEX = {"staff.html", "payment-success.html"}  # insights pages added below while in preview
 WEBMAIL = "https://server801.web-hosting.com:2096"
 
 STAFF = f'''
@@ -788,6 +788,24 @@ PAGES = [
     ("about.html", "About | Intelligence With Data", "Founded by Senior Data Analyst Hakeem Falade, Intelligence With Data combines consulting and training on the Microsoft data stack.", ABOUT),
     ("contact.html", "Contact | Intelligence With Data", "Book a discovery call or ask about training. Email, phone or WhatsApp Intelligence With Data.", CONTACT),
     ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live 4-week online programmes in Excel & AI for Analytics, Advanced Power BI and SQL, with interview preparation and a remote internship opportunity. See prices in your currency.", courses.page(I, ARROW, WA)),
+    ("payment-success.html", "Payment received | Intelligence With Data", "Thank you for your payment.", f'''
+<section class="page-hero staff-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container staff-wrap">
+    <div class="staff-card reveal">
+      <div class="staff-icon">{I["check"]}</div>
+      <p class="eyebrow">Payment received</p>
+      <h1>Thank you, you're in!</h1>
+      <p class="staff-lead">Your payment has been received. Welcome to the next Intelligence With Data cohort.</p>
+      <ol class="success-steps">
+        <li><b>1</b><div><strong>Check your email</strong><small>Paystack sends your payment receipt straight away.</small></div></li>
+        <li><b>2</b><div><strong>Onboarding pack</strong><small>We'll email your onboarding materials, schedule and Google Meet details within 24 hours.</small></div></li>
+        <li><b>3</b><div><strong>First Saturday</strong><small>Classes run 10:00&ndash;13:00 UK time. Join a few minutes early to test your audio and screen.</small></div></li>
+      </ol>
+      <div class="btn-row" style="justify-content:center"><a class="btn btn--gold" href="{WA}" target="_blank" rel="noopener">Message us on WhatsApp {ARROW}</a><a class="btn btn--outline" href="courses.html">Back to programmes</a></div>
+    </div>
+  </div>
+</section>'''),
     ("careers.html", "Careers | Intelligence With Data", "Careers at Intelligence With Data: data analytics, Power BI, Microsoft Fabric and training roles. Join our talent network.", CAREERS),
     ("staff.html", "Staff Email | Intelligence With Data", "Staff access to Intelligence With Data webmail.", STAFF),
 ] + [

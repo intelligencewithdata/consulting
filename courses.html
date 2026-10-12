@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=e2549197">
+<link rel="stylesheet" href="assets/css/styles.css?v=86f9f968">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -294,13 +294,23 @@
       <div class="apply-success" data-apply-success hidden>
         <div class="staff-icon" style="margin:0 0 16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
         <h3>Application received. Thank you!</h3>
-        <p>We'll review your details and send your secure payment link by email and WhatsApp, usually within 24 hours. Once payment is confirmed, you'll receive your onboarding materials and Google Meet details.</p>
+        <div data-pay-block hidden>
+          <p>Secure your place by paying your fee now. Your onboarding materials and Google Meet details will be emailed once payment is confirmed.</p>
+          <div class="pay-box">
+            <span>Amount to pay</span>
+            <strong data-pay-amount></strong>
+            <small data-pay-hint></small>
+          </div>
+          <div class="btn-row"><a class="btn btn--gold" data-pay-link href="#" target="_blank" rel="noopener"><span data-pay-label>Pay securely now</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+          <p class="pay-small">Payments are processed securely by <span data-pay-provider>Paystack</span>. Please include your name and programme on the payment page so we can match it to your application.</p>
+        </div>
+        <p data-pay-later>We'll review your details and send your secure payment link by email and WhatsApp, usually within 24 hours. Once payment is confirmed, you'll receive your onboarding materials and Google Meet details.</p>
         <div class="btn-row"><a class="btn btn--outline" href="https://wa.me/447344099129" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
       </div>
     </form>
   </div>
 </section>
-<script>window.IWD_INTERNSHIP_RATE = 0.4; window.IWD_COHORT = { first: "2026-11-07", everyWeeks: 6 };</script>
+<script>window.IWD_PAY = {"ngn": "https://paystack.shop/pay/gu76pth3gz", "ghs": "", "gbp": "", "usd": ""}; window.IWD_INTERNSHIP_RATE = 0.4; window.IWD_COHORT = { first: "2026-11-07", everyWeeks: 6 };</script>
 
 </main>
 <footer class="site-footer">
@@ -335,6 +345,6 @@
     </div>
   </div>
 </footer>
-<script src="assets/js/main.js?v=e2549197" defer></script>
+<script src="assets/js/main.js?v=86f9f968" defer></script>
 </body>
 </html>

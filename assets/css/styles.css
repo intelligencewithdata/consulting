@@ -903,3 +903,13 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 @media (max-width: 1060px) { .journey-flow { grid-template-columns: repeat(2, 1fr); } .journey-flow li::after { display: none; } }
 @media (max-width: 680px) { .journey-flow { grid-template-columns: 1fr; } .intern-card { padding: 26px 20px; } }
 @media (min-width: 1061px) { .apply-aside { position: sticky; top: 100px; align-self: start; } }
+.pay-box { margin: 18px 0 6px; padding: 18px 20px; border-radius: 16px; background: var(--gold-50); border: 1px solid #EEDDA8; }
+.pay-box span { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.pay-box strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--navy); line-height: 1.25; }
+.pay-box small { display: block; color: var(--muted); font-size: .86rem; }
+.pay-small { font-size: .82rem; color: var(--muted); margin-top: 14px; }
+.success-steps { list-style: none; display: grid; gap: 14px; margin: 28px 0 8px; text-align: left; }
+.success-steps li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
+.success-steps b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--navy); color: var(--gold-300); font-family: var(--font-display); }
+.success-steps strong { display: block; color: var(--ink); }
+.success-steps small { display: block; color: var(--muted); font-size: .9rem; line-height: 1.5; }

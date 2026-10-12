@@ -1,9 +1,13 @@
+import json
 """Paid live training programmes page (courses.html).
 Prices are set in US dollars and shown in the visitor's currency by assets/js/main.js."""
 
-# Paste the payment page URL here (e.g. a Paystack or Flutterwave payment link). Leave empty to show
-# "we'll send your secure payment link" after the application form is submitted.
-PAY_URL = ""
+# Payment links. Leave a link empty to fall back to "we'll send your secure payment link".
+# Africa (incl. Ghana until a GHS page exists) -> Paystack NGN page (customer enters the amount shown on our site).
+PAYSTACK_NGN_URL = "https://paystack.shop/pay/gu76pth3gz"
+PAYSTACK_GHS_URL = ""        # add when GHS is enabled on Paystack (enables mobile money for Ghana)
+STRIPE_GBP_URL = ""          # UK applicants -> UK company bank account
+STRIPE_USD_URL = ""          # rest of the world
 FORM_ENDPOINT = "https://formspree.io/f/mgaozrav"
 
 EXCEL_USD = 150                      # base fee
@@ -82,7 +86,7 @@ def page(I, ARROW, WA):
     </article>'''
 
     opts = "".join(f'<option value="{p["id"]}" data-usd="{p["price"]}">{p["short"]} (${p["price"]})</option>' for p in PROGRAMMES)
-    pay_btn = (f'<a class="btn btn--gold" href="{PAY_URL}" target="_blank" rel="noopener">Pay securely now {ARROW}</a>' if PAY_URL else "")
+    pay_cfg = {"ngn": PAYSTACK_NGN_URL, "ghs": PAYSTACK_GHS_URL, "gbp": STRIPE_GBP_URL, "usd": STRIPE_USD_URL}
     return f'''
 <section class="hero courses-hero">
   <div class="grid-bg" aria-hidden="true"></div>
@@ -293,11 +297,21 @@ def page(I, ARROW, WA):
       <div class="apply-success" data-apply-success hidden>
         <div class="staff-icon" style="margin:0 0 16px">{I["check"]}</div>
         <h3>Application received. Thank you!</h3>
-        <p>{"Complete your payment below to secure your place. Your onboarding materials and Google Meet details will be emailed once payment is confirmed." if PAY_URL else "We'll review your details and send your secure payment link by email and WhatsApp, usually within 24 hours. Once payment is confirmed, you'll receive your onboarding materials and Google Meet details."}</p>
-        <div class="btn-row">{pay_btn}<a class="btn btn--outline" href="{WA}" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
+        <div data-pay-block hidden>
+          <p>Secure your place by paying your fee now. Your onboarding materials and Google Meet details will be emailed once payment is confirmed.</p>
+          <div class="pay-box">
+            <span>Amount to pay</span>
+            <strong data-pay-amount></strong>
+            <small data-pay-hint></small>
+          </div>
+          <div class="btn-row"><a class="btn btn--gold" data-pay-link href="#" target="_blank" rel="noopener"><span data-pay-label>Pay securely now</span> {ARROW}</a></div>
+          <p class="pay-small">Payments are processed securely by <span data-pay-provider>Paystack</span>. Please include your name and programme on the payment page so we can match it to your application.</p>
+        </div>
+        <p data-pay-later>We'll review your details and send your secure payment link by email and WhatsApp, usually within 24 hours. Once payment is confirmed, you'll receive your onboarding materials and Google Meet details.</p>
+        <div class="btn-row"><a class="btn btn--outline" href="{WA}" target="_blank" rel="noopener">Message us on WhatsApp</a></div>
       </div>
     </form>
   </div>
 </section>
-<script>window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE}; window.IWD_COHORT = {{ first: "{COHORT_FIRST}", everyWeeks: {COHORT_EVERY_WEEKS} }};</script>
+<script>window.IWD_PAY = {json.dumps(pay_cfg)}; window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE}; window.IWD_COHORT = {{ first: "{COHORT_FIRST}", everyWeeks: {COHORT_EVERY_WEEKS} }};</script>
 '''

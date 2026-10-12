@@ -96,6 +96,7 @@
           form.reset();
           say("Thank you — your message has been sent. We'll be in touch soon.");
           const ok = form.querySelector("[data-apply-success]");
+          if (ok && window.IWD_showPayment) window.IWD_showPayment(ok);
           if (ok) {
             [...form.children].forEach((el) => { if (el !== ok && el.type !== "hidden") el.hidden = true; });
             ok.hidden = false;
@@ -316,6 +317,36 @@
     [progSel, internSel].forEach((el) => el && el.addEventListener("change", plan));
     document.querySelectorAll("[data-choose]").forEach((b) => b.addEventListener("click", () => { if (progSel) { progSel.value = b.dataset.choose; plan(); } }));
     document.querySelectorAll("[data-internship]").forEach((b) => b.addEventListener("click", () => { if (internSel) { internSel.value = "yes"; plan(); } }));
+    /* Payment routing: Africa -> Paystack (NGN, or GHS when available); UK -> Stripe GBP; elsewhere -> Stripe USD */
+    window.IWD_showPayment = (panel) => {
+      const PAY = window.IWD_PAY || {};
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      const AFRICA = ["NGN", "GHS", "KES", "ZAR", "XOF", "XAF", "UGX", "TZS", "RWF"];
+      const inAfrica = tz.startsWith("Africa/") || AFRICA.includes(current);
+      const inGhana = tz === "Africa/Accra" || current === "GHS";
+      const inUK = tz === "Europe/London" || current === "GBP";
+      const usd = +(document.querySelector("[data-total-field]").value || "0").replace(/[^0-9.]/g, "");
+      let route = null;
+      if (inAfrica && inGhana && PAY.ghs && rates.GHS) route = { url: PAY.ghs, cur: "GHS", provider: "Paystack", step: 10 };
+      else if (inAfrica && PAY.ngn && rates.NGN) route = { url: PAY.ngn, cur: "NGN", provider: "Paystack", step: 100 };
+      else if (!inAfrica && inUK && PAY.gbp) route = { url: PAY.gbp, cur: "GBP", provider: "Stripe", step: 1 };
+      else if (!inAfrica && !inUK && PAY.usd) route = { url: PAY.usd, cur: "USD", provider: "Stripe", step: 1 };
+      const block = panel.querySelector("[data-pay-block]");
+      const later = panel.querySelector("[data-pay-later]");
+      if (!route || !usd) { block.hidden = true; later.hidden = false; return; }
+      const amount = Math.ceil((usd * rates[route.cur]) / route.step) * route.step;
+      const text = fmt(amount, route.cur);
+      block.hidden = false; later.hidden = true;
+      panel.querySelector("[data-pay-amount]").textContent = text;
+      const inNigeria = tz === "Africa/Lagos" || current === "NGN";
+      panel.querySelector("[data-pay-hint]").textContent = route.cur === "NGN" && !inNigeria
+        ? `Enter exactly ${text} on the payment page (US$${usd}). Pay by card; your bank converts it from your local currency automatically.`
+        : `Enter exactly ${text} on the payment page. Equivalent to US$${usd} at today's rate.`;
+      panel.querySelector("[data-pay-label]").textContent = "Pay " + text + " securely";
+      panel.querySelector("[data-pay-provider]").textContent = route.provider;
+      panel.querySelector("[data-pay-link]").href = route.url;
+    };
+
     fill(); render();
     fetch("https://open.er-api.com/v6/latest/USD")
       .then((r) => r.json())
