@@ -10,6 +10,10 @@ EXCEL_USD = 150                      # base fee
 INTERNSHIP_RATE = 0.40               # optional remote internship = 40% of the chosen course fee
 BUNDLE_DISCOUNT = 1 - 3500 / 4500    # ~22% off when taking all three
 
+# Cohorts: a new cohort every 6 weeks, Saturdays 10:00–13:00 UK time, starting from this date.
+COHORT_FIRST = "2026-11-07"
+COHORT_EVERY_WEEKS = 6
+
 PROGRAMMES = [
     {
         "id": "excel-ai", "n": "1", "sessions": "Sessions 1 &amp; 2", "name": "Excel &amp; AI for Analytics", "short": "Excel & AI",
@@ -84,7 +88,7 @@ def page(I, ARROW, WA):
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="container hero-grid">
     <div class="hero-copy">
-      <span class="live-chip"><span class="promo-dot"></span>Monthly cohorts &middot; Saturdays &middot; Live on Google Meet</span>
+      <span class="live-chip"><span class="promo-dot"></span>New cohort every 6 weeks &middot; Saturdays &middot; Live on Google Meet</span>
       <h1>Become a job-ready data analyst <em>in six Saturdays.</em></h1>
       <p class="lead">Master Excel &amp; AI, Advanced Power BI and SQL in live weekend classes with a working Senior Data Analyst. Assignments, tests and a certificate, then an optional remote internship to put it all into practice.</p>
       <div class="btn-row">
@@ -94,7 +98,7 @@ def page(I, ARROW, WA):
       <ul class="trust"><li>Saturdays, 10am&ndash;1pm UK</li><li>Certificate on completion</li><li>Optional remote internship</li></ul>
     </div>
     <div class="price-card" id="pricing">
-      <div class="cohort-strip"><span>Next cohort starts</span><strong data-next-cohort>1st Saturday of the month</strong><small data-cohort-local>10:00&ndash;13:00 UK time</small></div>
+      <div class="cohort-strip"><span>Next cohort starts</span><strong data-next-cohort>Saturday 7 November 2026</strong><small data-cohort-local>10:00&ndash;13:00 UK time</small></div>
       <div class="cur-row">
         <p class="session-label">Programme fees</p>
         <label class="cur-select"><span class="sr-only">Show prices in</span><select data-currency-select aria-label="Show prices in"></select></label>
@@ -117,7 +121,7 @@ def page(I, ARROW, WA):
   <div class="container facts">
     <div><strong>6</strong><span>Live Saturday sessions</span></div>
     <div><strong>3 hrs</strong><span>Per session, 10am&ndash;1pm UK</span></div>
-    <div><strong>Monthly</strong><span>New cohort every month</span></div>
+    <div><strong>Every 6 weeks</strong><span>A new cohort begins</span></div>
     <div><strong>4 weeks</strong><span>Optional remote internship</span></div>
   </div>
 </section>
@@ -193,7 +197,7 @@ def page(I, ARROW, WA):
       <li class="reveal" style="--d:.08s"><span>2</span><strong>Confirmation</strong><small>We review your application and confirm your cohort.</small></li>
       <li class="reveal" style="--d:.16s"><span>3</span><strong>Pay securely</strong><small>Pay your fee in your preferred currency through our secure link.</small></li>
       <li class="reveal" style="--d:.24s"><span>4</span><strong>Onboarding</strong><small>Receive your onboarding materials and Google Meet details by email.</small></li>
-      <li class="reveal" style="--d:.32s"><span>5</span><strong>Start learning</strong><small>Join on the 1st Saturday of the month, 10am&ndash;1pm UK time.</small></li>
+      <li class="reveal" style="--d:.32s"><span>5</span><strong>Start learning</strong><small>Join your cohort's first Saturday, 10am&ndash;1pm UK time.</small></li>
     </ol>
   </div>
 </section>
@@ -217,7 +221,7 @@ def page(I, ARROW, WA):
   <div class="container">
     <div class="section-head center reveal"><p class="eyebrow">Questions</p><h2>Good to know</h2></div>
     <div class="faq reveal">
-      <details><summary>When are the classes?</summary><p>Every Saturday from 10:00 to 13:00 UK time, live on Google Meet. A new cohort starts on the first Saturday of every month. The page shows the start time in your own time zone.</p></details>
+      <details><summary>When are the classes?</summary><p>Every Saturday from 10:00 to 13:00 UK time, live on Google Meet. A new cohort starts every six weeks, as soon as the previous one finishes; the next dates are shown in the application form. The page shows the start time in your own time zone.</p></details>
       <details><summary>How long is each programme?</summary><p>Each programme is two Saturday sessions of three hours. All three programmes run across six consecutive Saturdays: sessions 1&ndash;2 Excel &amp; AI, 3&ndash;4 Power BI, 5&ndash;6 SQL.</p></details>
       <details><summary>Will I get a certificate?</summary><p>Yes. You complete assignments and a test for each programme, and receive an Intelligence With Data certificate on completion.</p></details>
       <details><summary>How does the remote internship work?</summary><p>It's an optional 4-week remote programme after your training, priced at 40% of your course fee. You choose it when you apply. You'll work on real-world style analytics projects to consolidate what you've learned, and the best-performing students get the chance to support our consulting work behind the scenes.</p></details>
@@ -295,5 +299,5 @@ def page(I, ARROW, WA):
     </form>
   </div>
 </section>
-<script>window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE};</script>
+<script>window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE}; window.IWD_COHORT = {{ first: "{COHORT_FIRST}", everyWeeks: {COHORT_EVERY_WEEKS} }};</script>
 '''

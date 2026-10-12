@@ -329,7 +329,7 @@
       })
       .catch(() => {});
 
-    /* Cohorts: first Saturday of each month, 10:00–13:00 Europe/London */
+    /* Cohorts: every N weeks from a fixed first Saturday, 10:00–13:00 Europe/London */
     const TZ = "Europe/London";
     const londonOffsetMs = (utcMs) => {
       const p = {};
@@ -337,16 +337,13 @@
         .formatToParts(new Date(utcMs)).forEach((x) => (p[x.type] = +x.value));
       return Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - utcMs;
     };
-    const cohortStart = (y, m) => {
-      const first = new Date(Date.UTC(y, m, 1));
-      const day = 1 + ((6 - first.getUTCDay() + 7) % 7);
-      const guess = Date.UTC(y, m, day, 10);
-      return new Date(guess - londonOffsetMs(guess));
-    };
+    const CFG = window.IWD_COHORT || { first: "2026-11-07", everyWeeks: 6 };
+    const ukStart = (y, m, d) => { const guess = Date.UTC(y, m, d, 10); return new Date(guess - londonOffsetMs(guess)); };
+    const [fy, fm, fd] = CFG.first.split("-").map(Number);
     const now = new Date();
     const cohorts = [];
-    for (let i = 0; cohorts.length < 3 && i < 5; i++) {
-      const d = cohortStart(now.getUTCFullYear(), now.getUTCMonth() + i);
+    for (let k = 0; cohorts.length < 3 && k < 200; k++) {
+      const d = ukStart(fy, fm - 1, fd + k * CFG.everyWeeks * 7);   // Date.UTC rolls days over into later months
       if (d > now) cohorts.push(d);
     }
     const dayFmt = (d) => d.toLocaleDateString("en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long", year: "numeric" });
