@@ -95,6 +95,12 @@
           if (!res.ok) throw new Error();
           form.reset();
           say("Thank you — your message has been sent. We'll be in touch soon.");
+          const ok = form.querySelector("[data-apply-success]");
+          if (ok) {
+            [...form.children].forEach((el) => { if (el !== ok && el.type !== "hidden") el.hidden = true; });
+            ok.hidden = false;
+            ok.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
         } catch {
           say("Sorry, something went wrong. Please email or WhatsApp us directly.", true);
         } finally {
@@ -218,6 +224,95 @@
         try { await navigator.clipboard.writeText(b.dataset.copyLink); b.textContent = "Copied"; }
         catch { b.textContent = "Copy failed"; }
         setTimeout(() => (b.textContent = "Copy"), 1800);
+      })
+    );
+  }
+
+  /* Currency switcher: prices are set in GHS and estimated in the visitor's currency */
+  const curSelect = document.querySelector("[data-currency-select]");
+  if (curSelect) {
+    const BASE = "GHS";
+    const CURRENCIES = {
+      GHS: "Ghana cedi", NGN: "Nigerian naira", USD: "US dollar", GBP: "British pound", EUR: "Euro",
+      CAD: "Canadian dollar", KES: "Kenyan shilling", ZAR: "South African rand", XOF: "West African CFA franc",
+      XAF: "Central African CFA franc", UGX: "Ugandan shilling", TZS: "Tanzanian shilling", RWF: "Rwandan franc",
+      AUD: "Australian dollar", AED: "UAE dirham", INR: "Indian rupee",
+    };
+    // Fallback rates (1 GHS = x), from ExchangeRate-API on 11 Oct 2026; replaced by live rates when available.
+    let rates = { GHS: 1, NGN: 114.883963, GBP: 0.063997, USD: 0.08466, EUR: 0.075587, CAD: 0.12073, KES: 10.985664, ZAR: 1.401013, XOF: 49.581951 };
+    let updated = "11 Oct 2026";
+    const TZ_MAP = {
+      "Africa/Lagos": "NGN", "Africa/Accra": "GHS", "Europe/London": "GBP", "Africa/Nairobi": "KES",
+      "Africa/Johannesburg": "ZAR", "Africa/Abidjan": "XOF", "Africa/Dakar": "XOF", "Africa/Lome": "XOF",
+      "Africa/Douala": "XAF", "Africa/Kampala": "UGX", "Africa/Dar_es_Salaam": "TZS", "Africa/Kigali": "RWF",
+      "Asia/Dubai": "AED", "Asia/Kolkata": "INR", "Asia/Calcutta": "INR",
+    };
+    const detect = () => {
+      try { const saved = localStorage.getItem("iwd-currency"); if (saved && CURRENCIES[saved]) return saved; } catch (e) {}
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      if (TZ_MAP[tz]) return TZ_MAP[tz];
+      if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Montreal)/.test(tz)) return "CAD";
+      if (tz.startsWith("America/")) return "USD";
+      if (tz.startsWith("Australia/")) return "AUD";
+      if (tz.startsWith("Europe/")) return "EUR";
+      return "GHS";
+    };
+    let current = detect();
+    const fmt = (amount, cur) => {
+      try {
+        return new Intl.NumberFormat("en-GB", { style: "currency", currency: cur, currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(amount);
+      } catch (e) { return cur + " " + Math.round(amount).toLocaleString("en-GB"); }
+    };
+    const round = (v, cur) => (cur === BASE ? v : v >= 10000 ? Math.round(v / 100) * 100 : v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v));
+    const note = document.querySelector("[data-fx-note]");
+    const field = document.querySelector("[data-currency-field]");
+    const fill = () => {
+      curSelect.innerHTML = Object.keys(CURRENCIES).filter((c) => rates[c]).map((c) => `<option value="${c}"${c === current ? " selected" : ""}>${c} · ${CURRENCIES[c]}</option>`).join("");
+    };
+    const render = () => {
+      if (!rates[current]) current = "GHS";
+      const r = rates[current];
+      document.querySelectorAll("[data-price-ghs]").forEach((el) => {
+        const ghs = +el.dataset.priceGhs;
+        el.textContent = current === BASE ? "GH₵" + ghs.toLocaleString("en-GB") : "≈ " + fmt(round(ghs * r, current), current);
+        el.title = current === BASE ? "" : "GH₵" + ghs.toLocaleString("en-GB");
+      });
+      document.querySelectorAll("s [data-price-ghs]").forEach((el) => (el.textContent = el.textContent.replace("≈ ", "")));
+      if (field) field.value = current;
+      if (note) {
+        note.innerHTML = current === BASE
+          ? "Prices are set in Ghana cedis (GH₵). Choose your currency above to see an estimate."
+          : `Estimated at GH₵1 = ${current} ${r < 1 ? r.toFixed(4) : r.toFixed(2)} (rates updated ${updated}). You pay in Ghana cedis; your bank's rate may differ slightly. ` +
+            `<a href="https://www.oanda.com/currency-converter/en/?from=GHS&to=${current}&amount=1500" target="_blank" rel="noopener">Check on OANDA</a> · <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by Exchange Rate API</a>`;
+      }
+    };
+    curSelect.addEventListener("change", () => {
+      current = curSelect.value;
+      try { localStorage.setItem("iwd-currency", current); } catch (e) {}
+      render();
+    });
+    fill(); render();
+    fetch("https://open.er-api.com/v6/latest/GHS")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.result === "success" && d.rates) {
+          rates = { ...rates, ...d.rates, GHS: 1 };
+          const t = new Date(d.time_last_update_unix * 1000);
+          if (!isNaN(t)) updated = t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+          fill(); render();
+        }
+      })
+      .catch(() => {});
+  }
+
+  /* Programme buttons pre-select the programme in the application form */
+  const progSelect = document.querySelector("[data-programme-select]");
+  if (progSelect) {
+    document.querySelectorAll("[data-choose]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const want = b.dataset.choose.replace(/&amp;/g, "&").toLowerCase();
+        const opt = [...progSelect.options].find((o) => o.text.toLowerCase().startsWith(want));
+        if (opt) progSelect.value = opt.value;
       })
     );
   }

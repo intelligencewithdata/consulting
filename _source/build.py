@@ -2,6 +2,7 @@
 import pathlib, shutil, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import insights
+import courses
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT.parent / "_build"
@@ -69,6 +70,7 @@ FOOTER = f'''<footer class="site-footer">
         <li><a href="services.html#contract">Contract support</a></li></ul></div>
       <div><h4>Company</h4><ul>
         <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
         <li><a href="free-training.html">Free Friday training</a></li>
         <li><a href="about.html">About us</a></li>
         <li><a href="insights.html">Insights</a></li>
@@ -347,6 +349,20 @@ TRAINING = f'''
       <div class="free-feature-when" aria-hidden="true">
         <div class="cal"><span>Every</span><strong>FRI</strong><em>6:00 PM UK</em></div>
       </div>
+    </a>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0">
+  <div class="container">
+    <a class="free-feature reveal" href="courses.html" style="background:radial-gradient(500px 280px at 100% 0%, rgba(201,162,39,.35), transparent 60%),radial-gradient(400px 260px at 0% 100%, rgba(37,99,235,.35), transparent 60%),var(--navy-950)">
+      <div class="free-feature-copy">
+        <span class="live-chip"><span class="promo-dot"></span>Live 4-week programmes &middot; Google Meet</span>
+        <h2>Excel &amp; AI &middot; Advanced Power BI &middot; SQL</h2>
+        <p>Structured live programmes with interview preparation and a remote internship opportunity. See the full curriculum and fees in your own currency.</p>
+        <span class="btn btn--gold">View programmes &amp; fees {ARROW}</span>
+      </div>
+      <div class="free-feature-when" aria-hidden="true"><div class="cal"><span>Each</span><strong>4</strong><em>weeks, live</em></div></div>
     </a>
   </div>
 </section>
@@ -771,6 +787,7 @@ PAGES = [
     ("free-training.html", "Free Power BI & SQL Training, Every Friday | Intelligence With Data", "Free live Power BI and SQL training every Friday at 6pm UK time. Hands-on lessons, live Q&A and career tips from a Senior Data Analyst. Register free.", FREE),
     ("about.html", "About | Intelligence With Data", "Founded by Senior Data Analyst Hakeem Falade, Intelligence With Data combines consulting and training on the Microsoft data stack.", ABOUT),
     ("contact.html", "Contact | Intelligence With Data", "Book a discovery call or ask about training. Email, phone or WhatsApp Intelligence With Data.", CONTACT),
+    ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live 4-week online programmes in Excel & AI for Analytics, Advanced Power BI and SQL, with interview preparation and a remote internship opportunity. See prices in your currency.", courses.page(I, ARROW, WA)),
     ("careers.html", "Careers | Intelligence With Data", "Careers at Intelligence With Data: data analytics, Power BI, Microsoft Fabric and training roles. Join our talent network.", CAREERS),
     ("staff.html", "Staff Email | Intelligence With Data", "Staff access to Intelligence With Data webmail.", STAFF),
 ] + [
