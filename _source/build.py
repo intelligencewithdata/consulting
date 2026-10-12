@@ -36,13 +36,25 @@ I = {
 
 LOGO = '''<svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg>'''
 
-NAV = [("index.html", "Home"), ("services.html", "Consulting"), ("training.html", "Training"), ("free-training.html", "Free Fridays"), ("about.html", "About")]
+NAV = [("index.html", "Home"), ("services.html", "Consulting"), ("training.html", "Training"), ("about.html", "About")]
+# Dropdown under "Training"
+TRAINING_SUB = [("courses.html", "Programmes &amp; fees", "Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts"),
+                ("free-training.html", "Free Fridays", "Free live Power BI &amp; SQL class"),
+                ("training.html", "All training", "Coaching, internships, Kids in Tech")]
 LUMA = "https://luma.com/aifip615"
 
 def header(active):
     cur = ' aria-current="page"'
     act = "insights.html" if active.startswith("insights-") else active
-    links = "".join(f'<a href="{h}"{cur if h == act else ""}>{t}</a>' for h, t in NAV)
+    def item(h, t):
+        if h != "training.html":
+            return f'<a href="{h}"{cur if h == act else ""}>{t}</a>'
+        on = act in {x[0] for x in TRAINING_SUB}
+        subs = "".join(f'<a href="{sh}"{cur if sh == act else ""}><strong>{st}</strong><small>{sd}</small></a>' for sh, st, sd in TRAINING_SUB)
+        return (f'<div class="nav-drop"><a href="training.html" class="nav-drop-toggle"{cur if on else ""} aria-haspopup="true">{t}'
+                '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
+                f'<div class="nav-sub">{subs}</div></div>')
+    links = "".join(item(h, t) for h, t in NAV)
     promo_inner = '<span class="topbar-tag"><span class="promo-long">Power BI &middot; Microsoft Fabric &middot; </span>Data consultancy &amp; training &middot; UK</span>' if active == "free-training.html" else f'<a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> {ARROW}</span></a>'
     promo = f'''<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span>{promo_inner}<a class="topbar-staff" href="staff.html"{' aria-current="page"' if active == "staff.html" else ''}>{I["user"]}<span>Staff login</span></a></div></div>'''
     return f'''<a class="skip-link" href="#main">Skip to content</a>
@@ -246,11 +258,11 @@ HOME = f'''
       <p class="eyebrow">Training &amp; careers</p>
       <h2>We also build <em>the next generation of analysts.</em></h2>
       <p class="lead">Alongside consulting, we run 1:1 coaching, a simulated data analytics internship, bootcamps and a Saturday tech class for children — for learners across the UK, Canada and Europe.</p>
-      <div class="btn-row"><a class="btn btn--navy" href="training.html">Explore training {ARROW}</a></div>
+      <div class="btn-row"><a class="btn btn--gold" href="courses.html">Programmes &amp; fees {ARROW}</a><a class="btn btn--outline" href="training.html">All training</a></div>
     </div>
     <div class="cards reveal" style="--d:.1s">
-      <div class="card"><span class="tag tag--gold">Individuals</span><h3>1:1 coaching</h3><p style="margin:0">Excel, SQL and Power BI at your pace.</p></div>
-      <div class="card"><span class="tag">Career-switchers</span><h3>Simulated internship</h3><p style="margin:0">Six weeks of real-world style projects.</p></div>
+      <a class="card" href="courses.html"><span class="tag tag--gold">Saturday cohorts</span><h3>Excel &amp; AI, Power BI, SQL</h3><p style="margin:0">Six live Saturdays, a certificate and an optional remote internship.</p><span class="link" style="margin-top:14px">See fees {ARROW}</span></a>
+      <a class="card" href="free-training.html"><span class="tag">Free every Friday</span><h3>Power BI &amp; SQL Fridays</h3><p style="margin:0">A free live class every Friday at 6pm UK time.</p><span class="link" style="margin-top:14px">Save your seat {ARROW}</span></a>
     </div>
   </div>
 </section>
@@ -819,7 +831,7 @@ FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect wid
 if INSIGHTS_PREVIEW:
     NOINDEX |= {"insights.html"} | {a["file"] for a in ARTS}
 else:
-    NAV.insert(4, ("insights.html", "Insights"))
+    NAV.insert(3, ("insights.html", "Insights"))
 
 def main():
     if OUT.exists():
