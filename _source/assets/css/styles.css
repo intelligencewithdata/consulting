@@ -873,3 +873,33 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 .weeks { padding: 0; margin: 0; }
 .prog-btn { margin-top: 8px; }
 .prog-side { justify-content: flex-start; }
+
+/* Programmes v2 */
+.cohort-strip { margin: -6px -6px 20px; padding: 14px 16px; border-radius: 16px; background: var(--navy); color: #C3CDE4; }
+.cohort-strip span { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-300); }
+.cohort-strip strong { display: block; color: #fff; font-size: 1.08rem; margin: 2px 0; }
+.cohort-strip small { font-size: .8rem; color: #A9B5D1; }
+.price-list li span small { display: block; font-size: .76rem; color: var(--muted); font-weight: 600; }
+.addon-line { margin: -14px 0 22px; font-size: .88rem; color: var(--muted); font-weight: 600; }
+.addon-line .price { font-family: var(--font-body); font-weight: 800; color: var(--blue); font-size: .92rem; }
+.bundle-addon { color: #A9B5D1; font-size: .88rem; }
+.bundle-addon .price { font-family: var(--font-body); color: var(--gold-300); font-weight: 800; }
+.journey-flow { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; position: relative; padding: 0; }
+.journey-flow li { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 26px 20px; }
+.journey-flow li:not(:last-child)::after { content: ""; position: absolute; right: -14px; top: 44px; width: 12px; height: 12px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h8M7 3l3 3-3 3' fill='none' stroke='%239AA5BF' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat; z-index: 1; }
+.journey-flow span { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; margin-bottom: 14px; font-family: var(--font-display); color: #fff; background: var(--navy); }
+.journey-flow li.gold { background: linear-gradient(160deg, var(--gold-50), #fff); border-color: #EEDDA8; }
+.journey-flow li.gold span { background: linear-gradient(135deg, var(--gold-300), var(--gold)); color: var(--navy-950); }
+.journey-flow strong { display: block; color: var(--ink); margin-bottom: 6px; }
+.journey-flow small { display: block; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.intern-card { background: #fff; border: 1px solid var(--line); border-radius: 26px; padding: 34px; box-shadow: var(--shadow-sm); }
+.plan-total { margin-top: 28px; padding: 24px; border-radius: 20px; background: var(--navy); color: #C3CDE4; }
+.plan-total p { margin: 0 0 4px; font-size: .7rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-300); }
+.plan-total strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 14px; }
+.plan-lines { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.1); font-size: .95rem; }
+.plan-lines[hidden] { display: none; }
+.plan-sum { font-weight: 800; color: #fff; font-size: 1.15rem; }
+.plan-sum span:last-child { color: var(--gold-300); font-family: var(--font-display); font-size: 1.5rem; }
+@media (max-width: 1060px) { .journey-flow { grid-template-columns: repeat(2, 1fr); } .journey-flow li::after { display: none; } }
+@media (max-width: 680px) { .journey-flow { grid-template-columns: 1fr; } .intern-card { padding: 26px 20px; } }
+@media (min-width: 1061px) { .apply-aside { position: sticky; top: 100px; align-self: start; } }

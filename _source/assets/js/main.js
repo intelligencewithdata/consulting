@@ -228,18 +228,18 @@
     );
   }
 
-  /* Currency switcher: prices are set in GHS and estimated in the visitor's currency */
+  /* ---------- Paid programmes page: currency, plan calculator, cohorts ---------- */
   const curSelect = document.querySelector("[data-currency-select]");
   if (curSelect) {
-    const BASE = "GHS";
+    const BASE = "USD";
     const CURRENCIES = {
-      GHS: "Ghana cedi", NGN: "Nigerian naira", USD: "US dollar", GBP: "British pound", EUR: "Euro",
+      USD: "US dollar", NGN: "Nigerian naira", GHS: "Ghana cedi", GBP: "British pound", EUR: "Euro",
       CAD: "Canadian dollar", KES: "Kenyan shilling", ZAR: "South African rand", XOF: "West African CFA franc",
       XAF: "Central African CFA franc", UGX: "Ugandan shilling", TZS: "Tanzanian shilling", RWF: "Rwandan franc",
       AUD: "Australian dollar", AED: "UAE dirham", INR: "Indian rupee",
     };
-    // Fallback rates (1 GHS = x), from ExchangeRate-API on 11 Oct 2026; replaced by live rates when available.
-    let rates = { GHS: 1, NGN: 114.883963, GBP: 0.063997, USD: 0.08466, EUR: 0.075587, CAD: 0.12073, KES: 10.985664, ZAR: 1.401013, XOF: 49.581951 };
+    // Fallback rates (1 USD = x), derived from ExchangeRate-API data of 11 Oct 2026; replaced by live rates when available.
+    let rates = { USD: 1, GHS: 11.812, NGN: 1357.0, GBP: 0.7559, EUR: 0.8928, CAD: 1.4261, KES: 129.76, ZAR: 16.549, XOF: 585.66 };
     let updated = "11 Oct 2026";
     const TZ_MAP = {
       "Africa/Lagos": "NGN", "Africa/Accra": "GHS", "Europe/London": "GBP", "Africa/Nairobi": "KES",
@@ -248,14 +248,13 @@
       "Asia/Dubai": "AED", "Asia/Kolkata": "INR", "Asia/Calcutta": "INR",
     };
     const detect = () => {
-      try { const saved = localStorage.getItem("iwd-currency"); if (saved && CURRENCIES[saved]) return saved; } catch (e) {}
+      try { const saved = localStorage.getItem("iwd-currency-v2"); if (saved && CURRENCIES[saved]) return saved; } catch (e) {}
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
       if (TZ_MAP[tz]) return TZ_MAP[tz];
       if (/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Montreal)/.test(tz)) return "CAD";
-      if (tz.startsWith("America/")) return "USD";
       if (tz.startsWith("Australia/")) return "AUD";
       if (tz.startsWith("Europe/")) return "EUR";
-      return "GHS";
+      return "USD";
     };
     let current = detect();
     const fmt = (amount, cur) => {
@@ -263,58 +262,107 @@
         return new Intl.NumberFormat("en-GB", { style: "currency", currency: cur, currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(amount);
       } catch (e) { return cur + " " + Math.round(amount).toLocaleString("en-GB"); }
     };
-    const round = (v, cur) => (cur === BASE ? v : v >= 10000 ? Math.round(v / 100) * 100 : v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v));
+    const round = (v, cur) => (cur === BASE ? Math.round(v) : v >= 10000 ? Math.round(v / 100) * 100 : v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v));
+    const show = (usd, cur = current) => (cur === BASE ? fmt(usd, BASE) : "≈ " + fmt(round(usd * rates[cur], cur), cur));
     const note = document.querySelector("[data-fx-note]");
     const field = document.querySelector("[data-currency-field]");
     const fill = () => {
       curSelect.innerHTML = Object.keys(CURRENCIES).filter((c) => rates[c]).map((c) => `<option value="${c}"${c === current ? " selected" : ""}>${c} · ${CURRENCIES[c]}</option>`).join("");
     };
+
+    /* Plan calculator */
+    const RATE = window.IWD_INTERNSHIP_RATE || 0.4;
+    const progSel = document.querySelector("[data-programme-select]");
+    const internSel = document.querySelector("[data-internship-select]");
+    const plan = () => {
+      if (!progSel) return;
+      const opt = progSel.selectedOptions[0];
+      const course = +opt.dataset.usd;
+      const intern = internSel && internSel.value === "yes" ? Math.round(course * RATE) : 0;
+      const total = course + intern;
+      const q = (sel) => document.querySelector(sel);
+      q("[data-plan-name]").textContent = opt.text.replace(/\s*\(\$.*\)$/, "") + (intern ? " + remote internship" : "");
+      q("[data-plan-course]").textContent = show(course);
+      q("[data-plan-intern-row]").hidden = !intern;
+      q("[data-plan-intern]").textContent = show(intern);
+      q("[data-plan-sum]").textContent = show(total);
+      q("[data-total-field]").value = "$" + total;
+      q("[data-total-display-field]").value = show(total);
+    };
+
     const render = () => {
-      if (!rates[current]) current = "GHS";
-      const r = rates[current];
-      document.querySelectorAll("[data-price-ghs]").forEach((el) => {
-        const ghs = +el.dataset.priceGhs;
-        el.textContent = current === BASE ? "GH₵" + ghs.toLocaleString("en-GB") : "≈ " + fmt(round(ghs * r, current), current);
-        el.title = current === BASE ? "" : "GH₵" + ghs.toLocaleString("en-GB");
+      if (!rates[current]) current = BASE;
+      document.querySelectorAll("[data-price-usd]").forEach((el) => {
+        const usd = +el.dataset.priceUsd;
+        el.textContent = show(usd);
+        el.title = current === BASE ? "" : "US$" + usd.toLocaleString("en-GB");
       });
-      document.querySelectorAll("s [data-price-ghs]").forEach((el) => (el.textContent = el.textContent.replace("≈ ", "")));
+      document.querySelectorAll("s [data-price-usd]").forEach((el) => (el.textContent = el.textContent.replace("≈ ", "")));
       if (field) field.value = current;
       if (note) {
+        const r = rates[current];
         note.innerHTML = current === BASE
-          ? "Prices are set in Ghana cedis (GH₵). Choose your currency above to see an estimate."
-          : `Estimated at GH₵1 = ${current} ${r < 1 ? r.toFixed(4) : r.toFixed(2)} (rates updated ${updated}). You pay in Ghana cedis; your bank's rate may differ slightly. ` +
-            `<a href="https://www.oanda.com/currency-converter/en/?from=GHS&to=${current}&amount=1500" target="_blank" rel="noopener">Check on OANDA</a> · <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by Exchange Rate API</a>`;
+          ? "Prices are set in US dollars. Choose your currency above to see an estimate."
+          : `Estimated at US$1 = ${current} ${r < 1 ? r.toFixed(4) : r.toFixed(2)} (rates updated ${updated}). Your bank's rate may differ slightly. ` +
+            `<a href="https://www.oanda.com/currency-converter/en/?from=USD&to=${current}&amount=1" target="_blank" rel="noopener">Check on OANDA</a> · <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by Exchange Rate API</a>`;
       }
+      plan();
     };
     curSelect.addEventListener("change", () => {
       current = curSelect.value;
-      try { localStorage.setItem("iwd-currency", current); } catch (e) {}
+      try { localStorage.setItem("iwd-currency-v2", current); } catch (e) {}
       render();
     });
+    [progSel, internSel].forEach((el) => el && el.addEventListener("change", plan));
+    document.querySelectorAll("[data-choose]").forEach((b) => b.addEventListener("click", () => { if (progSel) { progSel.value = b.dataset.choose; plan(); } }));
+    document.querySelectorAll("[data-internship]").forEach((b) => b.addEventListener("click", () => { if (internSel) { internSel.value = "yes"; plan(); } }));
     fill(); render();
-    fetch("https://open.er-api.com/v6/latest/GHS")
+    fetch("https://open.er-api.com/v6/latest/USD")
       .then((r) => r.json())
       .then((d) => {
         if (d && d.result === "success" && d.rates) {
-          rates = { ...rates, ...d.rates, GHS: 1 };
+          rates = { ...rates, ...d.rates, USD: 1 };
           const t = new Date(d.time_last_update_unix * 1000);
           if (!isNaN(t)) updated = t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
           fill(); render();
         }
       })
       .catch(() => {});
-  }
 
-  /* Programme buttons pre-select the programme in the application form */
-  const progSelect = document.querySelector("[data-programme-select]");
-  if (progSelect) {
-    document.querySelectorAll("[data-choose]").forEach((b) =>
-      b.addEventListener("click", () => {
-        const want = b.dataset.choose.replace(/&amp;/g, "&").toLowerCase();
-        const opt = [...progSelect.options].find((o) => o.text.toLowerCase().startsWith(want));
-        if (opt) progSelect.value = opt.value;
-      })
-    );
+    /* Cohorts: first Saturday of each month, 10:00–13:00 Europe/London */
+    const TZ = "Europe/London";
+    const londonOffsetMs = (utcMs) => {
+      const p = {};
+      new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hourCycle: "h23", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" })
+        .formatToParts(new Date(utcMs)).forEach((x) => (p[x.type] = +x.value));
+      return Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute) - utcMs;
+    };
+    const cohortStart = (y, m) => {
+      const first = new Date(Date.UTC(y, m, 1));
+      const day = 1 + ((6 - first.getUTCDay() + 7) % 7);
+      const guess = Date.UTC(y, m, day, 10);
+      return new Date(guess - londonOffsetMs(guess));
+    };
+    const now = new Date();
+    const cohorts = [];
+    for (let i = 0; cohorts.length < 3 && i < 5; i++) {
+      const d = cohortStart(now.getUTCFullYear(), now.getUTCMonth() + i);
+      if (d > now) cohorts.push(d);
+    }
+    const dayFmt = (d) => d.toLocaleDateString("en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const nextEl = document.querySelector("[data-next-cohort]");
+    if (nextEl && cohorts[0]) {
+      nextEl.textContent = dayFmt(cohorts[0]);
+      const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const local = document.querySelector("[data-cohort-local]");
+      const ukT = cohorts[0].toLocaleTimeString("en-GB", { timeZone: TZ, hour: "numeric", minute: "2-digit" });
+      const loT = userTz ? cohorts[0].toLocaleTimeString("en-GB", { timeZone: userTz, hour: "numeric", minute: "2-digit" }) : ukT;
+      if (local) local.textContent = userTz && loT !== ukT
+        ? `10:00–13:00 UK time · ${new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(cohorts[0])} where you are`
+        : "Saturdays, 10:00–13:00 UK time";
+    }
+    const cohortSel = document.querySelector("[data-cohort-select]");
+    if (cohortSel) cohortSel.innerHTML = cohorts.map((d) => `<option>${dayFmt(d)}</option>`).join("") + "<option>Not sure yet</option>";
   }
 
   /* Footer year */
