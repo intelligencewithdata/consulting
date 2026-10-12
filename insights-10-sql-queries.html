@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=d932e2a4">
+<link rel="stylesheet" href="assets/css/styles.css?v=71e59361">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -119,6 +119,18 @@ orders    (order_id, customer_id, order_date, amount, status)
        <span class="tok-kw">ON</span> o.customer_id = c.customer_id
 <span class="tok-kw">WHERE</span> o.order_id <span class="tok-kw">IS NULL</span>;
 </code></pre>
+
+<figure class="fig">
+  <div class="tbl-grid">
+    <div class="mini-table"><p>customers</p><table><thead><tr><th>customer_id</th><th>name</th></tr></thead><tbody><tr><td>1</td><td>Ada</td></tr><tr><td>2</td><td>Ben</td></tr><tr><td>3</td><td>Cy</td></tr></tbody></table></div>
+    <div class="mini-table"><p>orders</p><table><thead><tr><th>order_id</th><th>customer_id</th><th>amount</th></tr></thead><tbody><tr><td>10</td><td>1</td><td>120</td></tr><tr><td>11</td><td>1</td><td>900</td></tr><tr><td>13</td><td>2</td><td>600</td></tr></tbody></table></div>
+  </div>
+  <div class="tbl-grid">
+    <div class="mini-table"><p>INNER JOIN &rarr; matches only</p><table><thead><tr><th>name</th><th>order_id</th></tr></thead><tbody><tr><td>Ada</td><td>10</td></tr><tr><td>Ada</td><td>11</td></tr><tr><td>Ben</td><td>13</td></tr></tbody></table></div>
+    <div class="mini-table"><p>LEFT JOIN &rarr; every customer</p><table><thead><tr><th>name</th><th>order_id</th></tr></thead><tbody><tr><td>Ada</td><td>10</td></tr><tr><td>Ada</td><td>11</td></tr><tr><td>Ben</td><td>13</td></tr><tr class="hl"><td>Cy</td><td><span class="null">NULL</span></td></tr></tbody></table></div>
+  </div>
+  <figcaption>Cy has never ordered. An INNER JOIN drops her; a LEFT JOIN keeps her with a NULL, which is exactly how you find customers who haven't bought.</figcaption>
+</figure>
 <h2 id="8-categorise-with-case">8. Categorise with CASE</h2>
 <p><code>CASE</code> is SQL's if-then-else. Use it to create bands, flags and labels.</p>
 <pre><code class="language-sql"><span class="tok-kw">SELECT</span> order_id,
@@ -160,6 +172,13 @@ orders    (order_id, customer_id, order_date, amount, status)
 <span class="tok-kw">FROM</span> ranked_orders
 <span class="tok-kw">WHERE</span> order_rank = 1;
 </code></pre>
+
+<figure class="fig">
+  <div class="tbl-grid tbl-grid--one">
+    <div class="mini-table"><p>ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC)</p><table><thead><tr><th>customer_id</th><th>order_id</th><th>order_date</th><th>order_rank</th></tr></thead><tbody><tr class="hl"><td>1</td><td>11</td><td>2026-02-10</td><td><b>1</b></td></tr><tr><td>1</td><td>10</td><td>2026-01-05</td><td>2</td></tr><tr class="hl"><td>2</td><td>13</td><td>2026-03-20</td><td><b>1</b></td></tr><tr><td>2</td><td>12</td><td>2026-03-01</td><td>2</td></tr></tbody></table></div>
+  </div>
+  <figcaption>Numbering restarts for each customer. Keep <code>order_rank = 1</code> and you have each customer's latest order.</figcaption>
+</figure>
 <p>Swap <code>ROW_NUMBER()</code> for <code>SUM(amount) OVER (...)</code> and you have running totals. This is one of the most powerful patterns in SQL.</p>
 <h2 id="putting-it-into-practice">Putting it into practice</h2>
 <p>Reading SQL is easy; writing it under pressure is a skill. The fastest way to build it is to <strong>practise on real questions</strong>: take a dataset and ask what sold best, who stopped buying, or how this month compares with last.</p>
@@ -180,7 +199,7 @@ orders    (order_id, customer_id, order_date, amount, status)
 </a><a class="post-card reveal" href="insights-engineer-to-data-analyst.html" data-cat="careers">
   <div class="cover cover--careers " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M7 31 15 22l6 5 12-15" fill="none" stroke-width="2.8"/><path d="M27 12h6v6" fill="none" stroke-width="2.8"/></svg><span class="cover-label">Careers</span></div>
   <div class="post-body"><span class="post-cat">Careers</span><h3>From oil engineer to UK data analyst in six months: what actually worked</h3><p>I arrived in the UK with an engineering career behind me and no local experience. Here&#x27;s the honest story of how I moved into data, and the lessons I&#x27;d pass on to anyone making the switch.</p>
-  <span class="post-meta">Hakeem Falade &middot; 12 October 2026 &middot; 3 min read</span></div>
+  <span class="post-meta">Hakeem Falade &middot; 12 October 2026 &middot; 4 min read</span></div>
 </a><a class="post-card reveal" href="insights-microsoft-fabric-explained.html" data-cat="fabric">
   <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
   <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Microsoft Fabric explained for small and mid-sized businesses</h3><p>What Fabric is, how it relates to Power BI, what it costs to run, and how to tell whether your business actually needs it yet.</p>
@@ -222,6 +241,6 @@ orders    (order_id, customer_id, order_date, amount, status)
     </div>
   </div>
 </footer>
-<script src="assets/js/main.js?v=d932e2a4" defer></script>
+<script src="assets/js/main.js?v=71e59361" defer></script>
 </body>
 </html>
