@@ -712,3 +712,7 @@ a.contact-item:hover { border-color: var(--gold); transform: translateY(-3px); }
   .prose pre { margin-left: -16px; margin-right: -16px; border-radius: 0; padding: 20px 16px; }
   .article-cta { padding: 30px 22px; }
 }
+@media (max-width: 1000px) and (min-width: 861px) {
+  .nav-menu a:not(.btn) { padding: 10px 7px; font-size: .86rem; }
+  .nav-menu .btn { margin-left: 6px; padding: 9px 14px; }
+}
