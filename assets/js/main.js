@@ -85,6 +85,7 @@
       e.preventDefault();
       if (!form.reportValidity()) return;
       const data = new FormData(form);
+      window.IWD_lastEmail = data.get("email") || "";
       const endpoint = (form.dataset.endpoint || "").trim();
       if (endpoint) {
         try {
@@ -260,7 +261,8 @@
     let current = detect();
     const fmt = (amount, cur) => {
       try {
-        return new Intl.NumberFormat("en-GB", { style: "currency", currency: cur, currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 }).format(amount);
+        const narrow = ["USD", "NGN", "GHS", "GBP", "EUR", "INR"].includes(cur);   // unambiguous symbols; others e.g. CA$, A$
+        return new Intl.NumberFormat("en-GB", { style: "currency", currency: cur, currencyDisplay: narrow ? "narrowSymbol" : "symbol", maximumFractionDigits: 0 }).format(amount);
       } catch (e) { return cur + " " + Math.round(amount).toLocaleString("en-GB"); }
     };
     const round = (v, cur) => (cur === BASE ? Math.round(v) : v >= 10000 ? Math.round(v / 100) * 100 : v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v));
@@ -288,6 +290,7 @@
       q("[data-plan-intern]").textContent = show(intern);
       q("[data-plan-sum]").textContent = show(total);
       q("[data-total-field]").value = "$" + total;
+      window.IWD_lastPlan = { prog: progSel.value, intern: internSel ? internSel.value : "no", usd: total };
       q("[data-total-display-field]").value = show(total);
     };
 
@@ -326,18 +329,31 @@
       const inGhana = tz === "Africa/Accra" || current === "GHS";
       const inUK = tz === "Europe/London" || current === "GBP";
       const usd = +(document.querySelector("[data-total-field]").value || "0").replace(/[^0-9.]/g, "");
+      const lp = window.IWD_lastPlan || {};
       let route = null;
       if (inAfrica && inGhana && PAY.ghs && rates.GHS) route = { url: PAY.ghs, cur: "GHS", provider: "Paystack", step: 10 };
       else if (inAfrica && PAY.ngn && rates.NGN) route = { url: PAY.ngn, cur: "NGN", provider: "Paystack", step: 100 };
-      else if (!inAfrica && inUK && PAY.gbp) route = { url: PAY.gbp, cur: "GBP", provider: "Stripe", step: 1 };
-      else if (!inAfrica && !inUK && PAY.usd) route = { url: PAY.usd, cur: "USD", provider: "Stripe", step: 1 };
+      else if (!inAfrica && PAY.stripe && PAY.stripe[`${lp.prog}|${lp.intern}`]) {
+        const em = window.IWD_lastEmail ? "?prefilled_email=" + encodeURIComponent(window.IWD_lastEmail) : "";
+        route = { url: PAY.stripe[`${lp.prog}|${lp.intern}`] + em, cur: "USD", provider: "Stripe", step: 1, fixed: true };
+      }
       const block = panel.querySelector("[data-pay-block]");
       const later = panel.querySelector("[data-pay-later]");
       if (!route || !usd) { block.hidden = true; later.hidden = false; return; }
-      const amount = Math.ceil((usd * rates[route.cur]) / route.step) * route.step;
+      const amount = route.fixed ? usd : Math.ceil((usd * rates[route.cur]) / route.step) * route.step;
       const text = fmt(amount, route.cur);
       block.hidden = false; later.hidden = true;
       panel.querySelector("[data-pay-amount]").textContent = text;
+      if (route.fixed) {
+        block.hidden = false; later.hidden = true;
+        const local = current !== "USD" && rates[current] ? ` (${show(usd)})` : "";
+        panel.querySelector("[data-pay-amount]").textContent = "US$" + usd + local;
+        panel.querySelector("[data-pay-hint]").textContent = "Your price is already set on the secure checkout. Stripe shows it in your local currency where available (for example GBP in the UK).";
+        panel.querySelector("[data-pay-label]").textContent = "Pay securely with card";
+        panel.querySelector("[data-pay-provider]").textContent = "Stripe";
+        panel.querySelector("[data-pay-link]").href = route.url;
+        return;
+      }
       const inNigeria = tz === "Africa/Lagos" || current === "NGN";
       panel.querySelector("[data-pay-hint]").textContent = route.cur === "NGN" && !inNigeria
         ? `Enter exactly ${text} on the payment page (US$${usd}). Pay by card; your bank converts it from your local currency automatically.`

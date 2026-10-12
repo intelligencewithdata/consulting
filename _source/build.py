@@ -798,7 +798,7 @@ PAGES = [
       <h1>Thank you, you're in!</h1>
       <p class="staff-lead">Your payment has been received. Welcome to the next Intelligence With Data cohort.</p>
       <ol class="success-steps">
-        <li><b>1</b><div><strong>Check your email</strong><small>Paystack sends your payment receipt straight away.</small></div></li>
+        <li><b>1</b><div><strong>Check your email</strong><small>Your payment receipt is sent to you straight away.</small></div></li>
         <li><b>2</b><div><strong>Onboarding pack</strong><small>We'll email your onboarding materials, schedule and Google Meet details within 24 hours.</small></div></li>
         <li><b>3</b><div><strong>First Saturday</strong><small>Classes run 10:00&ndash;13:00 UK time. Join a few minutes early to test your audio and screen.</small></div></li>
       </ol>

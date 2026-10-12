@@ -6,8 +6,17 @@ Prices are set in US dollars and shown in the visitor's currency by assets/js/ma
 # Africa (incl. Ghana until a GHS page exists) -> Paystack NGN page (customer enters the amount shown on our site).
 PAYSTACK_NGN_URL = "https://paystack.shop/pay/gu76pth3gz"
 PAYSTACK_GHS_URL = ""        # add when GHS is enabled on Paystack (enables mobile money for Ghana)
-STRIPE_GBP_URL = ""          # UK applicants -> UK company bank account
-STRIPE_USD_URL = ""          # rest of the world
+# UK + rest of world -> Stripe (priced in USD; Stripe Adaptive Pricing shows local currency, e.g. GBP in the UK).
+STRIPE_LINKS = {
+    "excel-ai|no": "https://buy.stripe.com/cNi8wPbQX5jA8QMc9DeIw00",
+    "excel-ai|yes": "https://buy.stripe.com/bJe3cv2gncM2c2YflPeIw01",
+    "power-bi|no": "https://buy.stripe.com/28EbJ1f394fwc2YflPeIw02",
+    "power-bi|yes": "https://buy.stripe.com/8x2cN59IP8vMd726PjeIw03",
+    "sql|no": "https://buy.stripe.com/5kQ28rcV1eUa6IEb5zeIw04",
+    "sql|yes": "https://buy.stripe.com/14A8wPaMTaDU0kgc9DeIw05",
+    "bundle|no": "https://buy.stripe.com/00w3cv8ELdQ64Awa1veIw06",
+    "bundle|yes": "https://buy.stripe.com/5kQ00j4ov9zQ8QMehLeIw07",
+}
 FORM_ENDPOINT = "https://formspree.io/f/mgaozrav"
 
 EXCEL_USD = 150                      # base fee
@@ -86,7 +95,7 @@ def page(I, ARROW, WA):
     </article>'''
 
     opts = "".join(f'<option value="{p["id"]}" data-usd="{p["price"]}">{p["short"]} (${p["price"]})</option>' for p in PROGRAMMES)
-    pay_cfg = {"ngn": PAYSTACK_NGN_URL, "ghs": PAYSTACK_GHS_URL, "gbp": STRIPE_GBP_URL, "usd": STRIPE_USD_URL}
+    pay_cfg = {"ngn": PAYSTACK_NGN_URL, "ghs": PAYSTACK_GHS_URL, "stripe": STRIPE_LINKS}
     return f'''
 <section class="hero courses-hero">
   <div class="grid-bg" aria-hidden="true"></div>
