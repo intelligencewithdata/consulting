@@ -340,11 +340,22 @@
     const CFG = window.IWD_COHORT || { first: "2026-11-07", everyWeeks: 6 };
     const ukStart = (y, m, d) => { const guess = Date.UTC(y, m, d, 10); return new Date(guess - londonOffsetMs(guess)); };
     const [fy, fm, fd] = CFG.first.split("-").map(Number);
+    // Christmas break: no sessions from 20 Dec to 4 Jan. A cohort whose six Saturdays touch the break
+    // moves to the first Saturday after it, and the six-week cycle continues from there.
+    const DAY = 864e5;
+    const inBreak = (t) => { const d = new Date(t); const m = d.getUTCMonth(), day = d.getUTCDate(); return (m === 11 && day >= 20) || (m === 0 && day <= 4); };
+    const firstSatAfterBreak = (t) => { const y = new Date(t).getUTCMonth() === 11 ? new Date(t).getUTCFullYear() + 1 : new Date(t).getUTCFullYear(); let x = Date.UTC(y, 0, 5, 12); while (new Date(x).getUTCDay() !== 6) x += DAY; return x; };
     const now = new Date();
     const cohorts = [];
-    for (let k = 0; cohorts.length < 3 && k < 200; k++) {
-      const d = ukStart(fy, fm - 1, fd + k * CFG.everyWeeks * 7);   // Date.UTC rolls days over into later months
+    let t = Date.UTC(fy, fm - 1, fd, 12);
+    for (let guard = 0; cohorts.length < 3 && guard < 400; guard++) {
+      const sats = Array.from({ length: 6 }, (_, i) => t + i * 7 * DAY);
+      const clash = sats.find(inBreak);
+      if (clash) { t = firstSatAfterBreak(clash); continue; }
+      const c = new Date(t);
+      const d = ukStart(c.getUTCFullYear(), c.getUTCMonth(), c.getUTCDate());
       if (d > now) cohorts.push(d);
+      t += CFG.everyWeeks * 7 * DAY;
     }
     const dayFmt = (d) => d.toLocaleDateString("en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long", year: "numeric" });
     const nextEl = document.querySelector("[data-next-cohort]");
