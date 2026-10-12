@@ -177,6 +177,51 @@
     new IntersectionObserver(([e]) => sticky.classList.toggle("is-shown", !e.isIntersecting)).observe(heroEl);
   }
 
+  /* Insights filter */
+  const grid = document.querySelector("[data-post-grid]");
+  if (grid) {
+    const chips = document.querySelectorAll(".chip[data-filter]");
+    const empty = document.querySelector("[data-no-posts]");
+    chips.forEach((chip) =>
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => c.classList.toggle("is-active", c === chip));
+        let shown = 0;
+        grid.querySelectorAll(".post-card").forEach((card) => {
+          const all = chip.dataset.filter === "all";
+          const ok = all ? !card.hasAttribute("data-featured") : card.dataset.cat === chip.dataset.filter;
+          card.hidden = !ok;
+          if (ok) { card.classList.add("is-visible"); shown++; }
+        });
+        if (empty) empty.hidden = shown > 0;
+      })
+    );
+  }
+
+  /* Article: reading progress, active TOC, copy link */
+  const article = document.querySelector("[data-article]");
+  if (article) {
+    const bar = document.querySelector("[data-read-progress]");
+    const tocLinks = [...document.querySelectorAll(".toc a")];
+    const heads = tocLinks.map((a) => document.getElementById(a.hash.slice(1))).filter(Boolean);
+    const onRead = () => {
+      const r = article.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, -r.top / (r.height - window.innerHeight)));
+      if (bar) bar.style.width = pct * 100 + "%";
+      let current = heads[0];
+      heads.forEach((h) => { if (h.getBoundingClientRect().top < 140) current = h; });
+      tocLinks.forEach((a) => a.classList.toggle("is-active", current && a.hash === "#" + current.id));
+    };
+    window.addEventListener("scroll", onRead, { passive: true });
+    onRead();
+    document.querySelectorAll("[data-copy-link]").forEach((b) =>
+      b.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(b.dataset.copyLink); b.textContent = "Copied"; }
+        catch { b.textContent = "Copy failed"; }
+        setTimeout(() => (b.textContent = "Copy"), 1800);
+      })
+    );
+  }
+
   /* Footer year */
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 })();
