@@ -369,12 +369,12 @@ TRAINING = f'''
   <div class="container">
     <a class="free-feature reveal" href="courses.html" style="background:radial-gradient(500px 280px at 100% 0%, rgba(201,162,39,.35), transparent 60%),radial-gradient(400px 260px at 0% 100%, rgba(37,99,235,.35), transparent 60%),var(--navy-950)">
       <div class="free-feature-copy">
-        <span class="live-chip"><span class="promo-dot"></span>Live 4-week programmes &middot; Google Meet</span>
+        <span class="live-chip"><span class="promo-dot"></span>Saturday cohorts &middot; Live on Google Meet</span>
         <h2>Excel &amp; AI &middot; Advanced Power BI &middot; SQL</h2>
-        <p>Structured live programmes with interview preparation and a remote internship opportunity. See the full curriculum and fees in your own currency.</p>
+        <p>Six live Saturday sessions (10am&ndash;1pm UK), two per programme, with assignments, tests, a certificate and an optional 4-week remote internship. New cohort every six weeks. See the full curriculum and fees in your own currency.</p>
         <span class="btn btn--gold">View programmes &amp; fees {ARROW}</span>
       </div>
-      <div class="free-feature-when" aria-hidden="true"><div class="cal"><span>Each</span><strong>4</strong><em>weeks, live</em></div></div>
+      <div class="free-feature-when" aria-hidden="true"><div class="cal"><span>Saturdays</span><strong>6</strong><em>live sessions</em></div></div>
     </a>
   </div>
 </section>
@@ -799,7 +799,7 @@ PAGES = [
     ("free-training.html", "Free Power BI & SQL Training, Every Friday | Intelligence With Data", "Free live Power BI and SQL training every Friday at 6pm UK time. Hands-on lessons, live Q&A and career tips from a Senior Data Analyst. Register free.", FREE),
     ("about.html", "About | Intelligence With Data", "Founded by Senior Data Analyst Hakeem Falade, Intelligence With Data combines consulting and training on the Microsoft data stack.", ABOUT),
     ("contact.html", "Contact | Intelligence With Data", "Book a discovery call or ask about training. Email, phone or WhatsApp Intelligence With Data.", CONTACT),
-    ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live 4-week online programmes in Excel & AI for Analytics, Advanced Power BI and SQL, with interview preparation and a remote internship opportunity. See prices in your currency.", courses.page(I, ARROW, WA)),
+    ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live Saturday programmes in Excel & AI for Analytics, Advanced Power BI and SQL: six sessions, assignments, a certificate and an optional remote internship. New cohort every six weeks. See prices in your currency.", courses.page(I, ARROW, WA)),
     ("payment-success.html", "Payment received | Intelligence With Data", "Thank you for your payment.", f'''
 <section class="page-hero staff-hero">
   <div class="grid-bg" aria-hidden="true"></div>
