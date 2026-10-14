@@ -34,6 +34,21 @@
     sel.addEventListener("change", restore);
     sel.addEventListener("blur", restore);
   });
+  /* Same safety net for videos: tapping play or leaving full screen should never move the page */
+  document.querySelectorAll("video").forEach((v) => {
+    let keep = null;
+    const save = () => { keep = window.scrollY; };
+    const restore = () => {
+      if (keep === null) return;
+      const y = keep;
+      [0, 120, 400, 900].forEach((ms) => setTimeout(() => { if (Math.abs(window.scrollY - y) > 150) window.scrollTo({ top: y, behavior: "instant" }); }, ms));
+    };
+    ["pointerdown", "touchstart"].forEach((ev) => v.addEventListener(ev, save, { passive: true }));
+    v.addEventListener("play", () => { if (keep === null) save(); restore(); });
+    v.addEventListener("pause", () => { if (keep !== null) restore(); });
+    v.addEventListener("webkitendfullscreen", restore);
+    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) restore(); });
+  });
 
   /* Header shade on scroll */
   const header = document.querySelector("[data-header]");
