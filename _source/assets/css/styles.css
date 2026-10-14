@@ -1025,5 +1025,5 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 @media (max-width: 900px) { .class-gallery { grid-template-columns: 1fr; } }
 .class-shot img { aspect-ratio: 1.9; object-fit: cover; object-position: top center; }
 .class-shot a { display: block; color: inherit; }
-.class-shot a:hover figcaption, .class-shot a:focus-visible figcaption { color: var(--gold-300); }
+.class-shot figcaption a { color: #8F9CBD; text-decoration: underline; text-underline-offset: 3px; } .class-shot figcaption a:hover { color: var(--gold-300); }
 .class-shot figcaption small { display: block; font-weight: 600; font-size: .78rem; color: #8F9CBD; margin-top: 2px; }

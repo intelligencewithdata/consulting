@@ -25,8 +25,8 @@ CLASS_SHOTS = [
 def shot(name, w, h, label, alt):
     return f'''<figure class="class-shot reveal">
   <div class="class-shot-bar" aria-hidden="true"><span></span><span></span><span></span><em>Live on Google Meet</em></div>
-  <a href="assets/img/{name}.jpg" target="_blank" rel="noopener"><picture><source srcset="assets/img/{name}.webp" type="image/webp"><img src="assets/img/{name}.jpg" width="{w}" height="{h}" loading="lazy" decoding="async" alt="{alt}"></picture>
-  <figcaption>{label}<small>Open full size</small></figcaption></a>
+  <a href="assets/img/{name}.jpg" target="_blank" rel="noopener" aria-label="Open full size: {label}"><picture><source srcset="assets/img/{name}.webp" type="image/webp"><img src="assets/img/{name}.jpg" width="{w}" height="{h}" loading="lazy" decoding="async" alt="{alt}"></picture></a>
+  <figcaption>{label}<small><a href="assets/img/{name}.jpg" target="_blank" rel="noopener">Open full size</a></small></figcaption>
 </figure>'''
 
 
