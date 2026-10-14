@@ -933,7 +933,7 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 @media (max-width: 860px) {
   .nav-drop { display: contents; }
   .nav-drop-toggle svg { display: none; }
-  .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; min-width: 0; background: transparent; box-shadow: none; border: 0; padding: 0 0 6px 14px; }
+  .nav-sub { position: static; transform: none; opacity: 1; visibility: inherit; min-width: 0; background: transparent; box-shadow: none; border: 0; padding: 0 0 6px 14px; }
   .nav-menu .nav-sub a { color: #E5EAF5 !important; padding: 10px 8px !important; border-bottom: 1px solid rgba(255,255,255,.06); border-radius: 0; }
   .nav-menu .nav-sub a:hover { background: transparent; }
   .nav-sub small { color: #8F9CBD; }
