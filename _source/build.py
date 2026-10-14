@@ -273,10 +273,27 @@ HOME = f'''
 ''' + cta()
 
 # ------------------------------------------------------------------ SERVICES
+# Calm, uncluttered Unsplash photos (free licence), served resized by Unsplash's CDN
+PHOTOS = {
+    "automation": ("photo-1551288049-bebda4e38f71", "Analytics dashboard with charts open on a laptop"),
+    "fabric": ("photo-1564457461758-8ff96e439e83", "Rows of server cabinets in a quiet data centre"),
+    "upskilling": ("photo-1573164574572-cb89e39749b4", "A small team learning together around a table with laptops"),
+    "ai": ("photo-1745674684463-62f62cb88d4c", "A laptop showing an AI assistant asking how it can help"),
+    "contract": ("photo-1573164713988-8665fc963095", "An analyst working on a laptop in a bright office"),
+}
+
+def photo(key):
+    if key not in PHOTOS:
+        return ""
+    pid, alt = PHOTOS[key]
+    u = lambda w: f"https://images.unsplash.com/{pid}?auto=format&fit=crop&w={w}&h={w * 9 // 16}&q=70"
+    return (f'<figure class="feature-photo"><img src="{u(1000)}" srcset="{u(640)} 640w, {u(1000)} 1000w, {u(1400)} 1400w" '
+            f'sizes="(max-width: 900px) 100vw, 560px" width="1000" height="562" loading="lazy" decoding="async" alt="{alt}"></figure>')
+
 def feature(id_, tag, title, copy, items, outcome, icon, gold=False):
     lis = "".join(f"<li>{a}<small>{b}</small></li>" for a, b in items)
     return f'''<div class="feature" id="{id_}">
-  <div class="feature-copy reveal"><div class="icon{' icon--gold' if gold else ''}">{I[icon]}</div><span class="tag{' tag--gold' if gold else ''}">{tag}</span><h2>{title}</h2>{copy}</div>
+  <div class="feature-copy reveal">{photo(id_)}<div class="icon{' icon--gold' if gold else ''}">{I[icon]}</div><span class="tag{' tag--gold' if gold else ''}">{tag}</span><h2>{title}</h2>{copy}</div>
   <div class="deliverables reveal" style="--d:.1s"><h4>What you get</h4><ul class="check-list">{lis}</ul><p class="outcome"><strong>The outcome:</strong> {outcome}</p></div>
 </div>'''
 
