@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lakehouse vs Warehouse in Microsoft Fabric: which should you use? | Intelligence With Data</title>
+<meta name="description" content="A plain-English guide to the two main places to store data in Fabric, what each can and can't do, and a simple way to decide between them.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-fabric-lakehouse-vs-warehouse.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lakehouse vs Warehouse in Microsoft Fabric: which should you use? | Intelligence With Data">
+<meta property="og:description" content="A plain-English guide to the two main places to store data in Fabric, what each can and can't do, and a simple way to decide between them.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-fabric-lakehouse-vs-warehouse.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-fabric-lakehouse-vs-warehouse.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=c8561221">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Microsoft Fabric</p>
+    <span class="post-cat post-cat--light">Microsoft Fabric</span>
+    <h1>Lakehouse vs Warehouse in Microsoft Fabric: which should you use?</h1>
+    <p class="lead">A plain-English guide to the two main places to store data in Fabric, what each can and can&#x27;t do, and a simple way to decide between them.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">JC</span><span><strong>Jayne Carter</strong><small>Data Engineer &middot; 14 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-they-have-in-common">What they have in common</a></li><li><a href="#what-a-lakehouse-is">What a Lakehouse is</a></li><li><a href="#what-a-warehouse-is">What a Warehouse is</a></li><li><a href="#the-key-differences-side-by-side">The key differences side by side</a></li><li><a href="#a-simple-way-to-decide">A simple way to decide</a></li><li><a href="#what-the-sql-looks-like-in-each">What the SQL looks like in each</a></li><li><a href="#you-dont-have-to-pick-only-one">You don&#x27;t have to pick only one</a></li><li><a href="#common-beginner-mistakes">Common beginner mistakes</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-lakehouse-vs-warehouse.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Lakehouse%20vs%20Warehouse%20in%20Microsoft%20Fabric%3A%20which%20should%20you%20use%3F%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-lakehouse-vs-warehouse.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Lakehouse%20vs%20Warehouse%20in%20Microsoft%20Fabric%3A%20which%20should%20you%20use%3F&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-lakehouse-vs-warehouse.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-fabric-lakehouse-vs-warehouse.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>One of the first questions people ask when they start learning <strong>Microsoft Fabric</strong> is: "Should I create a Lakehouse or a Warehouse?" Both store data, both can be queried with SQL, and both can feed Power BI reports. So what's the difference, and does the choice really matter?</p>
+<p>It does matter, but probably less than you think. This guide explains what each item is, where they overlap, where they differ, and how to choose without overthinking it.</p>
+<h2 id="what-they-have-in-common">What they have in common</h2>
+<p>Before looking at the differences, it helps to know how much the two share. According to Microsoft's own decision guide:</p>
+<ul>
+<li><strong>Both store data in OneLake</strong> in the open <strong>Delta Lake</strong> format. Neither locks your data away in a proprietary file type.</li>
+<li><strong>Both use the same SQL engine</strong> for T-SQL queries.</li>
+<li><strong>Both can feed Power BI.</strong> Direct Lake semantic models are supported on lakehouses and warehouses, so either can sit behind your reports.</li>
+</ul>
+<p>In other words, this isn't a choice between two completely different products. It's a choice about <strong>how you want to work with the data</strong>: mainly with Apache Spark, or mainly with T-SQL.</p>
+<h2 id="what-a-lakehouse-is">What a Lakehouse is</h2>
+<p>A <strong>Lakehouse</strong> combines the flexibility of a data lake with warehouse-style querying. It's organised into two top-level folders:</p>
+<ul>
+<li><strong>Tables:</strong> managed Delta tables, ready to query.</li>
+<li><strong>Files:</strong> anything else, such as CSV files, JSON, images or other unstructured or non-Delta data.</li>
+</ul>
+<p>You mainly build and change a lakehouse with <strong>notebooks and Apache Spark</strong>, writing Python, Scala, Spark SQL or R. You can also load data with pipelines and dataflows, and use <strong>shortcuts</strong> to reference data held elsewhere without copying it.</p>
+<p>Every lakehouse automatically gets a <strong>SQL analytics endpoint</strong>. This lets analysts query the Delta tables with T-SQL, but it's important to understand its limits: the endpoint is <strong>read-only</strong>. You can write <code>SELECT</code> queries and create <strong>views</strong> and <strong>table-valued functions</strong>, but you can't <code>INSERT</code>, <code>UPDATE</code> or <code>DELETE</code> rows through it. To change the data, you go back to Spark (or a pipeline or dataflow).</p>
+<p>Two more details catch beginners out. Only Delta tables in the <strong>Tables</strong> area appear in the SQL analytics endpoint, so a CSV sitting in <strong>Files</strong> won't show up until you load it into a table. And since September 2025, new lakehouses no longer create a default semantic model automatically, so you build your own Power BI semantic model when you're ready to report.</p>
+<h2 id="what-a-warehouse-is">What a Warehouse is</h2>
+<p>A <strong>Warehouse</strong> is a full relational data warehouse that you develop mainly with <strong>T-SQL</strong>. If you've worked with SQL Server or Azure SQL, it will feel familiar. It gives you:</p>
+<ul>
+<li><strong>Full read and write T-SQL:</strong> <code>CREATE TABLE</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>CREATE TABLE AS SELECT</code> and <code>COPY INTO</code>.</li>
+<li><strong>Multi-table transactions:</strong> several changes across several tables either all succeed or all roll back together.</li>
+<li><strong>Views, functions and stored procedures</strong> to package up business logic.</li>
+<li><strong>No infrastructure tuning:</strong> Microsoft describes its workload management as autonomous, with no compute or storage settings for you to configure.</li>
+</ul>
+<p>The data still lands in OneLake in Delta format, so other Fabric tools can read it.</p>
+<h2 id="the-key-differences-side-by-side">The key differences side by side</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Lakehouse (via SQL analytics endpoint)</th>
+<th>Warehouse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main way to build</td>
+<td>Apache Spark notebooks</td>
+<td>T-SQL</td>
+</tr>
+<tr>
+<td>Changing data with SQL</td>
+<td>No: read-only</td>
+<td>Yes: full DML and DDL</td>
+</tr>
+<tr>
+<td>Multi-table transactions</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Unstructured files</td>
+<td>Yes, in the Files area</td>
+<td>No: structured tables only</td>
+</tr>
+<tr>
+<td>Typical users</td>
+<td>Data engineers and SQL developers</td>
+<td>SQL developers and citizen developers</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Delta format in OneLake</td>
+<td>Delta format in OneLake</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-simple-way-to-decide">A simple way to decide</h2>
+<p>Microsoft's decision guide boils the choice down to three questions. We find them a reliable starting point:</p>
+<ol>
+<li><strong>How will you build it?</strong> If your team writes Python or Spark, choose a <strong>Lakehouse</strong>. If your team writes T-SQL, choose a <strong>Warehouse</strong>.</li>
+<li><strong>Do you need multi-table transactions?</strong> If yes, choose a <strong>Warehouse</strong>.</li>
+<li><strong>What kind of data do you have?</strong> If you have unstructured or mixed data, or you're not sure yet, choose a <strong>Lakehouse</strong>. If it's structured, tabular data only, a <strong>Warehouse</strong> works well.</li>
+</ol>
+<p>For someone learning Fabric with a SQL background, that often points to the Warehouse. For someone learning Python and data engineering, the Lakehouse will feel more natural.</p>
+<h2 id="what-the-sql-looks-like-in-each">What the SQL looks like in each</h2>
+<p>Here's a small example. Imagine an <code>orders</code> table with columns <code>order_id</code>, <code>customer</code>, <code>order_date</code> and <code>amount</code>.</p>
+<p>On a <strong>lakehouse SQL analytics endpoint</strong>, you can read the data and save reusable logic as a view:</p>
+<pre><code class="language-sql">CREATE VIEW monthly_sales <span class="tok-kw">AS</span>
+<span class="tok-kw">SELECT</span>
+    SUBSTRING(order_date, 1, 7) <span class="tok-kw">AS</span> order_month,
+    <span class="tok-kw">COUNT</span>(*)                    <span class="tok-kw">AS</span> orders,
+    <span class="tok-kw">SUM</span>(amount)                 <span class="tok-kw">AS</span> revenue
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">GROUP BY</span> SUBSTRING(order_date, 1, 7);
+</code></pre>
+<p>That works, because creating a view is allowed. But the next statement would fail on the endpoint, because it changes data:</p>
+<pre><code class="language-sql">UPDATE orders
+SET amount = 0
+<span class="tok-kw">WHERE</span> order_id = 3;
+</code></pre>
+<p>In a <strong>Warehouse</strong>, both statements are fine. You can also build a new, cleaned-up table from a query in one step with <code>CREATE TABLE AS SELECT</code> (often shortened to CTAS):</p>
+<pre><code class="language-sql">CREATE TABLE large_orders <span class="tok-kw">AS</span>
+<span class="tok-kw">SELECT</span> order_id, customer, amount
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> amount &gt;= 500;
+</code></pre>
+<p>These examples use a text date for simplicity. In practice you'd store <code>order_date</code> as a proper <code>date</code> type and use T-SQL date functions such as <code>YEAR()</code> and <code>MONTH()</code> to group by month. Also note that in T-SQL you limit rows with <code>TOP</code>, as in <code>SELECT TOP 10 ...</code>, rather than the <code>LIMIT</code> keyword used in some other databases.</p>
+<h2 id="you-dont-have-to-pick-only-one">You don't have to pick only one</h2>
+<p>Many real Fabric solutions use <strong>both</strong>. A common pattern is the <strong>medallion architecture</strong>: raw data lands in a lakehouse (bronze), gets cleaned with Spark (silver), and the final, business-ready tables (gold) are served either from a lakehouse or a warehouse.</p>
+<p>Because both items share the same SQL engine, a Warehouse can query lakehouse tables in the same workspace using <strong>three-part names</strong>, such as <code>SalesLakehouse.dbo.orders</code>. You can join lakehouse and warehouse tables in one query, or insert data from a lakehouse table into a warehouse table, without building a separate copy process. Microsoft describes these as cross-database queries with no data duplication.</p>
+<p>So the decision isn't permanent. Starting with one and adding the other later is perfectly normal.</p>
+<h2 id="common-beginner-mistakes">Common beginner mistakes</h2>
+<ul>
+<li><strong>Trying to update data through the SQL analytics endpoint.</strong> It's read-only. Use Spark, a pipeline or a dataflow, or use a Warehouse instead.</li>
+<li><strong>Leaving data in Files and wondering why SQL can't see it.</strong> Load it into a Delta table in the Tables area first.</li>
+<li><strong>Expecting an automatic semantic model.</strong> New lakehouses don't create one any more. Create a semantic model yourself for reporting.</li>
+<li><strong>Choosing based on which sounds more "serious".</strong> Both are production-grade. Choose based on your team's skills and your data.</li>
+</ul>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>The Lakehouse and the Warehouse in Microsoft Fabric store data in the same place and in the same open format. The real difference is <strong>how you work with it</strong>: a Lakehouse is built mainly with Spark and handles any type of data, with a read-only SQL endpoint for querying; a Warehouse gives you full read-and-write T-SQL with transactions. <strong>Pick the one that matches your skills and your data</strong>, and remember that you can combine them as your solution grows.</p>
+      <div class="author-box"><span class="avatar">JC</span><div><strong>Jayne Carter</strong><p>Data Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Free every Friday</p><h3>Learn Power BI &amp; SQL live, for free</h3><p>Join our free live class every Friday at 6pm UK time: hands-on lessons, live Q&amp;A and career tips from a working Senior Data Analyst.</p><div class="btn-row"><a class="btn btn--gold" href="free-training.html">Reserve your free seat <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="training.html">See all programmes</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-power-bi-date-table.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>How to build a date table in Power BI (and why you need one)</h3><p>A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.</p>
+  <span class="post-meta">Thomas Forrester &middot; 12 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-automate-business-reporting.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>5 signs your business reporting should be automated</h3><p>If your team spends hours every week rebuilding the same spreadsheets, you are paying a hidden tax. Here&#x27;s how to spot it, and what to do about it.</p>
+  <span class="post-meta">Efua Angela &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a><a class="post-card reveal" href="insights-engineer-to-data-analyst.html" data-cat="careers">
+  <div class="cover cover--careers " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M7 31 15 22l6 5 12-15" fill="none" stroke-width="2.8"/><path d="M27 12h6v6" fill="none" stroke-width="2.8"/></svg><span class="cover-label">Careers</span></div>
+  <div class="post-body"><span class="post-cat">Careers</span><h3>From oil engineer to UK data analyst in six months: what actually worked</h3><p>I arrived in the UK with an engineering career behind me and no local experience. Here&#x27;s the honest story of how I moved into data, and the lessons I&#x27;d pass on to anyone making the switch.</p>
+  <span class="post-meta">Hakeem Falade &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Lakehouse vs Warehouse in Microsoft Fabric: which should you use?", "description": "A plain-English guide to the two main places to store data in Fabric, what each can and can't do, and a simple way to decide between them.", "datePublished": "2026-10-14", "author": {"@type": "Person", "name": "Jayne Carter", "jobTitle": "Data Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-fabric-lakehouse-vs-warehouse.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-fabric-lakehouse-vs-warehouse.html"}</script>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=c8561221" defer></script>
+</body>
+</html>
