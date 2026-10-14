@@ -996,3 +996,11 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 .deliv-grid li:last-child { grid-column: span 2; }
 .quote-panel .big { padding-right: 36px; }
 @media (max-width: 680px) { .deliv-grid li:last-child { grid-column: auto; } .quote-panel .big { padding-right: 0; } }
+.meet-card { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; margin-top: 26px; padding: 22px; border-radius: 20px; background: linear-gradient(160deg, var(--navy), var(--navy-950)); color: #C3CDE4; box-shadow: var(--shadow-sm); }
+.meet-day { display: grid; place-items: center; width: 78px; padding: 10px 0; border-radius: 14px; background: #fff; text-align: center; line-height: 1.1; }
+.meet-day small { font-size: .62rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.meet-day strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--navy); margin: 2px 0; }
+.meet-card > div > strong { display: block; color: #fff; font-size: 1.05rem; margin-bottom: 4px; }
+.meet-card p { margin: 0; font-size: .93rem; line-height: 1.6; }
+.meet-local { display: block; margin-top: 8px; font-size: .82rem; font-weight: 700; color: var(--gold-300); }
+.meet-local:empty { display: none; }

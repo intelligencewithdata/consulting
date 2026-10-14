@@ -437,6 +437,26 @@
     if (cohortSel) cohortSel.innerHTML = cohorts.map((d) => `<option>${dayFmt(d)}</option>`).join("") + "<option>Not sure yet</option>";
   }
 
+  /* Weekly UK-time meetings shown in the visitor's own time: data-uk-weekly="<weekday 0-6>,<HH:MM>" */
+  document.querySelectorAll("[data-uk-weekly]").forEach((el) => {
+    try {
+      const [wd, hm] = el.dataset.ukWeekly.split(",");
+      const [hh, mm] = hm.split(":").map(Number);
+      const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (!userTz || userTz === "Europe/London") return;
+      let t = Date.now();
+      const ukParts = (ms) => { const p = {}; new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/London", hourCycle: "h23", year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", weekday: "short" }).formatToParts(new Date(ms)).forEach((x) => (p[x.type] = x.value)); return p; };
+      const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      let d = 0; while (days.indexOf(ukParts(t + d * 864e5).weekday) !== +wd && d < 8) d++;
+      const p = ukParts(t + d * 864e5);
+      const guess = Date.UTC(+p.year, +p.month - 1, +p.day, hh, mm);
+      const q = ukParts(guess);
+      const off = Date.UTC(+q.year, +q.month - 1, +q.day, +q.hour, +q.minute) - guess;
+      const when = new Date(guess - off);
+      el.textContent = "That's " + new Intl.DateTimeFormat(undefined, { weekday: "long", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(when) + " where you are.";
+    } catch (e) {}
+  });
+
   /* Footer year */
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 })();

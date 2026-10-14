@@ -44,6 +44,8 @@ FAQ = [
      "The biggest problem for new analysts is having nothing to show an employer. You finish with real experience to talk about in interviews, a portfolio of seven deliverables, a rewritten CV and interview preparation."),
     ("What computer do I need?",
      "A Windows laptop or desktop. SQL Server Management Studio and Power BI Desktop are Windows applications and are free to download. You'll also need Excel 2016 or Microsoft 365."),
+    ("Will I have support during the internship?",
+     "Yes. Every Wednesday at 7pm UK time you meet your line manager by video call to discuss your progress, talk through any challenges and get clarification on anything in your brief. Your manager also reviews each Friday deliverable."),
     ("What happens after I pay?",
      "Your place is confirmed straight away and your onboarding details arrive by email automatically, so you can get set up and start Week 1."),
     ("Is this the same as the internship add-on on the Saturday programmes?",
@@ -79,7 +81,7 @@ def page(I, ARROW, WA):
       </div>
       <ul class="check-list intern-includes">
         <li>4 weeks working on two client accounts</li>
-        <li>Weekly reviews from a senior analyst</li>
+        <li>Weekly check-in with your line manager, Wednesdays 7pm UK</li>
         <li>7 portfolio deliverables you keep</li>
         <li>CV rewrite &amp; interview preparation</li>
       </ul>
@@ -118,7 +120,7 @@ def page(I, ARROW, WA):
         <ul>
           <li>A client brief and a deadline every Friday</li>
           <li>Messy databases you audit and fix yourself</li>
-          <li>A senior analyst reviewing and challenging your decisions</li>
+          <li>A weekly meeting with your line manager, who reviews and challenges your decisions</li>
           <li>Seven pieces of real work for your portfolio</li>
         </ul>
       </div>
@@ -132,6 +134,10 @@ def page(I, ARROW, WA):
       <p class="eyebrow">Week by week</p>
       <h2>Four weeks that feel <em>like the job.</em></h2>
       <p class="lead">Each week ends with a deliverable on Friday, reviewed by your manager the way it would be at work.</p>
+      <div class="meet-card">
+        <span class="meet-day" aria-hidden="true"><small>Every</small><strong>Wed</strong><small>7pm UK</small></span>
+        <div><strong>Weekly line manager meeting</strong><p>Every Wednesday at 7pm UK time, meet your line manager to discuss your progress, talk through any challenges and get clarification on your brief.</p><small class="meet-local" data-uk-weekly="3,19:00"></small></div>
+      </div>
       <div class="client-cards">
         <div><span class="tag">Client 1</span><strong>Adventure Outdoors PLC</strong><small>Outdoor equipment retailer selling online and through resellers</small></div>
         <div><span class="tag tag--gold">Client 2</span><strong>Nordic Foods Ltd</strong><small>Food wholesaler with suppliers, orders and shipping data</small></div>
