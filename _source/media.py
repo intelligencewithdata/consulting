@@ -15,10 +15,18 @@ def stock(pid, alt, ratio=16 / 9, cls="", sizes="(max-width: 900px) 100vw, 560px
 
 
 CLASS_SHOTS = [
-    ("class-dax", 1329, 653, "Live class: DAX functions explained",
-     "Slide from a live Power BI class explaining SUM, AVERAGE, MAX, MIN, DIVIDE and ROUND in DAX"),
-    ("class-powerbi-model", 1438, 782, "Hands-on: building a data model in Power BI Desktop",
+    ("class-star-schema", 1328, 747, "Data modelling: the star schema explained",
+     "Slide from a live Power BI class showing a central fact table linked to product, branch, calendar and location dimension tables"),
+    ("class-powerbi-model", 1438, 782, "Hands-on: building the model in Power BI Desktop",
      "Power BI Desktop model view from a live class, showing a fact table linked to customer, product and calendar tables"),
+    ("class-dax", 1329, 653, "DAX functions, one at a time",
+     "Slide from a live Power BI class explaining SUM, AVERAGE, MAX, MIN, DIVIDE and ROUND in DAX"),
+    ("class-revenue-whiteboard", 1440, 758, "Working it out live: how revenue is calculated",
+     "Power BI table view with a hand-drawn note showing revenue as units sold from the fact table times unit price from the product table"),
+    ("class-kpi-measures", 1440, 758, "The result: revenue, COGS and gross profit as KPI cards",
+     "Power BI report page with KPI cards for revenue, cost of goods sold, gross profit, number of sales and number of customers"),
+    ("class-dashboard-practices", 1328, 747, "Dashboard best practices for real stakeholders",
+     "Slide listing six dashboard best practices: KPI cards first, the right chart type, slicers, one page per theme, consistent colours and telling a story"),
 ]
 
 
@@ -31,7 +39,7 @@ def shot(name, w, h, label, alt):
 
 
 def class_gallery(eyebrow="Inside a live class", title="See how we <em>actually teach.</em>",
-                  lead="Real screenshots from our live sessions: clear slides that explain each idea, then hands-on work in the same tools you'll use at work.",
+                  lead="Highlights from one of our recent live Power BI classes: a clear slide for each idea, then we build it together in Power BI Desktop, from data model to finished KPIs.",
                   tint=False):
     shots = "".join(shot(*s) for s in CLASS_SHOTS)
     return f'''
