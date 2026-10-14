@@ -1,5 +1,6 @@
 """Data Analytics Internship page (internship.html).
 Every apply button sends visitors to the systeme.io checkout, where payment triggers the automated onboarding."""
+from media import stock
 
 APPLY_URL = "https://intelligencewithdata.systeme.io/analytics_internship"
 PRICE_USD = 99           # keep in line with the price on the systeme.io checkout (shown in the visitor's currency)
@@ -105,6 +106,7 @@ def page(I, ARROW, WA):
 <section class="section">
   <div class="container">
     <div class="section-head center reveal"><p class="eyebrow">Why it works</p><h2>A job, <em>done properly.</em></h2><p class="lead">Employers don't hire certificates. They hire people who have done the work. That's the gap this internship closes.</p></div>
+    <div class="vs-photo reveal">{stock("photo-1573167507387-6b4b98cb7c13", "An analyst presenting findings to colleagues around a meeting table", ratio=21 / 9, sizes="(max-width: 1020px) 100vw, 980px")}</div>
     <div class="vs reveal">
       <div class="vs-col">
         <p class="vs-head">A typical online course</p>

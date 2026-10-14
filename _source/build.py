@@ -4,6 +4,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import insights
 import courses
 import internship
+from media import stock, class_gallery
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT.parent / "_build"
@@ -414,6 +415,8 @@ TRAINING = f'''
   </div>
 </section>
 
+{class_gallery(tint=True)}
+
 <section class="section section--navy">
   <div class="container">
     <div class="section-head center reveal"><p class="eyebrow eyebrow--gold">Your pathway</p><h2>From first lesson <em>to first data role.</em></h2></div>
@@ -429,6 +432,7 @@ TRAINING = f'''
 <section class="section">
   <div class="container split split--center">
     <div class="reveal">
+      {stock("photo-1517245386807-bb43f82c33c4", "A trainer explaining an idea to a learner beside an open laptop")}
       <p class="eyebrow">Taught by a practitioner</p>
       <h2>Learn from someone <em>who made the switch.</em></h2>
       <p class="lead">Our founder moved from oil and gas engineering into a UK data analyst role within six months of arriving, self-taught in Excel, Power BI and SQL. Every programme is built on that same practical route.</p>

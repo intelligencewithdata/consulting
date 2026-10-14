@@ -1,4 +1,5 @@
 import json
+from media import stock, class_gallery
 """Paid live training programmes page (courses.html).
 Prices are set in US dollars and shown in the visitor's currency by assets/js/main.js."""
 
@@ -164,6 +165,8 @@ def page(I, ARROW, WA):
   </div>
 </section>
 
+{class_gallery()}
+
 <section class="section section--navy">
   <div class="container">
     <div class="bundle-feature reveal">
@@ -187,6 +190,7 @@ def page(I, ARROW, WA):
 <section class="section">
   <div class="container split split--center">
     <div class="reveal">
+      {stock("photo-1590650516494-0c8e4a4dd67e", "Two analysts reviewing work together on a computer screen")}
       <p class="eyebrow">Optional add-on</p>
       <h2>Remote internship: <em>4 weeks of real-world practice.</em></h2>
       <p class="lead">Learning sticks when you use it. After your training, join our 4-week remote internship to work on realistic projects with deadlines and stakeholders, consolidating everything you've learned and giving you experience to talk about in interviews.</p>

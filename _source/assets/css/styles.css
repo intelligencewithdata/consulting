@@ -1011,3 +1011,19 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 .feature-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 27, 63, 0) 55%, rgba(11, 27, 63, .18)); box-shadow: inset 0 0 0 1px rgba(11, 27, 63, .06); border-radius: inherit; pointer-events: none; }
 .feature { align-items: start; }
 .feature-photo img { color: transparent; font-size: 0; }
+
+/* Real class screenshots */
+.class-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.class-shot { margin: 0; background: var(--navy-950); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+.class-shot-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--navy); }
+.class-shot-bar span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, .22); }
+.class-shot-bar em { margin-left: auto; font-style: normal; font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-300); }
+.class-shot picture, .class-shot img { display: block; width: 100%; height: auto; }
+.class-shot figcaption { padding: 14px 18px 16px; color: #fff; font-weight: 700; font-size: .95rem; }
+.vs-photo { max-width: 980px; margin: 0 auto 28px; }
+.vs-photo .feature-photo { margin: 0; }
+@media (max-width: 900px) { .class-gallery { grid-template-columns: 1fr; } }
+.class-shot img { aspect-ratio: 1.9; object-fit: cover; object-position: top center; }
+.class-shot a { display: block; color: inherit; }
+.class-shot a:hover figcaption, .class-shot a:focus-visible figcaption { color: var(--gold-300); }
+.class-shot figcaption small { display: block; font-weight: 600; font-size: .78rem; color: #8F9CBD; margin-top: 2px; }
