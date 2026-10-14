@@ -944,3 +944,55 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
   .nav-menu .nav-sub a[aria-current="page"] { background: rgba(227,199,102,.1); }
   .nav-menu .nav-sub a[aria-current="page"] strong { color: var(--gold-300); }
 }
+
+/* Internship page */
+.intern-includes { gap: 10px; margin-bottom: 20px; }
+.intern-includes li { font-size: .95rem; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 980px; margin-inline: auto; }
+.vs-col { border: 1px solid var(--line); border-radius: 24px; padding: 34px; background: #fff; }
+.vs-col ul { list-style: none; display: grid; gap: 14px; }
+.vs-col li { position: relative; padding-left: 32px; color: var(--muted); }
+.vs-col li::before { content: "\00d7"; position: absolute; left: 0; top: -1px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #F1F3F8; color: #8F9CBD; font-weight: 800; line-height: 1; }
+.vs-head { font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+.vs-col--win { background: linear-gradient(160deg, var(--navy), var(--navy-950)); border-color: transparent; box-shadow: var(--shadow); }
+.vs-col--win .vs-head { color: var(--gold-300); }
+.vs-col--win li { color: #fff; font-weight: 600; }
+.vs-col--win li::before { content: "\2713"; background: rgba(201, 162, 39, .2); color: var(--gold-300); }
+.intern-sticky { position: sticky; top: 120px; }
+.client-cards { display: grid; gap: 12px; margin-top: 28px; }
+.client-cards > div { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
+.client-cards strong { display: block; color: var(--ink); margin-top: 8px; }
+.client-cards small { display: block; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.client-note { font-size: .82rem; color: var(--muted); margin: 12px 0 0; }
+.intern-weeks { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 6px 28px; }
+.intern-weeks li:last-child { border-bottom: 0; }
+.wk--gold { background: #FBF6E6; color: #8A6B12; }
+.deliv-grid { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.deliv-grid li { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 24px 22px; transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.deliv-grid li:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.deliv-grid b { display: block; font-family: var(--font-display); font-size: 1.5rem; color: var(--gold); line-height: 1; margin-bottom: 14px; }
+.deliv-grid strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.deliv-grid small { color: var(--muted); font-size: .88rem; line-height: 1.5; display: block; }
+.deliv-grid li:last-child { background: linear-gradient(135deg, var(--navy), var(--navy-950)); border-color: transparent; }
+.deliv-grid li:last-child strong { color: #fff; }
+.deliv-grid li:last-child small { color: #C3CDE4; }
+.tool-grid { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tool-grid li { background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .1); border-radius: 16px; padding: 18px 20px; }
+.tool-grid li:last-child { grid-column: 1 / -1; }
+.tool-grid strong { display: block; color: #fff; }
+.tool-grid small { color: #A9B5D1; font-size: .86rem; }
+.join-steps--3 { grid-template-columns: repeat(3, 1fr); max-width: 900px; margin-inline: auto; }
+@media (max-width: 1020px) {
+  .deliv-grid { grid-template-columns: repeat(2, 1fr); }
+  .intern-sticky { position: static; }
+}
+@media (max-width: 680px) {
+  .vs { grid-template-columns: 1fr; }
+  .vs-col { padding: 26px 22px; }
+  .intern-weeks { padding: 4px 20px; }
+  .deliv-grid, .tool-grid, .join-steps--3 { grid-template-columns: 1fr; }
+}
+.deliv-grid { padding: 0; margin: 0; }
+.deliv-grid li:last-child { grid-column: span 2; }
+.quote-panel .big { padding-right: 36px; }
+@media (max-width: 680px) { .deliv-grid li:last-child { grid-column: auto; } .quote-panel .big { padding-right: 0; } }

@@ -3,6 +3,7 @@ import pathlib, shutil, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import insights
 import courses
+import internship
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT.parent / "_build"
@@ -39,6 +40,7 @@ LOGO = '''<svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect w
 NAV = [("index.html", "Home"), ("services.html", "Consulting"), ("training.html", "Training"), ("about.html", "About")]
 # Dropdown under "Training"
 TRAINING_SUB = [("courses.html", "Programmes &amp; fees", "Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts"),
+                ("internship.html", "Data analytics internship", "4 weeks, one-to-one, real client work"),
                 ("free-training.html", "Free Fridays", "Free live Power BI &amp; SQL class"),
                 ("training.html", "All training", "Coaching, internships, Kids in Tech")]
 LUMA = "https://luma.com/aifip615"
@@ -83,6 +85,7 @@ FOOTER = f'''<footer class="site-footer">
       <div><h4>Company</h4><ul>
         <li><a href="training.html">Training &amp; careers</a></li>
         <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
         <li><a href="free-training.html">Free Friday training</a></li>
         <li><a href="about.html">About us</a></li>
         <li><a href="insights.html">Insights</a></li>
@@ -263,6 +266,7 @@ HOME = f'''
     <div class="cards reveal" style="--d:.1s">
       <a class="card" href="courses.html"><span class="tag tag--gold">Saturday cohorts</span><h3>Excel &amp; AI, Power BI, SQL</h3><p style="margin:0">Six live Saturdays, a certificate and an optional remote internship.</p><span class="link" style="margin-top:14px">See fees {ARROW}</span></a>
       <a class="card" href="free-training.html"><span class="tag">Free every Friday</span><h3>Power BI &amp; SQL Fridays</h3><p style="margin:0">A free live class every Friday at 6pm UK time.</p><span class="link" style="margin-top:14px">Save your seat {ARROW}</span></a>
+      <a class="card" href="internship.html"><span class="tag tag--gold">4 weeks &middot; 1:1</span><h3>Data analytics internship</h3><p style="margin:0">Real client work, a senior analyst as your manager and a portfolio to show employers.</p><span class="link" style="margin-top:14px">See the internship {ARROW}</span></a>
     </div>
   </div>
 </section>
@@ -384,7 +388,7 @@ TRAINING = f'''
     <div class="section-head reveal"><p class="eyebrow">Programmes</p><h2>Find the right <em>starting point.</em></h2></div>
     <div class="cards cards--3">
       <div class="card reveal"><div class="icon">{I["user"]}</div><span class="tag">1:1</span><h3>1:1 coaching</h3><p>Personal programmes in Excel, SQL and Power BI, from beginner to advanced, shaped around your goals and schedule.</p></div>
-      <div class="card reveal" style="--d:.1s"><div class="icon icon--gold">{I["flag"]}</div><span class="tag tag--gold">6 weeks</span><h3>Simulated data analytics internship</h3><p>Work on realistic client projects with simulated managers and stakeholders, and finish with portfolio pieces you can talk about in interviews.</p></div>
+      <a class="card reveal" style="--d:.1s" href="internship.html"><div class="icon icon--gold">{I["flag"]}</div><span class="tag tag--gold">4 weeks &middot; 1:1</span><h3>Data analytics internship</h3><p>Work as a junior analyst on two client accounts with a senior analyst as your manager, and finish with seven portfolio pieces you can talk about in interviews.</p><span class="link" style="margin-top:14px">See the internship {ARROW}</span></a>
       <div class="card reveal" style="--d:.2s"><div class="icon">{I["mic"]}</div><span class="tag">Group</span><h3>Bootcamps &amp; webinars</h3><p>Structured group learning for career-switchers who want a guided route into a data analyst role.</p></div>
       <div class="card reveal"><div class="icon icon--gold">{I["chat"]}</div><span class="tag tag--gold">Weekly</span><h3>The Analytics Hub</h3><p>A weekly 30-minute group mentorship session to keep learners accountable, unblocked and moving forward.</p></div>
       <div class="card reveal" style="--d:.1s"><div class="icon">{I["kid"]}</div><span class="tag">Saturdays</span><h3>Kids in Tech</h3><p>A Saturday-morning technology class that gives children a confident, creative start with computers and digital skills.</p></div>
@@ -800,6 +804,7 @@ PAGES = [
     ("about.html", "About | Intelligence With Data", "Founded by Senior Data Analyst Hakeem Falade, Intelligence With Data combines consulting and training on the Microsoft data stack.", ABOUT),
     ("contact.html", "Contact | Intelligence With Data", "Book a discovery call or ask about training. Email, phone or WhatsApp Intelligence With Data.", CONTACT),
     ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live Saturday programmes in Excel & AI for Analytics, Advanced Power BI and SQL: six sessions, assignments, a certificate and an optional remote internship. New cohort every six weeks. See prices in your currency.", courses.page(I, ARROW, WA)),
+    ("internship.html", "Data Analytics Internship: 4 Weeks, One-to-One | Intelligence With Data", "Stop doing courses, start getting experience. A 4-week, one-to-one online data analytics internship: SQL, Excel, Power BI and a portfolio of 7 deliverables.", internship.page(I, ARROW, WA)),
     ("payment-success.html", "Payment received | Intelligence With Data", "Thank you for your payment.", f'''
 <section class="page-hero staff-hero">
   <div class="grid-bg" aria-hidden="true"></div>
