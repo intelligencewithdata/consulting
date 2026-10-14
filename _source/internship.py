@@ -2,7 +2,7 @@
 Every apply button sends visitors to the systeme.io checkout, where payment triggers the automated onboarding."""
 
 APPLY_URL = "https://intelligencewithdata.systeme.io/analytics_internship"
-PRICE = "$29.99"          # keep in line with the price on the systeme.io checkout
+PRICE = "$99"          # keep in line with the price on the systeme.io checkout
 
 WEEKS = [
     ("Week 1", "Data discovery &amp; audit",
