@@ -20,7 +20,12 @@ STRIPE_LINKS = {
 FORM_ENDPOINT = "https://formspree.io/f/mgaozrav"
 
 EXCEL_USD = 150                      # base fee
-INTERNSHIP_RATE = 0.40               # optional remote internship = 40% of the chosen course fee
+INTERNSHIP_RATE = 0.40               # optional remote internship = 40% of the chosen course fee...
+INTERNSHIP_CAP = 79                  # ...capped at this (USD), so it stays below the standalone internship ($99)
+
+
+def addon(usd):
+    return min(round(usd * INTERNSHIP_RATE), INTERNSHIP_CAP)
 BUNDLE_DISCOUNT = 1 - 3500 / 4500    # ~22% off when taking all three
 
 # Cohorts: a new cohort every 6 weeks, Saturdays 10:00–13:00 UK time, starting from this date.
@@ -88,7 +93,7 @@ def page(I, ARROW, WA):
         <p class="prog-price-label">Programme fee</p>
         {price(p["price"], "price--xl")}
         <p class="price-note">2 live sessions &middot; 6 hours of teaching</p>
-        <p class="addon-line">+ optional 4-week remote internship: {price(round(p["price"] * INTERNSHIP_RATE))}</p>
+        <p class="addon-line">+ optional 4-week remote internship: {price(addon(p["price"]))}</p>
         <ul class="check-list prog-outs">{outs}</ul>
         <a class="btn btn--gold prog-btn" href="#apply" data-choose="{p["id"]}">Apply for this programme {ARROW}</a>
       </aside>
@@ -172,7 +177,7 @@ def page(I, ARROW, WA):
         <span>Instead of <s>{price(FULL)}</s></span>
         {price(BUNDLE, "price--hero")}
         <em>You save {price(FULL - BUNDLE)}</em>
-        <small class="bundle-addon">Add the 4-week remote internship for {price(round(BUNDLE * INTERNSHIP_RATE))}</small>
+        <small class="bundle-addon">Add the 4-week remote internship for {price(addon(BUNDLE))}</small>
         <a class="btn btn--gold" href="#apply" data-choose="bundle">Apply for all three {ARROW}</a>
       </div>
     </div>
@@ -187,15 +192,15 @@ def page(I, ARROW, WA):
       <p class="lead">Learning sticks when you use it. After your training, join our 4-week remote internship to work on realistic projects with deadlines and stakeholders, consolidating everything you've learned and giving you experience to talk about in interviews.</p>
       <ul class="check-list" style="margin-top:26px">
         <li>4 weeks, fully remote<small>Work alongside our team on real-world style analytics projects</small></li>
-        <li>40% of your course fee<small>Choose it when you apply; it's completely optional</small></li>
+        <li>40% of your course fee, never more than $79<small>Choose it when you apply; it's completely optional</small></li>
         <li>A path to consulting work<small>Top performers get the chance to support our live consulting projects behind the scenes</small></li>
       </ul>
     </div>
     <div class="intern-card reveal" style="--d:.1s">
-      <p class="session-label">Internship add-on (40%)</p>
+      <p class="session-label">Internship add-on</p>
       <ul class="price-list">
-        {"".join(f'<li><span>With {p["short"]}</span>{price(round(p["price"] * INTERNSHIP_RATE))}</li>' for p in PROGRAMMES)}
-        <li><span>With all three programmes</span>{price(round(BUNDLE * INTERNSHIP_RATE))}</li>
+        {"".join(f'<li><span>With {p["short"]}</span>{price(addon(p["price"]))}</li>' for p in PROGRAMMES)}
+        <li><span>With all three programmes</span>{price(addon(BUNDLE))}</li>
       </ul>
       <a class="btn btn--navy session-btn" href="#apply" data-internship="yes">Apply with the internship {ARROW}</a>
     </div>
@@ -237,7 +242,7 @@ def page(I, ARROW, WA):
       <details><summary>When are the classes?</summary><p>Every Saturday from 10:00 to 13:00 UK time, live on Google Meet. A new cohort starts every six weeks, as soon as the previous one finishes; the next dates are shown in the application form. The page shows the start time in your own time zone.</p></details>
       <details><summary>How long is each programme?</summary><p>Each programme is two Saturday sessions of three hours. All three programmes run across six consecutive Saturdays: sessions 1&ndash;2 Excel &amp; AI, 3&ndash;4 Power BI, 5&ndash;6 SQL.</p></details>
       <details><summary>Will I get a certificate?</summary><p>Yes. You complete assignments and a test for each programme, and receive an Intelligence With Data certificate on completion.</p></details>
-      <details><summary>How does the remote internship work?</summary><p>It's an optional 4-week remote programme after your training, priced at 40% of your course fee. You choose it when you apply. You'll work on real-world style analytics projects to consolidate what you've learned, and the best-performing students get the chance to support our consulting work behind the scenes.</p></details>
+      <details><summary>How does the remote internship work?</summary><p>It's an optional 4-week remote programme after your training, priced at 40% of your course fee and never more than $79. You choose it when you apply. You'll work on real-world style analytics projects to consolidate what you've learned, and the best-performing students get the chance to support our consulting work behind the scenes.</p></details>
       <details><summary>Which currency do I pay in?</summary><p>Fees are set in US dollars. The currency switcher shows an estimate in your local currency from recent exchange rates; the exact amount may vary slightly with your bank or payment provider.</p></details>
       <details><summary>What do I need for the Power BI sessions?</summary><p>A Windows laptop is best, because Power BI Desktop runs on Windows. For the Power BI Service, we set you up with a corporate (work) email account so you can publish, share and collaborate in a real workspace.</p></details>
       <details><summary>When do I receive my onboarding materials?</summary><p>As soon as your payment is confirmed, we email your onboarding pack, schedule and Google Meet details.</p></details>
@@ -255,7 +260,7 @@ def page(I, ARROW, WA):
         <p>Your plan</p>
         <strong data-plan-name>All three programmes</strong>
         <div class="plan-lines"><span>Training</span><span data-plan-course></span></div>
-        <div class="plan-lines" data-plan-intern-row hidden><span>Remote internship (40%)</span><span data-plan-intern></span></div>
+        <div class="plan-lines" data-plan-intern-row hidden><span>Remote internship</span><span data-plan-intern></span></div>
         <div class="plan-lines plan-sum"><span>Total</span><span data-plan-sum></span></div>
       </div>
       <p style="margin-top:18px;color:var(--muted);font-size:.92rem">Questions first? <a href="{WA}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700">Chat with us on WhatsApp</a></p>
@@ -275,7 +280,7 @@ def page(I, ARROW, WA):
           </select></div>
         <div class="field field--full"><label for="a-intern">Add the 4-week remote internship?</label>
           <select id="a-intern" name="remote_internship" data-internship-select>
-            <option value="no">No, training only</option><option value="yes">Yes, add it (+40%)</option>
+            <option value="no">No, training only</option><option value="yes">Yes, add the internship</option>
           </select></div>
         <div class="field field--full"><label for="a-cohort">Preferred cohort</label>
           <select id="a-cohort" name="cohort" data-cohort-select required></select></div>
@@ -322,5 +327,5 @@ def page(I, ARROW, WA):
     </form>
   </div>
 </section>
-<script>window.IWD_PAY = {json.dumps(pay_cfg)}; window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE}; window.IWD_COHORT = {{ first: "{COHORT_FIRST}", everyWeeks: {COHORT_EVERY_WEEKS} }};</script>
+<script>window.IWD_PAY = {json.dumps(pay_cfg)}; window.IWD_INTERNSHIP_RATE = {INTERNSHIP_RATE}; window.IWD_INTERNSHIP_CAP = {INTERNSHIP_CAP}; window.IWD_COHORT = {{ first: "{COHORT_FIRST}", everyWeeks: {COHORT_EVERY_WEEKS} }};</script>
 '''

@@ -297,7 +297,8 @@
       if (!progSel) return;
       const opt = progSel.selectedOptions[0];
       const course = +opt.dataset.usd;
-      const intern = internSel && internSel.value === "yes" ? Math.round(course * RATE) : 0;
+      const CAP = window.IWD_INTERNSHIP_CAP || Infinity;
+      const intern = internSel && internSel.value === "yes" ? Math.min(Math.round(course * RATE), CAP) : 0;
       const total = course + intern;
       const q = (sel) => document.querySelector(sel);
       q("[data-plan-name]").textContent = opt.text.replace(/\s*\(\$.*\)$/, "") + (intern ? " + remote internship" : "");
