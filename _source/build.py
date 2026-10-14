@@ -494,7 +494,7 @@ CONTACT = f'''
          and paste its URL into data-endpoint, e.g. data-endpoint="https://formspree.io/f/xxxxxxx" -->
     <form class="form-card" data-contact-form data-endpoint="https://formspree.io/f/mgaozrav" data-email="{EMAIL}" novalidate>
       <input type="hidden" name="_subject" value="New website enquiry — Intelligence With Data">
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="form-grid">
         <div class="field"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
@@ -767,7 +767,7 @@ CAREERS = f'''
     <form class="form-card form-card--inline reveal" data-contact-form data-endpoint="https://formspree.io/f/mgaozrav" data-email="training@intelligencewithdata.com" novalidate style="--d:.1s">
       <input type="hidden" name="_subject" value="Careers: talent network registration">
       <input type="hidden" name="interest" value="Careers / talent network">
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="form-grid">
         <div class="field"><label for="c-name">Full name</label><input id="c-name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>

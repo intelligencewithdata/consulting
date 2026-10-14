@@ -39,6 +39,7 @@ body {
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }

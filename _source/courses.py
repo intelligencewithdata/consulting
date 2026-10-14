@@ -266,7 +266,7 @@ def page(I, ARROW, WA):
       <input type="hidden" name="display_currency" data-currency-field value="USD">
       <input type="hidden" name="total_usd" data-total-field value="">
       <input type="hidden" name="total_display" data-total-display-field value="">
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <p class="form-sec">Your plan</p>
       <div class="form-grid">
         <div class="field field--full"><label for="a-prog">Programme</label>

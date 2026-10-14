@@ -19,6 +19,22 @@
     );
   }
 
+  /* Keep the page still while a dropdown is used (some mobile browsers jump to the top) */
+  document.querySelectorAll("form select").forEach((sel) => {
+    let keep = null;
+    const save = () => { keep = window.scrollY; };
+    const restore = () => {
+      if (keep === null) return;
+      const y = keep;
+      requestAnimationFrame(() => { if (Math.abs(window.scrollY - y) > 150) window.scrollTo({ top: y, behavior: "instant" }); });
+      setTimeout(() => { if (Math.abs(window.scrollY - y) > 150) window.scrollTo({ top: y, behavior: "instant" }); keep = null; }, 350);
+    };
+    sel.addEventListener("pointerdown", save);
+    sel.addEventListener("focus", () => { if (keep === null) save(); });
+    sel.addEventListener("change", restore);
+    sel.addEventListener("blur", restore);
+  });
+
   /* Header shade on scroll */
   const header = document.querySelector("[data-header]");
   const onScroll = () => header && header.classList.toggle("is-scrolled", window.scrollY > 10);
