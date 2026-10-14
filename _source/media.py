@@ -47,5 +47,32 @@ def class_gallery(eyebrow="Inside a live class", title="See how we <em>actually 
   <div class="container">
     <div class="section-head center reveal"><p class="eyebrow">{eyebrow}</p><h2>{title}</h2><p class="lead">{lead}</p></div>
     <div class="class-gallery">{shots}</div>
+    {class_clips()}
   </div>
 </section>'''
+
+
+CLASS_CLIPS = [
+    ("clip-star-schema", 1280, 720, "0:21", "The star schema, explained",
+     "Walking through a fact table and its dimension tables, and why this is the recommended model in Power BI."),
+    ("clip-dax-syntax", 1280, 720, "0:35", "How to write a DAX formula",
+     "Breaking down a measure piece by piece: its name, the function and the Table[Column] reference."),
+    ("clip-revenue-live", 1280, 696, "0:42", "Working out revenue on screen",
+     "Checking the maths by hand on real rows (units sold &times; unit price) before writing it in DAX."),
+    ("clip-gross-profit", 1280, 696, "0:32", "Building a Gross Profit measure",
+     "Writing Gross Profit = [Revenue] &minus; [COGS] live, reusing measures built earlier in the class."),
+]
+
+
+def clip(name, w, h, dur, title, desc):
+    return f'''<figure class="class-clip reveal">
+  <video controls preload="none" playsinline poster="assets/video/{name}.jpg" width="{w}" height="{h}" aria-label="{title} (video clip, {dur})">
+    <source src="assets/video/{name}.mp4" type="video/mp4">
+  </video>
+  <figcaption><strong>{title} <span>{dur}</span></strong><small>{desc}</small></figcaption>
+</figure>'''
+
+
+def class_clips():
+    return f'''<div class="clips-head reveal"><h3>Watch short clips from the class</h3><p>Each clip is under a minute, with sound. Nothing plays until you press play.</p></div>
+    <div class="clip-grid">{"".join(clip(*c) for c in CLASS_CLIPS)}</div>'''

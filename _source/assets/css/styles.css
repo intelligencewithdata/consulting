@@ -1032,3 +1032,16 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 @media (max-width: 640px) { .class-gallery { grid-template-columns: 1fr; } }
 .class-shot figcaption { font-size: .9rem; line-height: 1.4; }
 .class-gallery { align-items: stretch; } .class-shot { display: flex; flex-direction: column; } .class-shot figcaption { flex: 1; }
+
+/* Class video clips: click to play, no autoplay or looping */
+.clips-head { margin: 56px 0 22px; text-align: center; }
+.clips-head h3 { font-size: 1.4rem; margin: 0 0 6px; }
+.clips-head p { color: var(--muted); margin: 0; font-size: .95rem; }
+.clip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.class-clip { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+.class-clip video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: var(--navy-950); }
+.class-clip figcaption { padding: 16px 20px 18px; }
+.class-clip strong { display: flex; justify-content: space-between; gap: 12px; color: var(--ink); }
+.class-clip strong span { flex: none; font-size: .75rem; font-weight: 800; color: var(--navy); background: #EEF3FF; padding: 3px 8px; border-radius: 999px; }
+.class-clip small { display: block; color: var(--muted); font-size: .9rem; line-height: 1.5; margin-top: 4px; }
+@media (max-width: 760px) { .clip-grid { grid-template-columns: 1fr; } }
