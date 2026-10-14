@@ -2,7 +2,7 @@
 Every apply button sends visitors to the systeme.io checkout, where payment triggers the automated onboarding."""
 
 APPLY_URL = "https://intelligencewithdata.systeme.io/analytics_internship"
-PRICE = "$99"          # keep in line with the price on the systeme.io checkout
+PRICE_USD = 99           # keep in line with the price on the systeme.io checkout (shown in the visitor's currency)
 
 WEEKS = [
     ("Week 1", "Data discovery &amp; audit",
@@ -73,16 +73,20 @@ def page(I, ARROW, WA):
     </div>
     <div class="price-card">
       <div class="cohort-strip"><span>Limited places</span><strong>One-to-one, so we take only a few interns each cohort</strong></div>
-      <p class="session-label">Your internship includes</p>
+      <div class="cur-row">
+        <p class="session-label">Your internship includes</p>
+        <label class="cur-select"><span class="sr-only">Show price in</span><select data-currency-select aria-label="Show price in"></select></label>
+      </div>
       <ul class="check-list intern-includes">
         <li>4 weeks working on two client accounts</li>
         <li>Weekly reviews from a senior analyst</li>
         <li>7 portfolio deliverables you keep</li>
         <li>CV rewrite &amp; interview preparation</li>
       </ul>
-      <div class="bundle-box"><div><span class="bundle-tag">Secure your place</span><strong>Data Analytics Internship</strong><small>4 weeks &middot; one-to-one &middot; online</small></div><span class="price price--lg">{PRICE}</span></div>
+      <div class="bundle-box"><div><span class="bundle-tag">Secure your place</span><strong>Data Analytics Internship</strong><small>4 weeks &middot; one-to-one &middot; online</small></div><span class="price price--lg" data-price-usd="{PRICE_USD}">${PRICE_USD}</span></div>
       <a class="btn btn--gold session-btn" {go}>Apply &amp; secure your place {ARROW}</a>
-      <p class="fx-note">Secure checkout. Your onboarding details arrive by email automatically after payment.</p>
+      <p class="fx-note" data-fx-note>The price is set in US dollars. Choose your currency to see an estimate.</p>
+      <p class="fx-note">Secure checkout in US dollars; your bank converts it. Your onboarding details arrive by email automatically after payment.</p>
     </div>
   </div>
 </section>
