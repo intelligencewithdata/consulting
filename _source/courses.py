@@ -15,7 +15,7 @@ STRIPE_LINKS = {
     "sql|no": "https://buy.stripe.com/5kQ28rcV1eUa6IEb5zeIw04",
     "sql|yes": "https://buy.stripe.com/14A8wPaMTaDU0kgc9DeIw05",
     "bundle|no": "https://buy.stripe.com/00w3cv8ELdQ64Awa1veIw06",
-    "bundle|yes": "https://buy.stripe.com/5kQ00j4ov9zQ8QMehLeIw07",
+    "bundle|yes": "https://buy.stripe.com/5kQ4gzf39cM20kgddHeIw08",
 }
 FORM_ENDPOINT = "https://formspree.io/f/mgaozrav"
 
