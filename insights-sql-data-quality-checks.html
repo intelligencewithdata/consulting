@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Six SQL checks to run before you trust a report | Intelligence With Data</title>
+<meta name="description" content="Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-sql-data-quality-checks.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Six SQL checks to run before you trust a report | Intelligence With Data">
+<meta property="og:description" content="Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-sql-data-quality-checks.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-sql-data-quality-checks.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=c4c67ecd">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; SQL</p>
+    <span class="post-cat post-cat--light">SQL</span>
+    <h1>Six SQL checks to run before you trust a report</h1>
+    <p class="lead">Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">EA</span><span><strong>Efua Angela</strong><small>Senior Supply Chain Analyst &middot; 16 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#1-reconcile-the-totals-with-the-source-system">1. Reconcile the totals with the source system</a></li><li><a href="#2-find-duplicate-records">2. Find duplicate records</a></li><li><a href="#3-count-missing-values">3. Count missing values</a></li><li><a href="#4-find-orphaned-records">4. Find orphaned records</a></li><li><a href="#5-look-at-every-distinct-value-in-category-columns">5. Look at every distinct value in category columns</a></li><li><a href="#6-flag-impossible-values">6. Flag impossible values</a></li><li><a href="#turn-the-checks-into-a-single-health-report">Turn the checks into a single health report</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-data-quality-checks.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Six%20SQL%20checks%20to%20run%20before%20you%20trust%20a%20report%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-data-quality-checks.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Six%20SQL%20checks%20to%20run%20before%20you%20trust%20a%20report&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-data-quality-checks.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-sql-data-quality-checks.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>A dashboard is only as trustworthy as the data underneath it. When a sales figure looks odd, the cause is rarely the chart. It's usually something in the data: an order loaded twice, a customer record that doesn't exist, or a refund keyed in as a sale.</p>
+<p>The frustrating part is that these problems are <strong>easy to find</strong> once you look for them. A handful of short SQL queries, run against your source tables before a report is refreshed, will catch most of the issues that cause awkward questions in a board meeting.</p>
+<p>This article walks through six checks we recommend to any organisation that reports from a database. You don't need to be a SQL expert to follow them, and your analyst or IT partner can set them up in an afternoon.</p>
+<p>All the examples use two simple tables:</p>
+<pre><code class="language-sql">customers (customer_id, name, city)
+orders    (order_id, customer_id, order_date, amount, status)
+</code></pre>
+<h2 id="1-reconcile-the-totals-with-the-source-system">1. Reconcile the totals with the source system</h2>
+<p>Before looking for individual problems, check that the big picture matches. Count the rows, add up the key value and look at the date range.</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">COUNT</span>(*)        <span class="tok-kw">AS</span> row_count,
+       <span class="tok-kw">SUM</span>(amount)     <span class="tok-kw">AS</span> total_amount,
+       MIN(order_date) <span class="tok-kw">AS</span> first_order,
+       MAX(order_date) <span class="tok-kw">AS</span> last_order
+<span class="tok-kw">FROM</span> orders;
+</code></pre>
+<p>Compare these figures with the system the data came from, such as your finance or order management software. If the source says 4,812 orders last month and your reporting table says 4,830, you know something has gone wrong <strong>before</strong> anyone builds a chart on top of it.</p>
+<p>The date range is just as useful. A <code>last_order</code> date from three days ago tells you the latest load didn't run, and a date in the future tells you something was keyed incorrectly.</p>
+<h2 id="2-find-duplicate-records">2. Find duplicate records</h2>
+<p>Duplicates are the most common reason totals come out too high. They creep in when a file is imported twice or a data load is re-run after a failure.</p>
+<p>Start with the column that should be unique, usually an ID:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> order_id, <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> copies
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">GROUP BY</span> order_id
+<span class="tok-kw">HAVING</span> <span class="tok-kw">COUNT</span>(*) &gt; 1;
+</code></pre>
+<p>Any row returned is an ID that appears more than once. Sometimes the IDs are different but the records are clearly the same transaction, so it's worth checking the combination of columns that describes a real-world event too:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> customer_id, order_date, amount, <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> copies
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">GROUP BY</span> customer_id, order_date, amount
+<span class="tok-kw">HAVING</span> <span class="tok-kw">COUNT</span>(*) &gt; 1;
+</code></pre>
+<p>The second query will occasionally flag genuine repeat purchases, so treat its results as <strong>questions to investigate</strong> rather than errors to delete.</p>
+<h2 id="3-count-missing-values">3. Count missing values</h2>
+<p>Blank fields make reports quietly wrong. An order with no customer disappears from a "sales by region" chart, and an order with no amount is ignored by a total.</p>
+<p><code>COUNT(*)</code> counts every row, while <code>COUNT(column)</code> only counts rows where that column has a value. The difference between the two is the number of missing values:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">COUNT</span>(*)                      <span class="tok-kw">AS</span> total_rows,
+       <span class="tok-kw">COUNT</span>(*) - <span class="tok-kw">COUNT</span>(customer_id) <span class="tok-kw">AS</span> missing_customer,
+       <span class="tok-kw">COUNT</span>(*) - <span class="tok-kw">COUNT</span>(amount)      <span class="tok-kw">AS</span> missing_amount,
+       <span class="tok-kw">SUM</span>(<span class="tok-kw">CASE</span> <span class="tok-kw">WHEN</span> status <span class="tok-kw">IS NULL</span> <span class="tok-kw">OR</span> status = <span class="tok-str">''</span>
+                <span class="tok-kw">THEN</span> 1 <span class="tok-kw">ELSE</span> 0 <span class="tok-kw">END</span>)   <span class="tok-kw">AS</span> missing_status
+<span class="tok-kw">FROM</span> orders;
+</code></pre>
+<p>Notice the extra test on <code>status</code>. Many systems store an <strong>empty string</strong> rather than a true <code>NULL</code> when a text field is left blank, and <code>COUNT</code> treats an empty string as a value. Checking for both catches the two kinds of blank.</p>
+<h2 id="4-find-orphaned-records">4. Find orphaned records</h2>
+<p>An orphaned record points to something that doesn't exist, such as an order whose <code>customer_id</code> has no matching row in the customers table. When your report joins the two tables, those orders can vanish from the results without any warning.</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> o.order_id, o.customer_id
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">LEFT JOIN</span> customers <span class="tok-kw">AS</span> c
+       <span class="tok-kw">ON</span> c.customer_id = o.customer_id
+<span class="tok-kw">WHERE</span> o.customer_id <span class="tok-kw">IS</span> NOT <span class="tok-kw">NULL</span>
+  <span class="tok-kw">AND</span> c.customer_id <span class="tok-kw">IS NULL</span>;
+</code></pre>
+<p>The <code>LEFT JOIN</code> keeps every order, and the <code>WHERE</code> clause keeps only the ones where no customer was found. We exclude orders with a blank <code>customer_id</code> here because check 3 already counts those; this query finds the IDs that are filled in but <strong>wrong</strong>.</p>
+<p>Orphans usually mean one system was updated before another, or a customer was deleted without their history being dealt with. Either way, someone needs to decide how those orders should be reported.</p>
+<h2 id="5-look-at-every-distinct-value-in-category-columns">5. Look at every distinct value in category columns</h2>
+<p>Status, region, product type and similar columns should only contain a short, known list of values. A quick summary shows you exactly what's in there:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> status, <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> order_count
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">GROUP BY</span> status
+<span class="tok-kw">ORDER BY</span> order_count <span class="tok-kw">DESC</span>;
+</code></pre>
+<p>This is where you spot the variations that split one category into several: "Completed" alongside "Complete", or a stray "N/A". In a report, each variation appears as its own slice of a chart, and the main category is understated.</p>
+<p>It takes seconds to run, and it's one of the most revealing queries you can show a business owner.</p>
+<h2 id="6-flag-impossible-values">6. Flag impossible values</h2>
+<p>Some values simply shouldn't happen: an order dated next year, a negative quantity or a status nobody recognises. List them directly:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> order_id, order_date, amount, status
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> amount &lt; 0
+   <span class="tok-kw">OR</span> order_date &gt; CURRENT_DATE
+   <span class="tok-kw">OR</span> status NOT <span class="tok-kw">IN</span> (<span class="tok-str">'Completed'</span>, <span class="tok-str">'Pending'</span>, <span class="tok-str">'Refunded'</span>);
+</code></pre>
+<p>Two points are worth knowing here.</p>
+<p>First, <strong>agree the rules with the business</strong>. A negative amount might be a genuine refund in one system and a keying error in another. The query is only as good as the definition of "impossible" behind it.</p>
+<p>Second, <code>NOT IN</code> doesn't match rows where <code>status</code> is <code>NULL</code>, because comparing anything with <code>NULL</code> returns unknown rather than true. That's another reason to run the missing-values check in step 3 alongside this one.</p>
+<p>If you're using SQL Server, note that <code>CURRENT_DATE</code> is supported in SQL Server 2025, Azure SQL Database and Azure SQL Managed Instance. On earlier versions, use <code>CAST(GETDATE() AS date)</code> instead.</p>
+<h2 id="turn-the-checks-into-a-single-health-report">Turn the checks into a single health report</h2>
+<p>Running six queries by hand every week is still a manual process. A better approach is to combine the key checks into one summary that lists each test and how many problems it found:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-str">'Duplicate order IDs'</span> <span class="tok-kw">AS</span> check_name, <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> issues
+<span class="tok-kw">FROM</span> (<span class="tok-kw">SELECT</span> order_id
+      <span class="tok-kw">FROM</span> orders
+      <span class="tok-kw">GROUP BY</span> order_id
+      <span class="tok-kw">HAVING</span> <span class="tok-kw">COUNT</span>(*) &gt; 1) <span class="tok-kw">AS</span> dupes
+UNION ALL
+<span class="tok-kw">SELECT</span> <span class="tok-str">'Orders with no customer'</span>, <span class="tok-kw">COUNT</span>(*)
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> customer_id <span class="tok-kw">IS NULL</span>
+UNION ALL
+<span class="tok-kw">SELECT</span> <span class="tok-str">'Orphaned orders'</span>, <span class="tok-kw">COUNT</span>(*)
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">LEFT JOIN</span> customers <span class="tok-kw">AS</span> c
+       <span class="tok-kw">ON</span> c.customer_id = o.customer_id
+<span class="tok-kw">WHERE</span> o.customer_id <span class="tok-kw">IS</span> NOT <span class="tok-kw">NULL</span>
+  <span class="tok-kw">AND</span> c.customer_id <span class="tok-kw">IS NULL</span>
+UNION ALL
+<span class="tok-kw">SELECT</span> <span class="tok-str">'Negative amounts'</span>, <span class="tok-kw">COUNT</span>(*)
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> amount &lt; 0;
+</code></pre>
+<p><code>UNION ALL</code> stacks the results of each check into one table. Saved as a view, it can sit behind a small "data health" page in your reporting tool, so everyone can see at a glance whether this week's numbers are safe to use. A row of zeros is the result you want.</p>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Most reporting errors aren't caused by complex calculations. They're caused by <strong>ordinary data problems</strong> that nobody checked for: duplicates, blanks, broken links between tables and values that make no sense.</p>
+<p>The six checks in this article are short, readable and work on almost any SQL database with minor changes. Run them before every refresh, agree with the business what counts as a problem, and fix issues at the source rather than patching them in the report. Your numbers will be more reliable, and your meetings will spend less time arguing about whose figures are right.</p>
+      <div class="author-box"><span class="avatar">EA</span><div><strong>Efua Angela</strong><p>Senior Supply Chain Analyst at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-fabric-lakehouse-vs-warehouse.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Lakehouse vs Warehouse in Microsoft Fabric: which should you use?</h3><p>A plain-English guide to the two main places to store data in Fabric, what each can and can&#x27;t do, and a simple way to decide between them.</p>
+  <span class="post-meta">Jayne Carter &middot; 14 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-date-table.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>How to build a date table in Power BI (and why you need one)</h3><p>A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.</p>
+  <span class="post-meta">Thomas Forrester &middot; 12 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-automate-business-reporting.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>5 signs your business reporting should be automated</h3><p>If your team spends hours every week rebuilding the same spreadsheets, you are paying a hidden tax. Here&#x27;s how to spot it, and what to do about it.</p>
+  <span class="post-meta">Efua Angela &middot; 12 October 2026 &middot; 4 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Six SQL checks to run before you trust a report", "description": "Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.", "datePublished": "2026-10-16", "author": {"@type": "Person", "name": "Efua Angela", "jobTitle": "Senior Supply Chain Analyst"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-sql-data-quality-checks.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-sql-data-quality-checks.html"}</script>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=c4c67ecd" defer></script>
+</body>
+</html>
