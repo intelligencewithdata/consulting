@@ -472,6 +472,59 @@
     } catch (e) {}
   });
 
+  /* ---------- Newsletter: forms + gentle slide-in ---------- */
+  const store = {
+    get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} },
+  };
+  const slide = document.querySelector("[data-nl-slide]");
+  const hideSlide = () => { if (!slide) return; slide.classList.remove("is-shown"); setTimeout(() => (slide.hidden = true), 350); };
+  document.querySelectorAll("[data-newsletter-form]").forEach((form) => {
+    const status = form.querySelector("[data-nl-status]");
+    const say = (m, err) => { status.textContent = m; status.classList.toggle("is-error", !!err); };
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const btn = form.querySelector("button[type=submit]");
+      btn.disabled = true; say("Subscribing…");
+      try {
+        const res = await fetch(form.dataset.endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error();
+        store.set("iwd-nl", "subscribed");
+        const done = form.parentElement.querySelector("[data-nl-done]");
+        form.hidden = true;
+        if (done) { done.hidden = false; done.setAttribute("tabindex", "-1"); done.focus({ preventScroll: true }); }
+        if (slide && !slide.contains(form)) hideSlide();
+      } catch (err) {
+        say("Sorry, that didn't go through. Please try again, or email training@intelligencewithdata.com.", true);
+      } finally { btn.disabled = false; }
+    });
+  });
+  if (slide) {
+    const DAY = 864e5, state = store.get("iwd-nl");
+    const snoozed = state && state !== "subscribed" && Date.now() - +state < 30 * DAY;
+    const params = new URLSearchParams(location.search);
+    if (params.get("nl") === "show" || (state !== "subscribed" && !snoozed)) {
+      const band = document.querySelector(".nl-band");
+      let shown = false, bandSeen = false;
+      if (band && "IntersectionObserver" in window) new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { bandSeen = true; if (shown) hideSlide(); } })).observe(band);
+      const show = () => {
+        if (shown || bandSeen) return;
+        shown = true; slide.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => slide.classList.add("is-shown")));
+      };
+      const onScroll = () => {
+        const doc = document.documentElement;
+        if ((window.scrollY + window.innerHeight) / doc.scrollHeight > 0.55) { show(); window.removeEventListener("scroll", onScroll); }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      if (params.get("nl") === "show") setTimeout(show, 300);
+      const close = () => { store.set("iwd-nl", String(Date.now())); hideSlide(); };
+      slide.querySelector("[data-nl-close]").addEventListener("click", close);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && shown && !slide.hidden) close(); });
+    }
+  }
+
   /* Footer year */
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 })();

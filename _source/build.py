@@ -4,6 +4,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import insights
 import courses
 import internship
+import newsletter
 from media import stock, class_gallery
 
 ROOT = pathlib.Path(__file__).parent
@@ -90,6 +91,7 @@ FOOTER = f'''<footer class="site-footer">
         <li><a href="free-training.html">Free Friday training</a></li>
         <li><a href="about.html">About us</a></li>
         <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
         <li><a href="careers.html">Careers</a></li>
         <li><a href="contact.html">Contact</a></li></ul></div>
       <div><h4>Get in touch</h4><ul>
@@ -112,6 +114,8 @@ def cta(title="Ready to get your hours back?", text="Tell us which reports eat y
 
 import hashlib
 VER = hashlib.md5((ROOT / "assets/css/styles.css").read_bytes() + (ROOT / "assets/js/main.js").read_bytes()).hexdigest()[:8]
+
+NL_BAND = {"index.html", "insights.html", "about.html"}
 
 def page(file, title, desc, body):
     return f'''<!doctype html>
@@ -141,8 +145,8 @@ def page(file, title, desc, body):
 <body{' class="free-page"' if file == "free-training.html" else ""}>
 {header(file)}
 <main id="main">
-{body}
-</main>
+{body}{newsletter.band("Band: " + file) if file in NL_BAND or file.startswith("insights-") else ""}
+</main>{newsletter.slidein(file)}
 {FOOTER}
 <script src="assets/js/main.js?v={VER}" defer></script>
 </body>
@@ -826,6 +830,7 @@ PAGES = [
     ("contact.html", "Contact | Intelligence With Data", "Book a discovery call or ask about training. Email, phone or WhatsApp Intelligence With Data.", CONTACT),
     ("courses.html", "Data Analytics Training: Excel & AI, Power BI and SQL | Intelligence With Data", "Live Saturday programmes in Excel & AI for Analytics, Advanced Power BI and SQL: six sessions, assignments, a certificate and an optional remote internship. New cohort every six weeks. See prices in your currency.", courses.page(I, ARROW, WA)),
     ("internship.html", "Data Analytics Internship: 4 Weeks, One-to-One | Intelligence With Data", "Stop doing courses, start getting experience. A 4-week, one-to-one online data analytics internship: SQL, Excel, Power BI and a portfolio of 7 deliverables.", internship.page(I, ARROW, WA)),
+    ("newsletter.html", "The Data Brief: Free Weekly Newsletter | Intelligence With Data", "Practical Power BI, Microsoft Fabric and SQL tips in one short weekly email, plus free class and cohort dates first. Free, unsubscribe any time.", newsletter.page(ARROW)),
     ("payment-success.html", "Payment received | Intelligence With Data", "Thank you for your payment.", f'''
 <section class="page-hero staff-hero">
   <div class="grid-bg" aria-hidden="true"></div>

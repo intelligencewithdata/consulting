@@ -1048,3 +1048,59 @@ s .price { font-family: var(--font-body); font-weight: 600; color: inherit; font
 .article-layout > *, .prose { min-width: 0; }
 .prose pre { max-width: 100%; }
 .prose table { display: block; max-width: 100%; overflow-x: auto; }
+
+/* ---------- Newsletter ---------- */
+.nl-form { display: grid; gap: 14px; }
+.nl-fields { display: grid; gap: 14px; }
+.nl-consent { display: flex; gap: 10px; align-items: flex-start; font-size: .86rem; line-height: 1.5; color: var(--muted); cursor: pointer; }
+.nl-consent input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--navy); }
+.nl-btn { width: 100%; }
+.nl-status { margin: 0; font-size: .86rem; font-weight: 600; color: var(--muted); min-height: 0; }
+.nl-status:empty { display: none; }
+.nl-status.is-error { color: #B42318; }
+.nl-done { display: grid; gap: 10px; }
+.nl-done p { margin: 0; color: var(--muted); }
+.nl-card-title { font-size: 1.6rem; margin: 2px 0 18px; }
+.nl-card .nl-done .btn { justify-self: start; }
+.nl-perks { list-style: none; display: grid; gap: 16px; counter-reset: nl; padding: 0; margin: 0; }
+.nl-perks li { counter-increment: nl; position: relative; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px 20px 72px; }
+.nl-perks li::before { content: counter(nl); position: absolute; left: 22px; top: 20px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); color: var(--navy-950); background: linear-gradient(135deg, var(--gold-300), var(--gold)); }
+.nl-perks strong { display: block; color: var(--ink); }
+.nl-perks small { display: block; color: var(--muted); font-size: .93rem; line-height: 1.55; margin-top: 2px; }
+
+/* Inline band (light, so it never competes with the navy call-to-action above it) */
+.nl-band-wrap { padding: 0 0 96px; }
+.nl-band { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: 44px 48px; border-radius: 28px; background: linear-gradient(135deg, #FBF6E6, #F3F6FC); border: 1px solid #EEDDA8; }
+.nl-band h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 4px 0 10px; }
+.nl-band-copy p:last-child { margin: 0; color: var(--muted); }
+.nl-band .eyebrow--gold { color: #8A6B12; }
+.nl-band .nl-done strong { color: var(--ink); font-size: 1.05rem; }
+.nl-band .nl-done span { color: var(--muted); }
+.nl-fields--compact { grid-template-columns: 1fr; }
+
+/* Slide-in: appears once, after real engagement; never blocks the page */
+.nl-slide { position: fixed; right: 24px; bottom: 24px; z-index: 60; width: min(380px, calc(100vw - 32px)); background: #fff; border-radius: 22px; padding: 26px 24px 20px; box-shadow: 0 30px 70px -20px rgba(5, 13, 32, .45); border: 1px solid var(--line); transform: translateY(16px); opacity: 0; transition: opacity .35s var(--ease), transform .35s var(--ease); }
+.nl-slide::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; border-radius: 22px 22px 0 0; background: linear-gradient(90deg, var(--blue), var(--gold)); }
+.nl-slide.is-shown { transform: none; opacity: 1; }
+.nl-slide h2 { font-size: 1.3rem; margin: 2px 0 6px; padding-right: 28px; }
+.nl-slide-text { font-size: .92rem; color: var(--muted); margin: 0 0 14px; }
+.nl-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--paper-2); color: var(--ink); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.nl-close:hover, .nl-close:focus-visible { background: #E6EBF5; }
+.nl-more { display: inline-block; margin-top: 10px; font-size: .84rem; font-weight: 700; color: var(--blue); }
+.nl-slide .nl-done strong { color: var(--ink); }
+.nl-slide .nl-done span { color: var(--muted); font-size: .92rem; }
+@media (max-width: 900px) { .nl-band { grid-template-columns: 1fr; padding: 32px 24px; gap: 24px; } }
+@media (max-width: 600px) {
+  .nl-slide { right: 12px; left: 12px; bottom: 12px; width: auto; padding: 22px 18px 16px; }
+  .nl-band-wrap { padding-bottom: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { .nl-slide { transition: none; transform: none; } }
+.nl-done[hidden], .nl-form[hidden] { display: none; }
+.nl-band h2 em { color: var(--blue); }
+@media (max-width: 600px) {
+  .nl-slide .nl-slide-text, .nl-slide .nl-more { display: none; }
+  .nl-slide h2 { font-size: 1.12rem; margin-bottom: 12px; }
+  .nl-slide .session-label { display: none; }
+  .nl-slide .nl-form { gap: 10px; }
+  .nl-slide .field label { font-size: .8rem; }
+}
