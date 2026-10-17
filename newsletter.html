@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=b1781259">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -46,7 +46,7 @@
     <div class="price-card nl-card" id="subscribe">
       <p class="session-label">Subscribe free</p>
       <h2 class="nl-card-title">Join The Data Brief</h2>
-      <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" novalidate>
+      <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
       <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
       <input type="hidden" name="interest" value="Newsletter subscription">
       <input type="hidden" name="signup_source" value="Newsletter page">
@@ -55,7 +55,7 @@
         <div class="field"><label for="nlp-name">First name</label><input id="nlp-name" name="first_name" autocomplete="given-name"></div>
         <div class="field"><label for="nlp-email">Email address</label><input id="nlp-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
         <div class="field"><label for="nlp-role">I'm mainly here as</label>
-          <select id="nlp-role" name="reader_type"><option>A business owner or manager</option><option>A data professional</option><option>A learner or career-switcher</option></select></div>
+          <select id="nlp-role" name="reader_type"><option value="Business">A business owner or manager</option><option value="Data professional">A data professional</option><option value="Learner">A learner or career-switcher</option></select></div>
       </div>
       <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
       <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
@@ -129,6 +129,6 @@
     </div>
   </div>
 </footer>
-<script src="assets/js/main.js?v=b1781259" defer></script>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
 </body>
 </html>

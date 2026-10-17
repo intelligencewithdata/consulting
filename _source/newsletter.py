@@ -3,7 +3,10 @@
 Subscriptions are posted to Formspree (same account as the contact form). To send the newsletter
 from systeme.io instead, replace ENDPOINT with a systeme.io-connected endpoint or export from Formspree."""
 
-ENDPOINT = "https://formspree.io/f/mgaozrav"
+ENDPOINT = "https://formspree.io/f/mgaozrav"   # backup copy of every sign-up (Formspree inbox)
+# Make.com custom webhook that creates the contact in systeme.io and tags it "Data Brief".
+# Paste the webhook URL from Make here; while empty, sign-ups go to Formspree only.
+MAKE_WEBHOOK = ""
 NAME = "The Data Brief"
 CADENCE = "One short email a week"
 
@@ -21,7 +24,7 @@ PERKS = [
 def _fields(idp, compact=False, source="Newsletter page"):
     role = "" if compact else f'''
         <div class="field"><label for="{idp}-role">I'm mainly here as</label>
-          <select id="{idp}-role" name="reader_type"><option>A business owner or manager</option><option>A data professional</option><option>A learner or career-switcher</option></select></div>'''
+          <select id="{idp}-role" name="reader_type"><option value="Business">A business owner or manager</option><option value="Data professional">A data professional</option><option value="Learner">A learner or career-switcher</option></select></div>'''
     name = "" if compact else f'''
         <div class="field"><label for="{idp}-name">First name</label><input id="{idp}-name" name="first_name" autocomplete="given-name"></div>'''
     return f'''<input type="hidden" name="_subject" value="New newsletter subscriber ({NAME})">
@@ -37,7 +40,7 @@ def _fields(idp, compact=False, source="Newsletter page"):
 
 
 def form(idp="nl", compact=False, source="Newsletter page", cls=""):
-    return f'''<form class="nl-form {cls}" data-newsletter-form data-endpoint="{ENDPOINT}" novalidate>
+    return f'''<form class="nl-form {cls}" data-newsletter-form data-endpoint="{ENDPOINT}" data-webhook="{MAKE_WEBHOOK}" novalidate>
       {_fields(idp, compact, source)}
     </form>'''
 

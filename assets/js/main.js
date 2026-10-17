@@ -488,8 +488,18 @@
       const btn = form.querySelector("button[type=submit]");
       btn.disabled = true; say("Subscribing…");
       try {
-        const res = await fetch(form.dataset.endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
-        if (!res.ok) throw new Error();
+        const data = new FormData(form);
+        data.set("page", location.pathname.split("/").pop() || "index.html");
+        if (!data.get("reader_type")) data.set("reader_type", "Not given");
+        // 1) systeme.io via Make (fire-and-forget; Make webhooks don't need a readable response)
+        const hook = (form.dataset.webhook || "").trim();
+        const toMake = hook
+          ? fetch(hook, { method: "POST", mode: "no-cors", body: new URLSearchParams([...data].filter(([k]) => !k.startsWith("_"))) }).then(() => true, () => false)
+          : Promise.resolve(false);
+        // 2) backup copy in Formspree
+        const toFormspree = fetch(form.dataset.endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } }).then((r) => r.ok, () => false);
+        const [madeIt, backedUp] = await Promise.all([toMake, toFormspree]);
+        if (!madeIt && !backedUp) throw new Error();
         store.set("iwd-nl", "subscribed");
         const done = form.parentElement.querySelector("[data-nl-done]");
         form.hidden = true;
