@@ -873,6 +873,10 @@ def main():
     for f, t, d, b in PAGES:
         (OUT / f).write_text(page(f, t, d, b), encoding="utf-8")
     (OUT / ".nojekyll").write_text("")
+    # Old ChurchCRM address (pre-GitHub move): forward to its new home on the Namecheap server
+    CHURCH = "https://church.intelligencewithdata.com/"
+    (OUT / "churchcrm").mkdir(exist_ok=True)
+    (OUT / "churchcrm/index.html").write_text(f'''<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url={CHURCH}"><link rel="canonical" href="{CHURCH}"><title>ChurchCRM has moved</title></head><body style="font-family:sans-serif;padding:40px"><p>ChurchCRM has moved to <a href="{CHURCH}">{CHURCH}</a>.</p><script>location.replace("{CHURCH}" + location.hash);</script></body></html>''')
     (OUT / "CNAME").write_text("www.intelligencewithdata.com\n")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n")
     urls = "".join(f"<url><loc>{SITE_URL}{'' if f == 'index.html' else f}</loc></url>" for f, *_ in PAGES if f != "404.html" and f not in NOINDEX)
