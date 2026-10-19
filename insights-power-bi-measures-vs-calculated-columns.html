@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measures vs calculated columns in Power BI: when to use each | Intelligence With Data</title>
+<meta name="description" content="A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-power-bi-measures-vs-calculated-columns.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Measures vs calculated columns in Power BI: when to use each | Intelligence With Data">
+<meta property="og:description" content="A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-power-bi-measures-vs-calculated-columns.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-measures-vs-calculated-columns.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Power BI</p>
+    <span class="post-cat post-cat--light">Power BI</span>
+    <h1>Measures vs calculated columns in Power BI: when to use each</h1>
+    <p class="lead">A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">EP</span><span><strong>Elijah Parker</strong><small>Microsoft Fabric Consultant &middot; 19 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#the-short-answer">The short answer</a></li><li><a href="#what-a-calculated-column-is">What a calculated column is</a></li><li><a href="#what-a-measure-is">What a measure is</a></li><li><a href="#side-by-side">Side by side</a></li><li><a href="#the-classic-mistake-ratios-in-a-column">The classic mistake: ratios in a column</a></li><li><a href="#implicit-measures-and-why-explicit-ones-are-better">Implicit measures and why explicit ones are better</a></li><li><a href="#should-that-column-be-in-power-query-instead">Should that column be in Power Query instead?</a></li><li><a href="#a-quick-decision-checklist">A quick decision checklist</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-measures-vs-calculated-columns.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Measures%20vs%20calculated%20columns%20in%20Power%20BI%3A%20when%20to%20use%20each%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-measures-vs-calculated-columns.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Measures%20vs%20calculated%20columns%20in%20Power%20BI%3A%20when%20to%20use%20each&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-measures-vs-calculated-columns.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-power-bi-measures-vs-calculated-columns.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>Sooner or later, everyone learning Power BI writes their first DAX formula and hits the same fork in the road. Should this be a <strong>calculated column</strong> or a <strong>measure</strong>? Both use DAX, both appear in the Data pane, and both can produce a number on a report. Yet they behave very differently, and picking the wrong one is one of the most common reasons a beginner's totals look strange.</p>
+<p>This guide explains what each one is, how they differ, and a simple way to decide which to use.</p>
+<h2 id="the-short-answer">The short answer</h2>
+<ul>
+<li>Use a <strong>calculated column</strong> when you need a new value <strong>for every row</strong> that you want to slice, filter, group or put on an axis.</li>
+<li>Use a <strong>measure</strong> when you need a result that <strong>summarises many rows</strong> and should change as people filter the report.</li>
+</ul>
+<p>Microsoft's own tutorial puts it neatly: measures usually go in a visual's <strong>Values</strong> area, while calculated columns are used as new fields in the <strong>rows, axes, legends and group areas</strong> of visuals.</p>
+<h2 id="what-a-calculated-column-is">What a calculated column is</h2>
+<p>A calculated column is a new column you add to an existing table, with a DAX formula that defines its value. The formula is evaluated <strong>once for each row</strong>, using what DAX calls <strong>row context</strong>: you can think of it as "the current row".</p>
+<p>Here is a simple example on a <code>Sales</code> table:</p>
+<pre><code class="language-dax">Order Size =
+IF ( Sales[Quantity] &gt;= 10, &quot;Bulk&quot;, &quot;Standard&quot; )
+</code></pre>
+<p>Each row gets the label "Bulk" or "Standard", and you can now use <code>Order Size</code> in a slicer or on a chart axis.</p>
+<p>The most important thing to understand is <strong>when</strong> the work happens. According to Microsoft's DAX documentation, calculated column values are computed and <strong>stored in the model</strong>. They are only recalculated when the table, or a related table, is refreshed, or when the model is reloaded (for example, when you close and reopen the file). They do <strong>not</strong> react to slicers or filters on the report page.</p>
+<p>A calculated column can also look up a value from a related table using <code>RELATED</code>, as long as a relationship exists:</p>
+<pre><code class="language-dax">Customer Region =
+RELATED ( Customer[Region] )
+</code></pre>
+<h2 id="what-a-measure-is">What a measure is</h2>
+<p>A measure is a named formula that <strong>aggregates</strong> data. Its result is not stored row by row. Instead, it is worked out <strong>at query time</strong>, whenever someone opens a report or interacts with a visual.</p>
+<pre><code class="language-dax">Total Sales =
+SUMX ( Sales, Sales[Quantity] * Sales[Unit Price] )
+</code></pre>
+<p><code>SUMX</code> returns the sum of an expression evaluated for each row of a table, so this measure multiplies quantity by unit price row by row and then adds the results up.</p>
+<p>Drop <code>Total Sales</code> into a table visual next to <code>Customer Region</code> and it shows the right figure for each region. Add a year slicer and every number updates. That responsiveness comes from <strong>filter context</strong>: the filters, rows, columns and slicers that apply to each cell of a visual. As Microsoft's documentation puts it, a measure's result cannot be determined without context.</p>
+<p>Measures can also reference other measures, which makes them easy to build in layers:</p>
+<pre><code class="language-dax">Average Order Value =
+DIVIDE ( [Total Sales], DISTINCTCOUNT ( Sales[Order ID] ) )
+</code></pre>
+<h2 id="side-by-side">Side by side</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Calculated column</th>
+<th>Measure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calculated</td>
+<td>At refresh, for every row</td>
+<td>At query time, for each cell in a visual</td>
+</tr>
+<tr>
+<td>Stored in the model</td>
+<td>Yes, adds to model size</td>
+<td>No, only the formula is stored</td>
+</tr>
+<tr>
+<td>Reacts to slicers and filters</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Slicers, filters, axes, grouping</td>
+<td>Totals, ratios, KPIs, comparisons</td>
+</tr>
+<tr>
+<td>Context it starts with</td>
+<td>Row context</td>
+<td>Filter context</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-classic-mistake-ratios-in-a-column">The classic mistake: ratios in a column</h2>
+<p>Imagine you want a profit margin. A tempting first attempt is a calculated column:</p>
+<pre><code class="language-dax">Margin % =
+DIVIDE ( Sales[Profit], Sales[Sales Amount] )
+</code></pre>
+<p>That gives a correct margin <strong>for each individual row</strong>. The problem appears in a visual. Put <code>Margin %</code> in a table and Power BI will aggregate the column, by default with a sum, so you get percentages added together. Switch it to average and you get the <strong>average of the row margins</strong>, which is not the same as overall margin: a small order with a high margin counts just as much as a large order with a low one.</p>
+<p>The correct approach is a measure that divides the totals:</p>
+<pre><code class="language-dax">Margin % =
+DIVIDE ( SUM ( Sales[Profit] ), SUM ( Sales[Sales Amount] ) )
+</code></pre>
+<p>Now every cell, subtotal and grand total is calculated from the summed figures in its own filter context, so the numbers add up the way the business expects. As a rule, <strong>ratios, percentages and averages almost always belong in measures</strong>.</p>
+<p>A note on <code>DIVIDE</code>: Microsoft recommends it over the <code>/</code> operator when the denominator could be zero or blank. If it is, <code>DIVIDE</code> returns BLANK instead of an error, and visuals hide blank results by default. When you are dividing by a constant, the <code>/</code> operator is fine.</p>
+<h2 id="implicit-measures-and-why-explicit-ones-are-better">Implicit measures and why explicit ones are better</h2>
+<p>When you drag a numeric column straight into a visual, Power BI summarises it for you, usually with a sum. Microsoft calls this an <strong>implicit measure</strong>. It is handy for quick exploration, but it has drawbacks:</p>
+<ul>
+<li>The logic lives inside one visual, so it cannot be reused or referenced by other measures.</li>
+<li>Different report pages can quietly use different aggregations of the same column.</li>
+<li>Calculation groups, a more advanced modelling feature, only apply to explicit measures, not implicit ones.</li>
+</ul>
+<p>Creating an <strong>explicit measure</strong> with <strong>New measure</strong> (on the <strong>Home</strong> tab, or by right-clicking a table) gives the calculation a name, one definition and a single place to fix it. Many teams then hide the raw numeric columns so report builders use the measures instead.</p>
+<h2 id="should-that-column-be-in-power-query-instead">Should that column be in Power Query instead?</h2>
+<p>Calculated columns are not wrong, but they are not always the best home for row-level logic. Microsoft's guidance on reducing model size points out that calculated columns typically <strong>compress less efficiently</strong> than columns created in Power Query, and they are built only after all the Power Query tables have loaded, which can <strong>lengthen refresh times</strong>.</p>
+<p>The recommendation is to prefer <strong>custom columns in Power Query</strong> where possible, or to calculate the value in the source database itself. A calculated column is still the better choice when the formula needs to evaluate measures or relies on DAX-only functionality.</p>
+<p>A practical order of preference for a new row-level value is:</p>
+<ol>
+<li><strong>In the source</strong> (for example, a SQL view), if you control it.</li>
+<li><strong>In Power Query</strong>, as a custom column.</li>
+<li><strong>As a DAX calculated column</strong>, when you need DAX to do it.</li>
+</ol>
+<h2 id="a-quick-decision-checklist">A quick decision checklist</h2>
+<p>Ask yourself these questions when you write a new formula:</p>
+<ul>
+<li><strong>Will I put this on a slicer, axis, legend or filter?</strong> Calculated column (or Power Query column).</li>
+<li><strong>Should the result change when someone filters the report?</strong> Measure.</li>
+<li><strong>Is it a total, count, average, ratio or percentage?</strong> Measure.</li>
+<li><strong>Is it a label, category or band for each row?</strong> Calculated column, ideally built in Power Query.</li>
+<li><strong>Could it be done before the data reaches the model?</strong> Do it upstream.</li>
+</ul>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Calculated columns describe <strong>each row</strong> and are fixed at refresh time. Measures summarise <strong>many rows</strong> and respond to every filter, slicer and visual. Use columns for things you want to slice by and measures for things you want to see the value of. Get that one distinction right, and most of the "why is my total wrong?" moments in Power BI disappear.</p>
+      <div class="author-box"><span class="avatar">EP</span><div><strong>Elijah Parker</strong><p>Microsoft Fabric Consultant at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Free every Friday</p><h3>Learn Power BI &amp; SQL live, for free</h3><p>Join our free live class every Friday at 6pm UK time: hands-on lessons, live Q&amp;A and career tips from a working Senior Data Analyst.</p><div class="btn-row"><a class="btn btn--gold" href="free-training.html">Reserve your free seat <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="training.html">See all programmes</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-sql-data-quality-checks.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>Six SQL checks to run before you trust a report</h3><p>Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.</p>
+  <span class="post-meta">Efua Angela &middot; 16 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-fabric-lakehouse-vs-warehouse.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Lakehouse vs Warehouse in Microsoft Fabric: which should you use?</h3><p>A plain-English guide to the two main places to store data in Fabric, what each can and can&#x27;t do, and a simple way to decide between them.</p>
+  <span class="post-meta">Jayne Carter &middot; 14 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-date-table.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>How to build a date table in Power BI (and why you need one)</h3><p>A step-by-step guide to creating a proper date table with DAX, marking it correctly and using it for year-to-date and UK financial-year reporting.</p>
+  <span class="post-meta">Thomas Forrester &middot; 12 October 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Measures vs calculated columns in Power BI: when to use each", "description": "A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.", "datePublished": "2026-10-19", "author": {"@type": "Person", "name": "Elijah Parker", "jobTitle": "Microsoft Fabric Consultant"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-measures-vs-calculated-columns.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-power-bi-measures-vs-calculated-columns.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-power-bi-measures-vs-calculated-columns.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-power-bi-measures-vs-calculated-columns.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
