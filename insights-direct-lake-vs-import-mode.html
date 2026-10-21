@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direct Lake vs Import mode: which suits your Power BI reports? | Intelligence With Data</title>
+<meta name="description" content="A plain-English comparison of Direct Lake and Import mode in Microsoft Fabric, what each costs you in refresh time and flexibility, and how to choose.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-direct-lake-vs-import-mode.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Direct Lake vs Import mode: which suits your Power BI reports? | Intelligence With Data">
+<meta property="og:description" content="A plain-English comparison of Direct Lake and Import mode in Microsoft Fabric, what each costs you in refresh time and flexibility, and how to choose.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-direct-lake-vs-import-mode.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-direct-lake-vs-import-mode.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Microsoft Fabric</p>
+    <span class="post-cat post-cat--light">Microsoft Fabric</span>
+    <h1>Direct Lake vs Import mode: which suits your Power BI reports?</h1>
+    <p class="lead">A plain-English comparison of Direct Lake and Import mode in Microsoft Fabric, what each costs you in refresh time and flexibility, and how to choose.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">TF</span><span><strong>Thomas Forrester</strong><small>AI Engineer &middot; 21 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-a-storage-mode-actually-decides">What a storage mode actually decides</a></li><li><a href="#how-import-mode-works">How Import mode works</a></li><li><a href="#how-direct-lake-works">How Direct Lake works</a></li><li><a href="#the-catches-with-direct-lake">The catches with Direct Lake</a></li><li><a href="#side-by-side">Side by side</a></li><li><a href="#how-we-help-clients-choose">How we help clients choose</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-direct-lake-vs-import-mode.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Direct%20Lake%20vs%20Import%20mode%3A%20which%20suits%20your%20Power%20BI%20reports%3F%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-direct-lake-vs-import-mode.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Direct%20Lake%20vs%20Import%20mode%3A%20which%20suits%20your%20Power%20BI%20reports%3F&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-direct-lake-vs-import-mode.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-direct-lake-vs-import-mode.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>If your business is moving its reporting onto <strong>Microsoft Fabric</strong>, someone will eventually ask a question that sounds technical but has real consequences for cost, speed and how fresh your numbers are: "Should our Power BI semantic model use <strong>Direct Lake</strong> or <strong>Import mode</strong>?"</p>
+<p>This guide explains what each option does and the practical questions we ask before recommending one.</p>
+<h2 id="what-a-storage-mode-actually-decides">What a storage mode actually decides</h2>
+<p>Every Power BI report sits on a <strong>semantic model</strong>: the tables, relationships and measures behind the numbers. Each table has a <strong>storage mode</strong>, which decides where the data lives and how it reaches the report.</p>
+<p>There are three you'll hear about:</p>
+<ul>
+<li><strong>Import:</strong> Power BI copies the data into the model. Microsoft describes the result as a <strong>point-in-time copy</strong>, so the model must be refreshed to pick up changes.</li>
+<li><strong>DirectQuery:</strong> nothing is copied. Each time a visual needs data, Power BI sends a query to the source system and waits for the answer.</li>
+<li><strong>Direct Lake:</strong> a Fabric-only option that reads <strong>Delta tables stored in OneLake</strong> (Fabric's single data lake) and loads them into memory on demand, without making a separate copy of the data.</li>
+</ul>
+<p>The interesting choice for most Fabric customers is between Import and Direct Lake, because both use the same in-memory engine (VertiPaq) to answer queries. Microsoft's documentation notes that Direct Lake and Import queries <strong>normally outperform DirectQuery</strong> when people interact with report visuals.</p>
+<h2 id="how-import-mode-works">How Import mode works</h2>
+<p>Import mode is what most Power BI users already know: connect to a source, shape the data with <strong>Power Query</strong>, publish, and let a scheduled refresh re-copy the data.</p>
+<p>The strengths are real:</p>
+<ul>
+<li>It works with <strong>almost any data source</strong>, not just Fabric.</li>
+<li>It runs on <strong>any Fabric or Power BI licence</strong>, including the free tier, according to Microsoft's comparison.</li>
+<li>It supports the widest range of modelling features, such as calculated columns, calculated tables, hybrid tables and custom partitions.</li>
+</ul>
+<p>The trade-off is the refresh. Every refresh rebuilds a copy of the data, which Microsoft warns <strong>can take considerable time and consume significant source and capacity resources</strong>. There are also limits on how often you can schedule it: semantic models on shared capacity get eight scheduled refreshes a day, while models on Premium, Premium Per User or Fabric capacity can schedule up to 48. Between refreshes, the report shows yesterday's (or this morning's) numbers.</p>
+<h2 id="how-direct-lake-works">How Direct Lake works</h2>
+<p>Direct Lake takes a different approach. Your data is prepared upstream in Fabric, using pipelines, dataflows, notebooks or T-SQL, and lands as Delta tables in a <strong>lakehouse</strong>, <strong>warehouse</strong> or another supported Fabric item. The semantic model then points at those tables.</p>
+<p>Two ideas make it work:</p>
+<ul>
+<li><strong>Framing.</strong> A Direct Lake "refresh" doesn't copy data. It only updates the model's references to the latest version of each Delta table, which Microsoft says <strong>usually takes a few seconds</strong>.</li>
+<li><strong>On-demand loading.</strong> Columns are loaded into memory only when a query first asks for them. Once loaded, they stay in memory for later queries until they're evicted, for example after the underlying table changes, after a period of not being used, or when the capacity is under memory pressure.</li>
+</ul>
+<p>By default, a setting called <strong>"Keep your Direct Lake data up to date"</strong> is switched on, so the model reframes automatically whenever it detects changes in the underlying Delta tables.</p>
+<h2 id="the-catches-with-direct-lake">The catches with Direct Lake</h2>
+<p>Direct Lake is not a free upgrade, and it's worth being clear-eyed about its limits:</p>
+<ul>
+<li><strong>It needs a Fabric capacity.</strong> Microsoft states that Direct Lake semantic models require a Fabric capacity licence (F SKUs). It isn't available on the free tier or on shared capacity.</li>
+<li><strong>Your data must already be in OneLake as Delta tables.</strong> Direct Lake has no Power Query step inside the model, so any cleaning and shaping has to happen upstream in Fabric. If your team can't change the source tables, Import is often the more practical choice.</li>
+<li><strong>Capacity guardrails apply.</strong> Each Fabric capacity size has limits on things such as the number of Parquet files, row groups and rows per table, plus how much memory a model can use. Smaller capacities have tighter limits. Microsoft's advice when a table exceeds them is to run <code>OPTIMIZE</code> and <code>VACUUM</code> on the Delta table and, if that isn't enough, move to a larger capacity.</li>
+<li><strong>Some modelling features are restricted.</strong> Calculated columns and calculated tables are limited or in preview depending on the Direct Lake variant, and features like hybrid tables and custom partitions aren't available.</li>
+<li><strong>There are two flavours.</strong> <strong>Direct Lake on SQL endpoints</strong> can fall back to slower DirectQuery when it can't read a Delta table directly, such as when it hits a SQL view. <strong>Direct Lake on OneLake</strong> doesn't fall back; if guardrails are exceeded, the refresh fails until the tables are brought back within limits.</li>
+</ul>
+<h2 id="side-by-side">Side by side</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Import</th>
+<th>Direct Lake</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where data is prepared</td>
+<td>Power Query, inside the model</td>
+<td>Upstream in Fabric (pipelines, notebooks, T-SQL, dataflows)</td>
+</tr>
+<tr>
+<td>What a refresh does</td>
+<td>Copies all the data again</td>
+<td>Updates metadata only (framing), usually seconds</td>
+</tr>
+<tr>
+<td>Data freshness</td>
+<td>As fresh as the last scheduled refresh</td>
+<td>Can update automatically when Delta tables change</td>
+</tr>
+<tr>
+<td>Data sources</td>
+<td>Almost anything</td>
+<td>Delta tables in supported Fabric items</td>
+</tr>
+<tr>
+<td>Licensing</td>
+<td>Any Fabric or Power BI licence</td>
+<td>Fabric capacity only</td>
+</tr>
+<tr>
+<td>Modelling flexibility</td>
+<td>Widest</td>
+<td>More restricted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-we-help-clients-choose">How we help clients choose</h2>
+<p>Microsoft frames the decision in terms of who owns the data. Its guidance describes Direct Lake as typically suited to <strong>IT-driven, lake-centric projects</strong>, and an ideal fit for the curated "gold" layer of a medallion lakehouse. Import mode, by contrast, <strong>often suits self-service analysts</strong> who need to move quickly without depending on IT to add new data.</p>
+<p>In practice, we ask four questions:</p>
+<ol>
+<li><strong>Are you already on (or committing to) a Fabric capacity?</strong> If not, Import is your only option of the two, and that's fine for many small businesses.</li>
+<li><strong>Is your data already landing in a lakehouse or warehouse?</strong> If yes, Direct Lake removes a second copy and a second refresh schedule. If your data still lives in spreadsheets and a handful of cloud apps, Import is usually simpler.</li>
+<li><strong>How fresh do the numbers need to be?</strong> If an overnight refresh is fine, Import's main drawback barely matters. If managers want figures soon after each data load, Direct Lake's automatic updates are a strong argument.</li>
+<li><strong>Who maintains the reports?</strong> If analysts need to add data themselves in Power Query, Import keeps them productive. If a data team owns a governed set of tables, Direct Lake fits naturally.</li>
+</ol>
+<p>It doesn't have to be all or nothing. Microsoft's comparison lists <strong>composite models</strong> as supported for Direct Lake on OneLake, so a model can mix Direct Lake tables with Import tables where that makes sense. Microsoft also recommends building a <strong>proof of concept</strong> before committing, and we agree: test with your own data and your own capacity size before rebuilding every report.</p>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p><strong>Import mode</strong> is flexible, works everywhere and remains the right answer for many businesses, particularly those without a Fabric capacity or a lakehouse yet. <strong>Direct Lake</strong> shines when your data is already curated as Delta tables in Fabric: a refresh updates metadata rather than copying data, there's no second copy to maintain, and reports can pick up new data automatically.</p>
+<p>The right choice depends less on the technology and more on where your data lives, who looks after it and how fresh your decisions need it to be. Answer those first, prove it on a small model, and the choice usually becomes clear.</p>
+      <div class="author-box"><span class="avatar">TF</span><div><strong>Thomas Forrester</strong><p>AI Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-power-bi-measures-vs-calculated-columns.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Measures vs calculated columns in Power BI: when to use each</h3><p>A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.</p>
+  <span class="post-meta">Elijah Parker &middot; 19 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-data-quality-checks.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>Six SQL checks to run before you trust a report</h3><p>Duplicates, gaps and impossible values quietly distort business reports. These six simple SQL checks catch most of them before the numbers reach a meeting.</p>
+  <span class="post-meta">Efua Angela &middot; 16 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-fabric-lakehouse-vs-warehouse.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Lakehouse vs Warehouse in Microsoft Fabric: which should you use?</h3><p>A plain-English guide to the two main places to store data in Fabric, what each can and can&#x27;t do, and a simple way to decide between them.</p>
+  <span class="post-meta">Jayne Carter &middot; 14 October 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Direct Lake vs Import mode: which suits your Power BI reports?", "description": "A plain-English comparison of Direct Lake and Import mode in Microsoft Fabric, what each costs you in refresh time and flexibility, and how to choose.", "datePublished": "2026-10-21", "author": {"@type": "Person", "name": "Thomas Forrester", "jobTitle": "AI Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-direct-lake-vs-import-mode.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-direct-lake-vs-import-mode.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-direct-lake-vs-import-mode.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-direct-lake-vs-import-mode.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
