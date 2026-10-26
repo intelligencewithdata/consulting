@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Row-level security in Power BI: one report, the right data for everyone | Intelligence With Data</title>
+<meta name="description" content="How row-level security lets each manager, region or client see only their own figures in a single Power BI report, and the mistakes that quietly undo it.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-power-bi-row-level-security.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Row-level security in Power BI: one report, the right data for everyone | Intelligence With Data">
+<meta property="og:description" content="How row-level security lets each manager, region or client see only their own figures in a single Power BI report, and the mistakes that quietly undo it.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-power-bi-row-level-security.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-row-level-security.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Power BI</p>
+    <span class="post-cat post-cat--light">Power BI</span>
+    <h1>Row-level security in Power BI: one report, the right data for everyone</h1>
+    <p class="lead">How row-level security lets each manager, region or client see only their own figures in a single Power BI report, and the mistakes that quietly undo it.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">EA</span><span><strong>Efua Angela</strong><small>Senior Supply Chain Analyst &middot; 26 October 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-row-level-security-does">What row-level security does</a></li><li><a href="#static-roles-the-simple-starting-point">Static roles: the simple starting point</a></li><li><a href="#dynamic-roles-one-rule-for-everyone">Dynamic roles: one rule for everyone</a></li><li><a href="#assigning-people-to-roles">Assigning people to roles</a></li><li><a href="#the-mistake-that-undoes-rls-workspace-roles">The mistake that undoes RLS: workspace roles</a></li><li><a href="#test-before-anyone-else-sees-it">Test before anyone else sees it</a></li><li><a href="#design-tips-that-keep-it-fast-and-reliable">Design tips that keep it fast and reliable</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-row-level-security.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Row-level%20security%20in%20Power%20BI%3A%20one%20report%2C%20the%20right%20data%20for%20everyone%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-row-level-security.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Row-level%20security%20in%20Power%20BI%3A%20one%20report%2C%20the%20right%20data%20for%20everyone&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-row-level-security.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-power-bi-row-level-security.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>Many growing businesses reach the same point with Power BI. The sales report works well, the leadership team loves it, and now the regional managers want it too. The catch is that each manager should only see <strong>their own region</strong>, and nobody wants to maintain five copies of the same report.</p>
+<p>That is exactly what <strong>row-level security (RLS)</strong> is for. It lets you publish one report on one semantic model, and Power BI filters the data according to who is looking at it. This guide explains how it works, how to set it up, and the gaps that catch organisations out.</p>
+<h2 id="what-row-level-security-does">What row-level security does</h2>
+<p>RLS restricts which <strong>rows</strong> of data a user can see. You define <strong>roles</strong> in Power BI Desktop, and each role has a DAX filter on one or more tables. Microsoft's documentation describes the filter simply: the expression returns true or false, and <strong>only rows that return TRUE are visible</strong>. Everything else is removed from that user's view of the model.</p>
+<p>Because the filter sits in the model rather than on a report page, it applies to every visual, every total and every page built on that model. A manager in the North region does not see a filtered-out "South" bar; as far as their reports are concerned, the South data does not exist.</p>
+<p>Two things RLS does <strong>not</strong> do are worth knowing from the start:</p>
+<ul>
+<li><strong>It does not hide columns.</strong> If someone can see a row, they can see every column in it. Hiding a salary column, for example, needs object-level security instead.</li>
+<li><strong>It is not a replacement for sensible access management.</strong> RLS filters data for the people it applies to, but, as we explain below, not everyone it might seem to apply to.</li>
+</ul>
+<h2 id="static-roles-the-simple-starting-point">Static roles: the simple starting point</h2>
+<p>The simplest form is a <strong>static</strong> role, where the filter value is fixed. For a regional sales model you might create a role called "North" with this filter on the <code>Region</code> table:</p>
+<pre><code class="language-dax">[Region] = &quot;North&quot;
+</code></pre>
+<p>Then another for "South", and so on. In Power BI Desktop you do this from the <strong>Modeling</strong> tab with <strong>Manage roles</strong>, where you can use the default editor or switch to the DAX editor.</p>
+<p>Static roles are quick to set up and easy to understand. Their weakness is maintenance: every new region, branch or client means a new role, and every person has to be placed in the right one.</p>
+<h2 id="dynamic-roles-one-rule-for-everyone">Dynamic roles: one rule for everyone</h2>
+<p>For most businesses, <strong>dynamic RLS</strong> scales far better. Instead of one role per region, you create a single role whose filter compares a column in your data with the identity of the person signed in.</p>
+<p>You add a small <strong>mapping table</strong> to the model that lists each user's sign-in name alongside what they are allowed to see, such as their region or account manager code. The role's filter then looks like this:</p>
+<pre><code class="language-dax">[UserEmail] = USERPRINCIPALNAME()
+</code></pre>
+<p>In the Power BI service, <code>USERPRINCIPALNAME()</code> returns the user's <strong>User Principal Name (UPN)</strong>. Microsoft points out that this is the user's <strong>sign-in identifier, not necessarily their email address</strong>, so build the mapping table from the UPN value rather than assuming the two match.</p>
+<p>With a relationship from the mapping table to your Region dimension, the filter flows through to the sales data. When someone joins or changes territory, you update one row in the mapping table rather than editing roles.</p>
+<h2 id="assigning-people-to-roles">Assigning people to roles</h2>
+<p>You cannot assign users to roles in Power BI Desktop. Once you publish the model, you assign members in the <strong>Power BI service</strong>: open the semantic model's <strong>More options</strong> menu in the workspace and choose <strong>Security</strong>.</p>
+<p>Microsoft recommends mapping <strong>security groups</strong> to roles wherever possible, rather than individual people, so that joiners and leavers are handled by your normal IT processes. Distribution groups and mail-enabled groups are also supported, but <strong>Microsoft 365 groups are not</strong> and cannot be added to RLS roles.</p>
+<p>If a user is assigned to more than one role, the roles are <strong>additive</strong>: they see the combined rows of all their roles. Unlike some database permission models, there is no "deny" that overrides an allow.</p>
+<h2 id="the-mistake-that-undoes-rls-workspace-roles">The mistake that undoes RLS: workspace roles</h2>
+<p>This is the point we would most like business owners to take away. According to Microsoft's documentation, <strong>RLS only restricts data for users with the Viewer role</strong> in a workspace. It <strong>does not apply to Admin, Member or Contributor</strong> roles, because those roles have edit permission on the semantic model.</p>
+<p>In practice, that means if you add regional managers to the workspace as Members "so they can find things easily", every one of them can see every region. The report looks identical in the meeting, so nobody notices.</p>
+<p>The safe pattern is:</p>
+<ul>
+<li>Keep <strong>Admin, Member and Contributor</strong> roles for the small group who build and maintain content.</li>
+<li>Give report consumers <strong>Viewer</strong> access, or share content with them through an app.</li>
+<li>Make sure consumers have only <strong>Read</strong> permission on the underlying semantic model when RLS must be enforced, which is the point Microsoft's RLS guidance stresses.</li>
+</ul>
+<h2 id="test-before-anyone-else-sees-it">Test before anyone else sees it</h2>
+<p>Never assume a role works because the formula looks right. Power BI gives you two places to check:</p>
+<ul>
+<li>In Power BI Desktop, use <strong>View as</strong> on the <strong>Modeling</strong> ribbon to see the report through a role.</li>
+<li>In the Power BI service, open the semantic model's Security page, choose <strong>More options</strong> next to a role and select <strong>Test as role</strong>. For dynamic rules, you can also test as a specific person.</li>
+</ul>
+<p>Microsoft's guidance is to test for <strong>expected and unexpected values</strong>, and to design rules so that accidental or unexpected values return <strong>no rows</strong> rather than everything. A useful trick is a simple measure that shows who Power BI thinks you are:</p>
+<pre><code class="language-dax">Who Am I =
+USERPRINCIPALNAME ()
+</code></pre>
+<p>Put it in a card visual while testing and you can see immediately whether a mismatch in the mapping table is the cause of a blank report. Note that the Test as role feature has limits: it cannot validate everything, including Q&amp;A visuals and Copilot, and it does not work for paginated reports.</p>
+<h2 id="design-tips-that-keep-it-fast-and-reliable">Design tips that keep it fast and reliable</h2>
+<p>A few habits make RLS models easier to live with:</p>
+<ul>
+<li><strong>Filter dimension tables, not fact tables.</strong> Microsoft notes that it is often more efficient to apply RLS filters to dimension tables and let relationships carry the filter to the facts.</li>
+<li><strong>Rely on relationships.</strong> RLS filters only propagate through <strong>active</strong> relationships, so a well-designed star schema matters even more once security is involved.</li>
+<li><strong>Be careful with bidirectional security filtering.</strong> The "Apply security filter in both directions" option exists for some dynamic patterns, but Microsoft warns it can hurt query performance, so test it thoroughly.</li>
+<li><strong>Consider whether you need RLS at all.</strong> If you only have two or three audiences with simple, fixed rules, Microsoft suggests separate semantic models and workspaces can be a reasonable alternative, with the trade-off of duplicated content.</li>
+</ul>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Row-level security lets one Power BI report serve your whole organisation, with each person seeing only the figures they should. Start with a clear idea of who should see what, prefer <strong>dynamic roles with a mapping table</strong> and <strong>security groups</strong>, and keep report consumers on the <strong>Viewer</strong> role, because RLS does not apply to anyone who can edit the model. Then test every role, including what happens when something unexpected turns up. Done well, it removes the need for duplicate reports and gives everyone confidence that sensitive numbers stay where they belong.</p>
+      <div class="author-box"><span class="avatar">EA</span><div><strong>Efua Angela</strong><p>Senior Supply Chain Analyst at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-sql-null-values.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>NULL in SQL: six mistakes that quietly skew your results</h3><p>NULL isn&#x27;t zero and it isn&#x27;t blank. Learn how it behaves in filters, joins, averages and groupings, and the simple fixes that keep your query results honest.</p>
+  <span class="post-meta">Jayne Carter &middot; 23 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-direct-lake-vs-import-mode.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Direct Lake vs Import mode: which suits your Power BI reports?</h3><p>A plain-English comparison of Direct Lake and Import mode in Microsoft Fabric, what each costs you in refresh time and flexibility, and how to choose.</p>
+  <span class="post-meta">Thomas Forrester &middot; 21 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-measures-vs-calculated-columns.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Measures vs calculated columns in Power BI: when to use each</h3><p>A plain-English guide to the two kinds of DAX calculation, how each one behaves, and a simple rule for choosing the right one every time.</p>
+  <span class="post-meta">Elijah Parker &middot; 19 October 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Row-level security in Power BI: one report, the right data for everyone", "description": "How row-level security lets each manager, region or client see only their own figures in a single Power BI report, and the mistakes that quietly undo it.", "datePublished": "2026-10-26", "author": {"@type": "Person", "name": "Efua Angela", "jobTitle": "Senior Supply Chain Analyst"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-row-level-security.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-power-bi-row-level-security.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-power-bi-row-level-security.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-power-bi-row-level-security.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
