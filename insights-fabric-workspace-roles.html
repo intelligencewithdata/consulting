@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fabric workspace roles explained: who should get which access | Intelligence With Data</title>
+<meta name="description" content="A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-fabric-workspace-roles.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fabric workspace roles explained: who should get which access | Intelligence With Data">
+<meta property="og:description" content="A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-fabric-workspace-roles.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-fabric-workspace-roles.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Microsoft Fabric</p>
+    <span class="post-cat post-cat--light">Microsoft Fabric</span>
+    <h1>Fabric workspace roles explained: who should get which access</h1>
+    <p class="lead">A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">EP</span><span><strong>Elijah Parker</strong><small>Microsoft Fabric Consultant &middot; 13 November 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-a-workspace-role-controls">What a workspace role controls</a></li><li><a href="#the-four-roles-at-a-glance">The four roles at a glance</a></li><li><a href="#admin-owns-the-workspace">Admin: owns the workspace</a></li><li><a href="#member-builds-content-and-manages-the-team">Member: builds content and manages the team</a></li><li><a href="#contributor-does-the-hands-on-work">Contributor: does the hands-on work</a></li><li><a href="#viewer-reads-doesnt-change">Viewer: reads, doesn&#x27;t change</a></li><li><a href="#three-details-that-catch-teams-out">Three details that catch teams out</a></li><li><a href="#use-groups-not-individuals">Use groups, not individuals</a></li><li><a href="#most-business-users-dont-need-a-workspace-role-at-all">Most business users don&#x27;t need a workspace role at all</a></li><li><a href="#a-simple-access-plan-for-a-small-or-mid-sized-business">A simple access plan for a small or mid-sized business</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-workspace-roles.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Fabric%20workspace%20roles%20explained%3A%20who%20should%20get%20which%20access%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-workspace-roles.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Fabric%20workspace%20roles%20explained%3A%20who%20should%20get%20which%20access&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-workspace-roles.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-fabric-workspace-roles.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>When a business starts using <strong>Microsoft Fabric</strong>, access tends to grow organically. Someone creates a workspace, adds a few colleagues as Admins "to save time", and six months later nobody is quite sure who can delete what, or why the sales manager can see every table in the lakehouse.</p>
+<p>Workspace roles are the first and broadest layer of security in Fabric, so getting them right early saves a lot of tidying up later. This guide explains the four roles in plain English, highlights the details that most often catch teams out, and suggests a simple access plan for a small or mid-sized organisation.</p>
+<h2 id="what-a-workspace-role-controls">What a workspace role controls</h2>
+<p>A <strong>workspace</strong> is a container for Fabric items: lakehouses, warehouses, pipelines, notebooks, semantic models, reports and more. A workspace role applies to <strong>every item in that workspace</strong>.</p>
+<p>Microsoft is clear that roles are confined to the workspace they're granted in. They don't apply to other workspaces, to the capacity the workspace runs on, or to the tenant as a whole. That's useful: you can give someone broad rights in a development workspace without touching anything in production.</p>
+<p>There are four roles, from most to least powerful: <strong>Admin, Member, Contributor and Viewer</strong>.</p>
+<h2 id="the-four-roles-at-a-glance">The four roles at a glance</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>In short</th>
+<th>Typical person</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td>Full control, including deleting the workspace and managing all access</td>
+<td>One or two people who own the workspace</td>
+</tr>
+<tr>
+<td>Member</td>
+<td>Builds content and can add people (but not Admins)</td>
+<td>Team leads who manage their own colleagues</td>
+</tr>
+<tr>
+<td>Contributor</td>
+<td>Creates, edits and runs content, but can't manage access</td>
+<td>Data engineers and report developers</td>
+</tr>
+<tr>
+<td>Viewer</td>
+<td>Reads content, can't change it</td>
+<td>Business users and reviewers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="admin-owns-the-workspace">Admin: owns the workspace</h2>
+<p>Admins can do everything. According to Microsoft's role documentation, only Admins can <strong>update and delete the workspace</strong>, <strong>add or remove people including other Admins</strong>, connect the workspace to a <strong>Git repository</strong> and create a <strong>workspace identity</strong>.</p>
+<p>Whoever creates a workspace becomes an Admin automatically. Because the role includes the power to delete the whole workspace, it's worth keeping the list short, ideally two people so you're never locked out if one is away.</p>
+<h2 id="member-builds-content-and-manages-the-team">Member: builds content and manages the team</h2>
+<p>Members can do almost everything an Admin can when it comes to content. They can also <strong>add people to the Member, Contributor or Viewer roles</strong> and allow others to reshare items. What they can't do is add Admins or delete the workspace.</p>
+<p>This makes Member a good fit for a team lead who needs to onboard colleagues without involving IT every time.</p>
+<h2 id="contributor-does-the-hands-on-work">Contributor: does the hands-on work</h2>
+<p>Contributors can <strong>create, edit and delete items</strong> such as lakehouses, warehouses, pipelines, notebooks and dataflows. They can run and cancel pipelines and notebooks, read lakehouse data through Spark and the Lakehouse explorer, and schedule refreshes through an on-premises gateway (with separate gateway permissions as well).</p>
+<p>They <strong>can't manage workspace access</strong>. For most data engineers and report builders, Contributor is all they need.</p>
+<h2 id="viewer-reads-doesnt-change">Viewer: reads, doesn't change</h2>
+<p>Viewers can open content and view pipeline and notebook outputs, but they can't create or modify anything. One detail surprises many teams: Viewers can <strong>connect to the SQL analytics endpoint</strong> of a lakehouse or warehouse and <strong>read the data with T-SQL</strong>. What they can't do is read data through Spark, the OneLake APIs or the Lakehouse explorer.</p>
+<p>So "read-only" in Fabric still means <strong>read access to the data</strong>, not just the reports. Keep that in mind before adding a large group as Viewers on a workspace full of raw data.</p>
+<h2 id="three-details-that-catch-teams-out">Three details that catch teams out</h2>
+<p><strong>1. Row-level security only applies to Viewers.</strong> If you've built row-level security (RLS) into a Power BI semantic model, it filters data for people with the Viewer role. Microsoft notes that RLS isn't enforced for users with Write permission, which includes Admins, Members and Contributors. Give a regional manager Contributor "just in case" and they'll see every region.</p>
+<p><strong>2. Removing someone from a report isn't always enough.</strong> Microsoft's permission model explains that if a person has a workspace role, removing their item-level permission from a report doesn't stop them seeing it, because the workspace role still lets them in. To truly restrict access, you need to change or remove their workspace role.</p>
+<p><strong>3. Changes aren't instant.</strong> Adding or removing access takes effect the <strong>next time the user signs in</strong> to Fabric. If someone has just been removed and is still active, bear that in mind.</p>
+<h2 id="use-groups-not-individuals">Use groups, not individuals</h2>
+<p>Roles can be assigned to individual users, but also to <strong>security groups, mail-enabled security groups, distribution lists and Microsoft 365 groups</strong>. If a person belongs to several groups, they get the <strong>highest</strong> permission across them.</p>
+<p>Assigning roles to groups has two big benefits:</p>
+<ul>
+<li><strong>Joiners and leavers are handled once</strong>, in Microsoft Entra ID, rather than workspace by workspace.</li>
+<li><strong>Access is easy to audit</strong>: a workspace with four groups is far easier to review than one with forty named people.</li>
+</ul>
+<p>A workspace can hold up to <strong>1,000 users or groups</strong> in its roles, but a group counts as one entry however many people are in it, which is another reason to work with groups.</p>
+<h2 id="most-business-users-dont-need-a-workspace-role-at-all">Most business users don't need a workspace role at all</h2>
+<p>It's tempting to make everyone a Viewer so they can find their reports. Microsoft's own guidance recommends a different approach for report consumers: <strong>distribute content with a Power BI app</strong>.</p>
+<p>An app gives consumers a polished, read-only view of the reports you choose, without exposing semantic models, pipelines or lakehouses. You can also organise app content into <strong>audiences</strong>, so different groups see different subsets of reports. And because app users only get Read permission, row-level security is enforced for them, as long as they don't also hold a Contributor (or higher) workspace role or Write permission on the semantic model.</p>
+<p>For very small audiences who need one or two items, <strong>sharing the item directly</strong> also works. Microsoft notes that sharing an item grants Read permission by default, which lets people view it but <strong>doesn't give them access to the underlying data</strong> in SQL or OneLake.</p>
+<h2 id="a-simple-access-plan-for-a-small-or-mid-sized-business">A simple access plan for a small or mid-sized business</h2>
+<p>Here's a pattern we often recommend as a starting point:</p>
+<ol>
+<li><strong>Separate workspaces by purpose</strong>, for example a data engineering workspace (lakehouses, pipelines, notebooks) and a reporting workspace (semantic models and reports). Add development and production versions if you have the people to manage them.</li>
+<li><strong>Two named Admins per workspace</strong>, usually from IT or the data team.</li>
+<li><strong>A "data team" security group as Contributor</strong> on the workspaces they build in.</li>
+<li><strong>Team leads as Members</strong> only where they genuinely need to manage access themselves.</li>
+<li><strong>Business users through a Power BI app</strong>, with audiences for different departments, rather than workspace roles.</li>
+<li><strong>Review access every quarter</strong>, removing anyone who has changed role or left.</li>
+</ol>
+<p>This keeps the number of people with write access small, makes row-level security work as designed, and stops raw data being visible to people who only need the finished reports.</p>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Fabric workspace roles are simple once you know what each one really allows. Keep <strong>Admin</strong> for owners, give builders <strong>Contributor</strong>, use <strong>Member</strong> sparingly for team leads, and remember that <strong>Viewer</strong> can still query data through SQL. For most business users, a Power BI app is a safer and tidier way in than any workspace role. Put the plan in place early, use groups rather than individuals, and your Fabric estate will stay secure as it grows.</p>
+      <div class="author-box"><span class="avatar">EP</span><div><strong>Elijah Parker</strong><p>Microsoft Fabric Consultant at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-power-bi-star-schema.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Star schema in Power BI: how to shape your data model</h3><p>What fact and dimension tables are, why Power BI works best with a star schema, and how to turn a flat spreadsheet export into one.</p>
+  <span class="post-meta">Efua Angela &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-join-fan-out.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>Why your SQL totals are too high: the join fan-out problem</h3><p>A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn&#x27;t fix it, and three reliable patterns that do.</p>
+  <span class="post-meta">Thomas Forrester &middot; 13 November 2026 &middot; 7 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-month-on-month-year-on-year.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>Month-on-month and year-on-year growth in SQL, done properly</h3><p>&quot;Are we up on last month?&quot; is the question every report should answer. Here&#x27;s how to calculate growth in SQL without missing months, divide-by-zero errors or misleading figures.</p>
+  <span class="post-meta">Jayne Carter &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Fabric workspace roles explained: who should get which access", "description": "A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.", "datePublished": "2026-11-13", "author": {"@type": "Person", "name": "Elijah Parker", "jobTitle": "Microsoft Fabric Consultant"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-fabric-workspace-roles.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-fabric-workspace-roles.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-fabric-workspace-roles.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-fabric-workspace-roles.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
