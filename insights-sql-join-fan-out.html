@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why your SQL totals are too high: the join fan-out problem | Intelligence With Data</title>
+<meta name="description" content="A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn't fix it, and three reliable patterns that do.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-sql-join-fan-out.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Why your SQL totals are too high: the join fan-out problem | Intelligence With Data">
+<meta property="og:description" content="A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn't fix it, and three reliable patterns that do.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-sql-join-fan-out.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-sql-join-fan-out.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; SQL</p>
+    <span class="post-cat post-cat--light">SQL</span>
+    <h1>Why your SQL totals are too high: the join fan-out problem</h1>
+    <p class="lead">A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn&#x27;t fix it, and three reliable patterns that do.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">TF</span><span><strong>Thomas Forrester</strong><small>AI Engineer &middot; 13 November 2026 &middot; 7 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-fan-out-looks-like">What fan-out looks like</a></li><li><a href="#how-to-spot-it-in-seconds">How to spot it in seconds</a></li><li><a href="#why-distinct-doesnt-fix-it">Why DISTINCT doesn&#x27;t fix it</a></li><li><a href="#fix-1-join-to-exactly-one-row">Fix 1: join to exactly one row</a></li><li><a href="#fix-2-use-exists-when-youre-only-filtering">Fix 2: use EXISTS when you&#x27;re only filtering</a></li><li><a href="#fix-3-aggregate-before-you-join">Fix 3: aggregate before you join</a></li><li><a href="#build-the-habit-into-your-reporting">Build the habit into your reporting</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-join-fan-out.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Why%20your%20SQL%20totals%20are%20too%20high%3A%20the%20join%20fan-out%20problem%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-join-fan-out.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Why%20your%20SQL%20totals%20are%20too%20high%3A%20the%20join%20fan-out%20problem&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-join-fan-out.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-sql-join-fan-out.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>One of the most common reasons a report "doesn't match finance" has nothing to do with bad data. The data is fine. The query joined two tables in a way that <strong>counted the same rows more than once</strong>, and every total built on top of it is inflated.</p>
+<p>This is called <strong>join fan-out</strong>. It produces no error and no warning. The query runs, the numbers look plausible, and they can be wrong by a factor of two or three. Because it often appears when someone adds "just one more column" to an existing query, it can creep into a report that used to be correct.</p>
+<p>This article explains what fan-out is, how to check for it in a few seconds, and the patterns we use to make sure totals stay right.</p>
+<h2 id="what-fan-out-looks-like">What fan-out looks like</h2>
+<p>Take three small tables that most businesses have in some form:</p>
+<pre><code class="language-sql">customers (customer_id, name, region)
+orders    (order_id, customer_id, order_date, amount)
+contacts  (contact_id, customer_id, email, is_primary, created_date)
+</code></pre>
+<p>Our sample has five orders worth <strong>£1,700</strong> in total. One customer has three contacts on file, another has two.</p>
+<p>Now someone wants revenue alongside a contact email, so they join orders to contacts:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">SUM</span>(o.amount) <span class="tok-kw">AS</span> revenue
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">INNER JOIN</span> contacts <span class="tok-kw">AS</span> ct
+        <span class="tok-kw">ON</span> ct.customer_id = o.customer_id;
+</code></pre>
+<p>The result is <strong>£3,800</strong>, more than double the true figure.</p>
+<p>The reason is simple once you see it. A join returns one row for <strong>every matching pair</strong>. An order for a customer with three contacts matches three contact rows, so that order appears three times and its amount is added three times. Nothing is broken; the query is doing exactly what it was asked to do.</p>
+<p>The underlying problem is <strong>grain</strong>: the level of detail one row represents. The orders table has one row per order. The contacts table has one row per contact, and there can be several per customer. Joining them produces a result at neither grain, and summing it double counts.</p>
+<h2 id="how-to-spot-it-in-seconds">How to spot it in seconds</h2>
+<p>You don't need to stare at the output to catch fan-out. Two quick checks do the job.</p>
+<p><strong>Check 1: compare row counts before and after the join.</strong> If the number of rows grows but the number of distinct orders doesn't, rows are being duplicated:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> rows_after_join,
+       <span class="tok-kw">COUNT</span>(DISTINCT o.order_id) <span class="tok-kw">AS</span> distinct_orders
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">INNER JOIN</span> contacts <span class="tok-kw">AS</span> ct
+        <span class="tok-kw">ON</span> ct.customer_id = o.customer_id;
+</code></pre>
+<p>In our sample this returns 11 rows but only 5 distinct orders. That gap is the fan-out.</p>
+<p><strong>Check 2: confirm the join key is unique on the side you're joining to.</strong> If the table you're adding has more than one row per key, it will multiply the other side:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> customer_id, <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> rows_per_customer
+<span class="tok-kw">FROM</span> contacts
+<span class="tok-kw">GROUP BY</span> customer_id
+<span class="tok-kw">HAVING</span> <span class="tok-kw">COUNT</span>(*) &gt; 1;
+</code></pre>
+<p>Any rows returned here mean that joining on <code>customer_id</code> will repeat orders. It's worth running this check whenever you join to a table you didn't design yourself.</p>
+<h2 id="why-distinct-doesnt-fix-it">Why DISTINCT doesn't fix it</h2>
+<p>The tempting fix is to add <code>DISTINCT</code>, or to write <code>SUM(DISTINCT amount)</code>. <strong>Don't.</strong> <code>SUM(DISTINCT ...)</code> removes duplicate <em>values</em>, not duplicate <em>rows</em>.</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">SUM</span>(DISTINCT o.amount) <span class="tok-kw">AS</span> revenue
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">INNER JOIN</span> contacts <span class="tok-kw">AS</span> ct
+        <span class="tok-kw">ON</span> ct.customer_id = o.customer_id;
+</code></pre>
+<p>In our sample this returns £1,450, not £1,700, because two genuinely different orders both happen to be worth £250. One of them is thrown away. The figure is now too low instead of too high, and it will change unpredictably as new orders arrive.</p>
+<p><code>SELECT DISTINCT</code> on the detail rows has a similar weakness: it only works if the columns you select happen to make each row unique, and it hides the real problem rather than solving it. The fixes below deal with grain directly.</p>
+<h2 id="fix-1-join-to-exactly-one-row">Fix 1: join to exactly one row</h2>
+<p>If you only need one contact per customer, make sure the join can only ever find one. Where the data has a reliable flag, filter on it in the join:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> o.order_id, o.amount, ct.email
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">LEFT JOIN</span> contacts <span class="tok-kw">AS</span> ct
+       <span class="tok-kw">ON</span> ct.customer_id = o.customer_id
+      <span class="tok-kw">AND</span> ct.is_primary = 1
+<span class="tok-kw">ORDER BY</span> o.order_id;
+</code></pre>
+<p>That is only safe if the data guarantees <strong>one primary contact per customer</strong>. If it doesn't, rank the rows and keep the first. <code>ROW_NUMBER</code> numbers the rows within each customer, so <code>rn = 1</code> can only ever match once:</p>
+<pre><code class="language-sql"><span class="tok-kw">WITH</span> ranked_contacts <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> customer_id, email,
+           <span class="tok-kw">ROW_NUMBER</span>() <span class="tok-kw">OVER</span> (
+               <span class="tok-kw">PARTITION BY</span> customer_id
+               <span class="tok-kw">ORDER BY</span> is_primary <span class="tok-kw">DESC</span>, created_date
+           ) <span class="tok-kw">AS</span> rn
+    <span class="tok-kw">FROM</span> contacts
+)
+<span class="tok-kw">SELECT</span> o.order_id, o.amount, rc.email
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">LEFT JOIN</span> ranked_contacts <span class="tok-kw">AS</span> rc
+       <span class="tok-kw">ON</span> rc.customer_id = o.customer_id
+      <span class="tok-kw">AND</span> rc.rn = 1
+<span class="tok-kw">ORDER BY</span> o.order_id;
+</code></pre>
+<p>This prefers the primary contact, then the oldest one. Every order now appears exactly once, and the total is back to £1,700. Using <code>LEFT JOIN</code> also keeps orders for customers with no contact at all.</p>
+<h2 id="fix-2-use-exists-when-youre-only-filtering">Fix 2: use EXISTS when you're only filtering</h2>
+<p>Sometimes the second table is only there to filter, for example "revenue from customers who have a contact at a particular domain". You don't need any of its columns, so don't join to it. Use <code>EXISTS</code>, which checks for at least one match without repeating rows:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">SUM</span>(o.amount) <span class="tok-kw">AS</span> revenue
+<span class="tok-kw">FROM</span> orders <span class="tok-kw">AS</span> o
+<span class="tok-kw">WHERE</span> EXISTS (
+    <span class="tok-kw">SELECT</span> 1
+    <span class="tok-kw">FROM</span> contacts <span class="tok-kw">AS</span> ct
+    <span class="tok-kw">WHERE</span> ct.customer_id = o.customer_id
+      <span class="tok-kw">AND</span> ct.email LIKE <span class="tok-str">'%@acme.example'</span>
+);
+</code></pre>
+<p>However many matching contacts a customer has, each order is counted once.</p>
+<h2 id="fix-3-aggregate-before-you-join">Fix 3: aggregate before you join</h2>
+<p>The most damaging version of fan-out happens when you join <strong>two child tables</strong> to the same parent, such as orders and refunds per customer:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> c.name,
+       <span class="tok-kw">SUM</span>(o.amount) <span class="tok-kw">AS</span> revenue,
+       <span class="tok-kw">SUM</span>(r.amount) <span class="tok-kw">AS</span> refunded
+<span class="tok-kw">FROM</span> customers <span class="tok-kw">AS</span> c
+<span class="tok-kw">LEFT JOIN</span> orders  <span class="tok-kw">AS</span> o <span class="tok-kw">ON</span> o.customer_id = c.customer_id
+<span class="tok-kw">LEFT JOIN</span> refunds <span class="tok-kw">AS</span> r <span class="tok-kw">ON</span> r.customer_id = c.customer_id
+<span class="tok-kw">GROUP BY</span> c.name
+<span class="tok-kw">ORDER BY</span> c.name;
+</code></pre>
+<p>A customer with two orders and two refunds produces four rows, so both figures are doubled. In our sample, one customer's £800 of revenue is reported as £1,600 and £80 of refunds as £160.</p>
+<p>The fix is to <strong>summarise each child table to one row per customer first</strong>, then join the summaries:</p>
+<pre><code class="language-sql"><span class="tok-kw">WITH</span> order_totals <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> customer_id, <span class="tok-kw">SUM</span>(amount) <span class="tok-kw">AS</span> revenue
+    <span class="tok-kw">FROM</span> orders
+    <span class="tok-kw">GROUP BY</span> customer_id
+),
+refund_totals <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> customer_id, <span class="tok-kw">SUM</span>(amount) <span class="tok-kw">AS</span> refunded
+    <span class="tok-kw">FROM</span> refunds
+    <span class="tok-kw">GROUP BY</span> customer_id
+)
+<span class="tok-kw">SELECT</span> c.name,
+       COALESCE(ot.revenue, 0)  <span class="tok-kw">AS</span> revenue,
+       COALESCE(rt.refunded, 0) <span class="tok-kw">AS</span> refunded,
+       COALESCE(ot.revenue, 0) - COALESCE(rt.refunded, 0) <span class="tok-kw">AS</span> net_revenue
+<span class="tok-kw">FROM</span> customers <span class="tok-kw">AS</span> c
+<span class="tok-kw">LEFT JOIN</span> order_totals  <span class="tok-kw">AS</span> ot <span class="tok-kw">ON</span> ot.customer_id = c.customer_id
+<span class="tok-kw">LEFT JOIN</span> refund_totals <span class="tok-kw">AS</span> rt <span class="tok-kw">ON</span> rt.customer_id = c.customer_id
+<span class="tok-kw">ORDER BY</span> c.name;
+</code></pre>
+<p>Each common table expression (CTE) has one row per customer, so the joins are one-to-one and nothing is repeated. <code>COALESCE</code> turns a missing summary into zero, so a customer with no refunds shows £0 rather than an empty value that would also make <code>net_revenue</code> empty.</p>
+<p>These queries use standard SQL and run as written in SQL Server, PostgreSQL and SQLite.</p>
+<h2 id="build-the-habit-into-your-reporting">Build the habit into your reporting</h2>
+<p>Fan-out is easiest to prevent when it's part of how queries are written and reviewed, not something you hunt for after a board pack goes out. A few habits help:</p>
+<ul>
+<li><strong>State the grain</strong> of every query in a comment: "one row per order", "one row per customer per month".</li>
+<li><strong>Know which side of each join is unique.</strong> If neither side is, stop and aggregate first.</li>
+<li><strong>Reconcile a headline total</strong> against a simple query on the base table, such as <code>SELECT SUM(amount) FROM orders</code>, whenever a query changes.</li>
+<li><strong>Treat a sudden jump</strong> after a report change as a possible join problem before treating it as good news.</li>
+</ul>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>When SQL totals come out too high, the cause is very often a join that matched one row to many. Check row counts before and after the join, confirm the key is unique on the side you're joining to, and resist the quick fix of <code>DISTINCT</code>.</p>
+<p>Instead, join to exactly one row, use <code>EXISTS</code> when you're only filtering, and aggregate child tables before joining them together. Those three patterns keep each row counting once, so the figures in your reports match the figures in your finance system.</p>
+      <div class="author-box"><span class="avatar">TF</span><div><strong>Thomas Forrester</strong><p>AI Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-fabric-load-data-options.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Pipelines, Dataflow Gen2 or notebooks: how to get data into Fabric</h3><p>A beginner-friendly guide to the main ways of loading data into Microsoft Fabric, what each tool is good at, and a simple way to choose the right one.</p>
+  <span class="post-meta">Elijah Parker &middot; 28 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-row-level-security.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Row-level security in Power BI: one report, the right data for everyone</h3><p>How row-level security lets each manager, region or client see only their own figures in a single Power BI report, and the mistakes that quietly undo it.</p>
+  <span class="post-meta">Efua Angela &middot; 26 October 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-null-values.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>NULL in SQL: six mistakes that quietly skew your results</h3><p>NULL isn&#x27;t zero and it isn&#x27;t blank. Learn how it behaves in filters, joins, averages and groupings, and the simple fixes that keep your query results honest.</p>
+  <span class="post-meta">Jayne Carter &middot; 23 October 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Why your SQL totals are too high: the join fan-out problem", "description": "A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn't fix it, and three reliable patterns that do.", "datePublished": "2026-11-13", "author": {"@type": "Person", "name": "Thomas Forrester", "jobTitle": "AI Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-sql-join-fan-out.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-sql-join-fan-out.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-sql-join-fan-out.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-sql-join-fan-out.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
