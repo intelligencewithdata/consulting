@@ -62,7 +62,9 @@ Writing rules:
 - SQL: use ` ```sql ` fenced blocks, ANSI-style syntax, and **test every query** in Python `sqlite3` with a small sample table (note SQL Server differences such as `TOP` vs `LIMIT` in the text when relevant).
 - DAX / M code: use ` ```dax ` or ` ```m ` fences; only use functions that exist and that you have checked.
 - End with a short `## The bottom line` (or similar) section. Do not add your own CTA — the template adds one automatically.
-- No external images. Optional diagrams: add a new entry to `FIGURES` in `_source/figures.py` reusing the existing building blocks (`flow`, `step`, `table`, `.arch`, `.journey`) and place `[[fig:<name>]]` on its own line in the markdown.
+- **Visuals are required (owner request, for neurodivergent and visual readers).** Every article must include **at least one, ideally two, diagrams** that show the idea rather than describe it — e.g. a workspace with its items and roles, a before/after data shape, a step-by-step flow, a which-option-when comparison. Build them as new entries in `FIGURES` in `_source/figures.py` reusing the existing building blocks (`flow`, `step`, `table`, `.arch`, `.journey`) and place `[[fig:<name>]]` on its own line in the markdown, near the text it explains. Every figure needs a plain-English `<figcaption>` saying what it shows. Check each figure renders at 1440px and 390px.
+- **Do not copy Microsoft screenshots, product images or icons** into the site, and don't hotlink external images. Their reuse terms are not confirmed for a commercial site (the Fabric icon terms only allow diagrams, training materials or documentation, and the docs licence doesn't clearly cover images). Instead, where a real Microsoft screen helps, link to the relevant learn.microsoft.com page in the text (e.g. "Microsoft's guide shows this screen").
+- **Readability for neurodivergent readers:** one idea per paragraph (2–4 sentences), numbered steps for any procedure, descriptive headings, a short `## In short` bullet list (3–4 bullets) right after the intro, and consistent terms (don't switch between synonyms for the same thing).
 
 ## 5. Publish
 
