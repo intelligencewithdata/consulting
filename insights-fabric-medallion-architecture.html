@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medallion architecture in Microsoft Fabric: bronze, silver and gold explained | Intelligence With Data</title>
+<meta name="description" content="What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-fabric-medallion-architecture.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Medallion architecture in Microsoft Fabric: bronze, silver and gold explained | Intelligence With Data">
+<meta property="og:description" content="What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-fabric-medallion-architecture.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-fabric-medallion-architecture.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Microsoft Fabric</p>
+    <span class="post-cat post-cat--light">Microsoft Fabric</span>
+    <h1>Medallion architecture in Microsoft Fabric: bronze, silver and gold explained</h1>
+    <p class="lead">What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">TF</span><span><strong>Thomas Forrester</strong><small>AI Engineer &middot; 18 November 2026 &middot; 6 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#in-short">In short</a></li><li><a href="#why-use-layers-at-all">Why use layers at all?</a></li><li><a href="#bronze-store-it-exactly-as-it-arrives">Bronze: store it exactly as it arrives</a></li><li><a href="#silver-clean-it-once-properly">Silver: clean it once, properly</a></li><li><a href="#gold-shape-it-for-the-people-using-it">Gold: shape it for the people using it</a></li><li><a href="#how-to-set-it-up-in-fabric">How to set it up in Fabric</a></li><li><a href="#common-mistakes-to-avoid">Common mistakes to avoid</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-medallion-architecture.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Medallion%20architecture%20in%20Microsoft%20Fabric%3A%20bronze%2C%20silver%20and%20gold%20explained%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-medallion-architecture.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Medallion%20architecture%20in%20Microsoft%20Fabric%3A%20bronze%2C%20silver%20and%20gold%20explained&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-fabric-medallion-architecture.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-fabric-medallion-architecture.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>If you're learning <strong>Microsoft Fabric</strong>, you'll soon meet the words bronze, silver and gold. They appear in Microsoft's documentation, in job adverts and in almost every Fabric tutorial. They describe the <strong>medallion architecture</strong>, a simple way of organising data in layers so it gets cleaner and more useful as it moves towards your reports.</p>
+<p>Microsoft describes medallion architecture as a <strong>design pattern</strong> and the recommended design approach for Fabric. It isn't a feature you switch on. It's a habit of keeping raw, cleaned and report-ready data apart. This guide explains each layer in plain English, shows the same data at every stage, and walks through a sensible first setup.</p>
+<h2 id="in-short">In short</h2>
+<ul>
+<li><strong>Bronze</strong> keeps data exactly as it arrived from the source.</li>
+<li><strong>Silver</strong> holds the cleaned version: errors fixed, formats standardised, duplicates removed.</li>
+<li><strong>Gold</strong> holds data shaped for reports and dashboards.</li>
+<li>Microsoft recommends keeping each layer in <strong>its own lakehouse</strong> (or warehouse), and ideally its own workspace.</li>
+</ul>
+<h2 id="why-use-layers-at-all">Why use layers at all?</h2>
+<p>Without layers, cleaning and reporting logic tends to pile up in one place. A report reads straight from a messy export, someone fixes a problem inside the report, and the original data is lost or overwritten.</p>
+<p>Layers solve three problems at once:</p>
+<ol>
+<li><strong>You can always go back.</strong> The raw data is preserved, so if a cleaning rule turns out to be wrong you can fix it and rebuild, rather than re-requesting data from the source.</li>
+<li><strong>Each step has one job.</strong> Cleaning happens in one place and report shaping in another, which makes problems easier to find.</li>
+<li><strong>Quality is visible.</strong> Microsoft's guide puts it simply: each layer indicates the quality of the data stored in it, with higher layers representing higher quality.</li>
+</ol>
+
+<figure class="fig">
+  <div class="arch">
+    <div class="arch-col"><p class="arch-h">Sources</p><div class="fstep "><strong>Online shop</strong><small>JSON orders</small></div><div class="fstep "><strong>Stock system</strong><small>CSV files</small></div><div class="fstep "><strong>CRM</strong><small>customer export</small></div></div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col arch-col--fabric">
+      <p class="arch-h arch-h--light">OneLake, one layer per lakehouse</p>
+      <div class="fstep dark"><strong>Bronze</strong><small>raw: stored exactly as it arrived</small></div>
+      <div class="fstep dark"><strong>Silver</strong><small>cleaned: fixed, standardised, de-duplicated</small></div>
+      <div class="fstep dark"><strong>Gold</strong><small>curated: shaped for reports</small></div>
+    </div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col"><p class="arch-h">People use</p><div class="fstep gold"><strong>Power BI reports</strong></div><div class="fstep gold"><strong>SQL queries</strong></div><div class="fstep gold"><strong>Excel analysis</strong></div></div>
+  </div>
+  <figcaption>Data flows one way: it lands untouched in bronze, is cleaned in silver, and is shaped for reporting in gold. Reports read from gold only.</figcaption>
+</figure>
+<h2 id="bronze-store-it-exactly-as-it-arrives">Bronze: store it exactly as it arrives</h2>
+<p>The <strong>bronze layer</strong> is your landing zone. Microsoft's guidance is to store everything exactly as it arrives, in the same format as the source. No fixes, no filters, no "quick tidy-ups".</p>
+<p>That might feel wasteful when you can already see problems in the data. The point is that bronze is your <strong>source of truth</strong>. If a supplier sends a file with a mistake, bronze shows what they actually sent.</p>
+<p>Microsoft recommends storing bronze data in its original format, or as Parquet or Delta Lake. Where the source data already sits in OneLake, Azure Data Lake Storage Gen2, Amazon S3 or Google Cloud Storage, the guide suggests creating a <strong>shortcut</strong> in the bronze layer instead of copying the data across.</p>
+<h2 id="silver-clean-it-once-properly">Silver: clean it once, properly</h2>
+<p>The <strong>silver layer</strong> is where you fix things. Microsoft's own example lists typical silver work:</p>
+<ul>
+<li>standardising date formats across all sources</li>
+<li>converting values to a single currency</li>
+<li>removing test transactions</li>
+<li>matching customer records across systems</li>
+</ul>
+<p>The key idea is that you clean <strong>once, centrally</strong>, rather than repeating the same fixes in every report. When five reports all read from one cleaned silver table, they all get the same answer.</p>
+<p>For silver and gold, Microsoft recommends <strong>Delta tables</strong>, which are the default table format in a Fabric lakehouse. When Fabric engines write Delta tables they can apply <strong>V-Order</strong>, an optimisation that speeds up reads by Power BI, SQL and Spark.</p>
+<h2 id="gold-shape-it-for-the-people-using-it">Gold: shape it for the people using it</h2>
+<p>The <strong>gold layer</strong> is organised for reporting. Instead of every order line, you might hold a daily sales table, a customer lifetime value table or a stock forecasting table: Microsoft's example uses exactly these three.</p>
+<p>Gold is what business users and Power BI reports should read from. It's usually smaller, simpler and named in business language, so someone opening it can understand it without a data dictionary.</p>
+<p>Here's how the same handful of orders looks at each layer.</p>
+
+<figure class="fig">
+  <div class="tbl-grid">
+    <div class="mini-table"><p>Bronze: as it arrived</p><table><thead><tr><th>order_id</th><th>order_date</th><th>amount</th></tr></thead><tbody><tr><td>101</td><td>03/11/2026</td><td>120</td></tr><tr class="hl"><td>101</td><td>03/11/2026</td><td>120</td></tr><tr><td>102</td><td>2026-11-03</td><td>80</td></tr><tr class="hl"><td>TEST1</td><td>2026-11-03</td><td>1</td></tr></tbody></table></div>
+    <div class="mini-table"><p>Silver: cleaned</p><table><thead><tr><th>order_id</th><th>order_date</th><th>amount</th></tr></thead><tbody><tr><td>101</td><td>2026-11-03</td><td>120</td></tr><tr><td>102</td><td>2026-11-03</td><td>80</td></tr></tbody></table></div>
+  </div>
+  <div class="tbl-grid tbl-grid--one">
+    <div class="mini-table"><p>Gold: ready for the report</p><table><thead><tr><th>order_date</th><th>orders</th><th>sales</th></tr></thead><tbody><tr class="hl"><td>2026-11-03</td><td>2</td><td>200</td></tr></tbody></table></div>
+  </div>
+  <figcaption>The same orders at each layer. Silver removes the duplicate and the test order and fixes the date format; gold summarises the clean rows into daily sales.</figcaption>
+</figure>
+<p>The query behind a gold daily sales table can be very simple, because silver has already done the hard work:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span>
+    order_date,
+    <span class="tok-kw">COUNT</span>(*)    <span class="tok-kw">AS</span> orders,
+    <span class="tok-kw">SUM</span>(amount) <span class="tok-kw">AS</span> sales
+<span class="tok-kw">FROM</span> silver_orders
+<span class="tok-kw">GROUP BY</span> order_date
+<span class="tok-kw">ORDER BY</span> order_date;
+</code></pre>
+<p>Notice there's no de-duplication or date fixing here. If you find yourself cleaning data in a gold query, that's a sign the cleaning belongs in silver.</p>
+<h2 id="how-to-set-it-up-in-fabric">How to set it up in Fabric</h2>
+<p>Microsoft's guide describes two common patterns:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Bronze</th>
+<th>Silver</th>
+<th>Gold</th>
+<th>Business users query through</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Lakehouse</td>
+<td>Lakehouse</td>
+<td>Lakehouse</td>
+<td>The SQL analytics endpoint</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Lakehouse</td>
+<td>Lakehouse</td>
+<td>Warehouse</td>
+<td>The warehouse endpoint</td>
+</tr>
+</tbody>
+</table>
+<p>The guide says the choice should be based on your preference and your team's skills. If your team is more comfortable with Spark and notebooks, pattern 1 keeps everything in lakehouses. If your team thinks in T-SQL, a warehouse for gold may feel more natural.</p>
+<p>A practical first setup looks like this:</p>
+<ol>
+<li><strong>Create one lakehouse per layer</strong>, for example <code>bronze_sales</code>, <code>silver_sales</code> and <code>gold_sales</code>.</li>
+<li><strong>Decide on workspaces.</strong> You can keep all three in one workspace while learning. For real projects, Microsoft recommends a separate workspace for each layer, which gives you more control and better governance at layer level.</li>
+<li><strong>Load raw data into bronze</strong> with the ingestion tool that suits the source, such as a pipeline, a Dataflow Gen2 or a notebook.</li>
+<li><strong>Write cleaned Delta tables into silver</strong>, keeping your cleaning rules in one place.</li>
+<li><strong>Build gold tables</strong> for each reporting need, then point your Power BI semantic model at gold.</li>
+</ol>
+<p>Microsoft's medallion guide also describes <strong>materialized lake views</strong>, which let you define the transformations between layers in SQL and have Fabric manage dependencies and refreshes. It's worth reading Microsoft's tutorial on them and checking their current status before relying on them in production.</p>
+<h2 id="common-mistakes-to-avoid">Common mistakes to avoid</h2>
+<ul>
+<li><strong>Cleaning in bronze.</strong> Once you change raw data, you lose the ability to check it against the source.</li>
+<li><strong>Reports reading from bronze or silver.</strong> This spreads business logic across reports and brings back the inconsistency the layers were meant to remove.</li>
+<li><strong>Too many layers too soon.</strong> Bronze, silver and gold are a guide, not a rule. A small project with one tidy source may not need every layer to be separate on day one.</li>
+<li><strong>Unclear names.</strong> Use consistent prefixes or workspace names so everyone knows which layer they're looking at.</li>
+</ul>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Medallion architecture is less about technology and more about discipline: <strong>keep the raw data, clean it once, and shape it for the people who use it</strong>. In Fabric that usually means three lakehouses (or two lakehouses and a warehouse) and a clear rule that reports only read from gold.</p>
+<p>If you're learning Fabric, building a small bronze-silver-gold project with a sample dataset is one of the best ways to practise. It touches ingestion, cleaning, Delta tables and Power BI, and it's exactly the kind of structure employers expect you to recognise.</p>
+      <div class="author-box"><span class="avatar">TF</span><div><strong>Thomas Forrester</strong><p>AI Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Free every Friday</p><h3>Learn Power BI &amp; SQL live, for free</h3><p>Join our free live class every Friday at 6pm UK time: hands-on lessons, live Q&amp;A and career tips from a working Senior Data Analyst.</p><div class="btn-row"><a class="btn btn--gold" href="free-training.html">Reserve your free seat <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="training.html">See all programmes</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-fabric-workspace-roles.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Fabric workspace roles explained: who should get which access</h3><p>A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.</p>
+  <span class="post-meta">Elijah Parker &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-star-schema.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Star schema in Power BI: how to shape your data model</h3><p>What fact and dimension tables are, why Power BI works best with a star schema, and how to turn a flat spreadsheet export into one.</p>
+  <span class="post-meta">Efua Angela &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-join-fan-out.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>Why your SQL totals are too high: the join fan-out problem</h3><p>A single join can quietly double your revenue figures. Learn how to spot join fan-out in SQL, why DISTINCT doesn&#x27;t fix it, and three reliable patterns that do.</p>
+  <span class="post-meta">Thomas Forrester &middot; 13 November 2026 &middot; 7 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Medallion architecture in Microsoft Fabric: bronze, silver and gold explained", "description": "What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.", "datePublished": "2026-11-18", "author": {"@type": "Person", "name": "Thomas Forrester", "jobTitle": "AI Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-fabric-medallion-architecture.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-fabric-medallion-architecture.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-fabric-medallion-architecture.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-fabric-medallion-architecture.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>

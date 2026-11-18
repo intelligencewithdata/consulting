@@ -89,4 +89,34 @@ FIGURES = {
   </div>
   <figcaption>Numbering restarts for each customer. Keep <code>order_rank = 1</code> and you have each customer's latest order.</figcaption>
 </figure>''',
+
+    # ---------------------------------------------------------------- medallion
+    "medallion-flow": f'''
+<figure class="fig">
+  <div class="arch">
+    <div class="arch-col"><p class="arch-h">Sources</p>{step("Online shop", "JSON orders")}{step("Stock system", "CSV files")}{step("CRM", "customer export")}</div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col arch-col--fabric">
+      <p class="arch-h arch-h--light">OneLake, one layer per lakehouse</p>
+      {step("Bronze", "raw: stored exactly as it arrived", "dark")}
+      {step("Silver", "cleaned: fixed, standardised, de-duplicated", "dark")}
+      {step("Gold", "curated: shaped for reports", "dark")}
+    </div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col"><p class="arch-h">People use</p>{step("Power BI reports", "", "gold")}{step("SQL queries", "", "gold")}{step("Excel analysis", "", "gold")}</div>
+  </div>
+  <figcaption>Data flows one way: it lands untouched in bronze, is cleaned in silver, and is shaped for reporting in gold. Reports read from gold only.</figcaption>
+</figure>''',
+
+    "medallion-data": f'''
+<figure class="fig">
+  <div class="tbl-grid">
+    {table("Bronze: as it arrived", ["order_id", "order_date", "amount"], [["101", "03/11/2026", "120"], ["101", "03/11/2026", "120"], ["102", "2026-11-03", "80"], ["TEST1", "2026-11-03", "1"]], hl=(1, 3))}
+    {table("Silver: cleaned", ["order_id", "order_date", "amount"], [["101", "2026-11-03", "120"], ["102", "2026-11-03", "80"]])}
+  </div>
+  <div class="tbl-grid tbl-grid--one">
+    {table("Gold: ready for the report", ["order_date", "orders", "sales"], [["2026-11-03", "2", "200"]], hl=(0,))}
+  </div>
+  <figcaption>The same orders at each layer. Silver removes the duplicate and the test order and fixes the date format; gold summarises the clean rows into daily sales.</figcaption>
+</figure>''',
 }

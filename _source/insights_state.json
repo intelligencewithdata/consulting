@@ -1,5 +1,5 @@
 {
   "author_rotation": ["efua-angela", "elijah-parker", "thomas-forrester", "jayne-carter"],
-  "next_author_index": 2,
+  "next_author_index": 3,
   "notes": "Hakeem Falade (hakeem-falade) is used ONLY for personal/career-story articles he provides. Every other article takes the next author in author_rotation, then next_author_index increments (wrapping). David Chen must never be used."
 }
