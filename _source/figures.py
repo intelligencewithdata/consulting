@@ -119,4 +119,26 @@ FIGURES = {
   </div>
   <figcaption>The same orders at each layer. Silver removes the duplicate and the test order and fixes the date format; gold summarises the clean rows into daily sales.</figcaption>
 </figure>''',
+
+    # ---------------------------------------------------------------- sql order of execution
+    "sql-logical-order": f'''
+<figure class="fig">
+  <div class="tbl-grid">
+    {table("As you write it", ["#", "clause"], [["1", "SELECT"], ["2", "FROM"], ["3", "WHERE"], ["4", "GROUP BY"], ["5", "HAVING"], ["6", "ORDER BY"]], hl=(0,))}
+    {table("As SQL processes it", ["#", "clause", "what happens"], [["1", "FROM &amp; JOIN", "find the rows"], ["2", "WHERE", "filter rows"], ["3", "GROUP BY", "make groups"], ["4", "HAVING", "filter groups"], ["5", "SELECT", "calculate columns, name aliases"], ["6", "DISTINCT", "remove duplicates"], ["7", "ORDER BY", "sort"], ["8", "TOP / LIMIT", "keep the first rows"]], hl=(4,))}
+  </div>
+  <figcaption>You write SELECT first, but SQL works it out almost last. Anything named in SELECT, such as an alias, doesn't exist yet for WHERE, GROUP BY or HAVING. It does exist for ORDER BY.</figcaption>
+</figure>''',
+
+    "sql-where-having": f'''
+<figure class="fig">
+  <div class="tbl-grid">
+    {table("1. WHERE status = 'Complete'", ["order_id", "region", "value", "status"], [["2", "North", "400", "Complete"], ["3", "South", "100", "Cancelled"], ["4", "South", "300", "Complete"], ["6", "East", "25", "Complete"]], hl=(1,))}
+    {table("2. GROUP BY region", ["region", "sales"], [["North", "800"], ["South", "660"], ["East", "75"]])}
+  </div>
+  <div class="tbl-grid tbl-grid--one">
+    {table("3. HAVING SUM(...) &gt; 200", ["region", "sales"], [["North", "800"], ["South", "660"]], hl=(0, 1))}
+  </div>
+  <figcaption>WHERE removes individual rows before grouping (the cancelled order goes). GROUP BY then totals what is left, and HAVING removes whole groups afterwards (East, at 75, goes). Only some of the orders are shown in step 1.</figcaption>
+</figure>''',
 }

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL order of execution: why your query doesn't run top to bottom | Intelligence With Data</title>
+<meta name="description" content="SQL reads your query in a different order from the one you type. Learn that order and you'll understand alias errors, WHERE vs HAVING and where LIMIT really applies.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-sql-order-of-execution.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SQL order of execution: why your query doesn't run top to bottom | Intelligence With Data">
+<meta property="og:description" content="SQL reads your query in a different order from the one you type. Learn that order and you'll understand alias errors, WHERE vs HAVING and where LIMIT really applies.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-sql-order-of-execution.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-sql-order-of-execution.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; SQL</p>
+    <span class="post-cat post-cat--light">SQL</span>
+    <h1>SQL order of execution: why your query doesn&#x27;t run top to bottom</h1>
+    <p class="lead">SQL reads your query in a different order from the one you type. Learn that order and you&#x27;ll understand alias errors, WHERE vs HAVING and where LIMIT really applies.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">JC</span><span><strong>Jayne Carter</strong><small>Data Engineer &middot; 20 November 2026 &middot; 7 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#in-short">In short</a></li><li><a href="#the-order-you-write-vs-the-order-sql-reads">The order you write vs the order SQL reads</a></li><li><a href="#why-your-alias-doesnt-work-in-where">Why your alias doesn&#x27;t work in WHERE</a></li><li><a href="#where-vs-having-filtering-before-or-after-grouping">WHERE vs HAVING: filtering before or after grouping</a></li><li><a href="#why-order-by-can-use-aliases">Why ORDER BY can use aliases</a></li><li><a href="#top-and-limit-keep-the-first-rows-after-sorting">TOP and LIMIT keep the first rows after sorting</a></li><li><a href="#logical-order-is-not-the-same-as-physical-order">Logical order is not the same as physical order</a></li><li><a href="#a-quick-checklist-when-a-query-fails">A quick checklist when a query fails</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-order-of-execution.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=SQL%20order%20of%20execution%3A%20why%20your%20query%20doesn%27t%20run%20top%20to%20bottom%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-order-of-execution.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=SQL%20order%20of%20execution%3A%20why%20your%20query%20doesn%27t%20run%20top%20to%20bottom&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-order-of-execution.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-sql-order-of-execution.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>You write a SQL query from the top down: <code>SELECT</code>, then <code>FROM</code>, then <code>WHERE</code>. It is natural to assume the database works through it in the same order. It doesn't, and that gap explains some of the most confusing errors beginners meet.</p>
+<p>Once you know the order SQL actually uses, messages like "invalid column name" stop being a mystery. You also start to see why <code>WHERE</code> and <code>HAVING</code> both exist, and why sorting happens before the first few rows are kept.</p>
+<p>This article walks through that order with one small table and shows the fixes for the mistakes it causes.</p>
+<h2 id="in-short">In short</h2>
+<ul>
+<li>SQL works out <code>FROM</code> first and <code>SELECT</code> almost last, so <strong>aliases from SELECT aren't available in WHERE, GROUP BY or HAVING</strong>.</li>
+<li><strong>WHERE filters rows before grouping; HAVING filters groups after grouping.</strong></li>
+<li><code>ORDER BY</code> runs after <code>SELECT</code>, so it <strong>can</strong> use your aliases.</li>
+<li><code>TOP</code> and <code>LIMIT</code> come last, so they keep the first rows <strong>after</strong> sorting.</li>
+</ul>
+<h2 id="the-order-you-write-vs-the-order-sql-reads">The order you write vs the order SQL reads</h2>
+<p>Microsoft's documentation for the <code>SELECT</code> statement in SQL Server sets out a <strong>logical processing order</strong>. It lists <code>FROM</code>, <code>ON</code>, <code>JOIN</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>WITH CUBE</code> or <code>WITH ROLLUP</code>, <code>HAVING</code>, <code>SELECT</code>, <code>DISTINCT</code>, <code>ORDER BY</code> and finally <code>TOP</code>.</p>
+<p>The documentation explains why this matters: the order decides <strong>when something defined in one step becomes available to later steps</strong>. Tables named in <code>FROM</code> can be used everywhere after it. Column aliases defined in <code>SELECT</code> can't be used by the clauses that come before it, but they can be used by later ones such as <code>ORDER BY</code>.</p>
+
+<figure class="fig">
+  <div class="tbl-grid">
+    <div class="mini-table"><p>As you write it</p><table><thead><tr><th>#</th><th>clause</th></tr></thead><tbody><tr class="hl"><td>1</td><td>SELECT</td></tr><tr><td>2</td><td>FROM</td></tr><tr><td>3</td><td>WHERE</td></tr><tr><td>4</td><td>GROUP BY</td></tr><tr><td>5</td><td>HAVING</td></tr><tr><td>6</td><td>ORDER BY</td></tr></tbody></table></div>
+    <div class="mini-table"><p>As SQL processes it</p><table><thead><tr><th>#</th><th>clause</th><th>what happens</th></tr></thead><tbody><tr><td>1</td><td>FROM &amp; JOIN</td><td>find the rows</td></tr><tr><td>2</td><td>WHERE</td><td>filter rows</td></tr><tr><td>3</td><td>GROUP BY</td><td>make groups</td></tr><tr><td>4</td><td>HAVING</td><td>filter groups</td></tr><tr class="hl"><td>5</td><td>SELECT</td><td>calculate columns, name aliases</td></tr><tr><td>6</td><td>DISTINCT</td><td>remove duplicates</td></tr><tr><td>7</td><td>ORDER BY</td><td>sort</td></tr><tr><td>8</td><td>TOP / LIMIT</td><td>keep the first rows</td></tr></tbody></table></div>
+  </div>
+  <figcaption>You write SELECT first, but SQL works it out almost last. Anything named in SELECT, such as an alias, doesn't exist yet for WHERE, GROUP BY or HAVING. It does exist for ORDER BY.</figcaption>
+</figure>
+<p>The examples below use one table of orders:</p>
+<pre><code class="language-sql">orders (order_id, customer_id, region, quantity, unit_price, status)
+</code></pre>
+<p>Each order has a region, a quantity, a unit price and a status of <code>Complete</code> or <code>Cancelled</code>.</p>
+<h2 id="why-your-alias-doesnt-work-in-where">Why your alias doesn't work in WHERE</h2>
+<p>Say you want every order worth more than 100. You calculate the value, give it a friendly name, and filter on that name:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> order_id, quantity * unit_price <span class="tok-kw">AS</span> order_value
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> order_value &gt; 100;
+</code></pre>
+<p>SQL Server rejects this query with an error. <strong><code>WHERE</code> is processed before <code>SELECT</code></strong>, so at the point SQL filters the rows, <code>order_value</code> hasn't been created yet.</p>
+<p>Be aware that some databases are more relaxed. SQLite, for example, accepts this query. Don't rely on that: the same code will fail when you move it to SQL Server or a Fabric warehouse, and anyone reading it may assume it is portable.</p>
+<p>There are two reliable fixes. The first is to <strong>repeat the calculation</strong> in the filter:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> order_id, quantity * unit_price <span class="tok-kw">AS</span> order_value
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> quantity * unit_price &gt; 100;
+</code></pre>
+<p>The second, which is tidier when the calculation is long, is to <strong>calculate it in a CTE</strong> and filter in the next step. By the time the outer query runs, <code>order_value</code> is a real column:</p>
+<pre><code class="language-sql"><span class="tok-kw">WITH</span> order_values <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> order_id, quantity * unit_price <span class="tok-kw">AS</span> order_value
+    <span class="tok-kw">FROM</span> orders
+)
+<span class="tok-kw">SELECT</span> order_id, order_value
+<span class="tok-kw">FROM</span> order_values
+<span class="tok-kw">WHERE</span> order_value &gt; 100;
+</code></pre>
+<p>Both return the same four orders. Use whichever your team finds easier to read, and stick to it.</p>
+<h2 id="where-vs-having-filtering-before-or-after-grouping">WHERE vs HAVING: filtering before or after grouping</h2>
+<p><code>WHERE</code> and <code>HAVING</code> both filter, so beginners often wonder why SQL needs two of them. The processing order gives the answer: <strong>they run at different times</strong>.</p>
+<p><code>WHERE</code> runs before <code>GROUP BY</code>, so it works on individual rows. <code>HAVING</code> runs after <code>GROUP BY</code>, so it works on whole groups and can use totals such as <code>SUM</code> or <code>COUNT</code>.</p>
+<p>If you try to filter on a total in <code>WHERE</code>, the query fails, because the groups don't exist yet:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> region, <span class="tok-kw">SUM</span>(quantity * unit_price) <span class="tok-kw">AS</span> sales
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> <span class="tok-kw">SUM</span>(quantity * unit_price) &gt; 200
+<span class="tok-kw">GROUP BY</span> region;
+</code></pre>
+<p>Put each filter where it belongs instead. Here, cancelled orders are removed row by row, and then regions with sales of 200 or less are removed as groups:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> region, <span class="tok-kw">SUM</span>(quantity * unit_price) <span class="tok-kw">AS</span> sales
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> region
+<span class="tok-kw">HAVING</span> <span class="tok-kw">SUM</span>(quantity * unit_price) &gt; 200;
+</code></pre>
+
+<figure class="fig">
+  <div class="tbl-grid">
+    <div class="mini-table"><p>1. WHERE status = 'Complete'</p><table><thead><tr><th>order_id</th><th>region</th><th>value</th><th>status</th></tr></thead><tbody><tr><td>2</td><td>North</td><td>400</td><td>Complete</td></tr><tr class="hl"><td>3</td><td>South</td><td>100</td><td>Cancelled</td></tr><tr><td>4</td><td>South</td><td>300</td><td>Complete</td></tr><tr><td>6</td><td>East</td><td>25</td><td>Complete</td></tr></tbody></table></div>
+    <div class="mini-table"><p>2. GROUP BY region</p><table><thead><tr><th>region</th><th>sales</th></tr></thead><tbody><tr><td>North</td><td>800</td></tr><tr><td>South</td><td>660</td></tr><tr><td>East</td><td>75</td></tr></tbody></table></div>
+  </div>
+  <div class="tbl-grid tbl-grid--one">
+    <div class="mini-table"><p>3. HAVING SUM(...) &gt; 200</p><table><thead><tr><th>region</th><th>sales</th></tr></thead><tbody><tr class="hl"><td>North</td><td>800</td></tr><tr class="hl"><td>South</td><td>660</td></tr></tbody></table></div>
+  </div>
+  <figcaption>WHERE removes individual rows before grouping (the cancelled order goes). GROUP BY then totals what is left, and HAVING removes whole groups afterwards (East, at 75, goes). Only some of the orders are shown in step 1.</figcaption>
+</figure>
+<p>Notice that <code>HAVING</code> repeats <code>SUM(quantity * unit_price)</code> rather than using the alias <code>sales</code>. That follows the same rule as before: <code>HAVING</code> comes before <code>SELECT</code>, so the alias doesn't exist yet in SQL Server.</p>
+<p>A useful habit: <strong>if a filter doesn't need a total, put it in WHERE</strong>. Removing rows before grouping makes the intent of the query clearer.</p>
+<h2 id="why-order-by-can-use-aliases">Why ORDER BY can use aliases</h2>
+<p><code>ORDER BY</code> is one of the last steps, after <code>SELECT</code>. By then the alias exists, so this works:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> customer_id, <span class="tok-kw">SUM</span>(quantity * unit_price) <span class="tok-kw">AS</span> sales
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> customer_id
+<span class="tok-kw">ORDER BY</span> sales <span class="tok-kw">DESC</span>
+<span class="tok-kw">LIMIT</span> 3;
+</code></pre>
+<p>This is a common source of confusion. Learners see an alias work in <code>ORDER BY</code> and expect it to work in <code>WHERE</code>. Once you picture the processing order, the difference makes sense.</p>
+<h2 id="top-and-limit-keep-the-first-rows-after-sorting">TOP and LIMIT keep the first rows after sorting</h2>
+<p>The query above returns the <strong>top three customers by sales</strong>. That only works because <code>LIMIT</code> is applied after <code>ORDER BY</code>. SQL sorts every customer first and then keeps the first three.</p>
+<p><code>LIMIT</code> is used by databases such as SQLite. SQL Server uses <code>TOP</code> at the start of the query instead, but the logic is the same: it comes last in the processing order.</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> <span class="tok-kw">TOP</span> (3) customer_id, <span class="tok-kw">SUM</span>(quantity * unit_price) <span class="tok-kw">AS</span> sales
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> customer_id
+<span class="tok-kw">ORDER BY</span> sales <span class="tok-kw">DESC</span>;
+</code></pre>
+<p>If you leave out <code>ORDER BY</code>, you get three rows but <strong>no guarantee which three</strong>. Always pair <code>TOP</code> or <code>LIMIT</code> with an <code>ORDER BY</code> when the choice of rows matters.</p>
+<h2 id="logical-order-is-not-the-same-as-physical-order">Logical order is not the same as physical order</h2>
+<p>One point is easy to misread. The logical processing order describes <strong>how SQL makes names and results available</strong> to each clause. It is not a promise about the steps the engine physically carries out.</p>
+<p>Microsoft's documentation says the query processor decides the actual physical execution, and that this may differ from the list. The engine is free to arrange the work to run faster, so use the logical order to reason about <strong>what your query means</strong>, not how quickly it runs.</p>
+<h2 id="a-quick-checklist-when-a-query-fails">A quick checklist when a query fails</h2>
+<p>When a query throws an error or returns something unexpected, work through these steps:</p>
+<ol>
+<li><strong>Read the query in processing order</strong>, starting from <code>FROM</code>, not from <code>SELECT</code>.</li>
+<li><strong>Check every alias.</strong> Is it used in <code>WHERE</code>, <code>GROUP BY</code> or <code>HAVING</code>? If so, repeat the calculation or move it into a CTE.</li>
+<li><strong>Check every filter.</strong> Does it use a total such as <code>SUM</code> or <code>COUNT</code>? It belongs in <code>HAVING</code>. Otherwise it belongs in <code>WHERE</code>.</li>
+<li><strong>Check TOP or LIMIT.</strong> Is there an <code>ORDER BY</code> that decides which rows are kept?</li>
+</ol>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>SQL doesn't read your query from top to bottom. It starts with <code>FROM</code>, filters rows with <code>WHERE</code>, groups, filters groups with <code>HAVING</code>, and only then builds the <code>SELECT</code> list, sorts and trims.</p>
+<p>Keep that order in mind and you will <strong>fix alias errors in seconds</strong>, choose between <code>WHERE</code> and <code>HAVING</code> without guessing, and write queries that work in SQL Server and Fabric as well as in more forgiving databases.</p>
+      <div class="author-box"><span class="avatar">JC</span><div><strong>Jayne Carter</strong><p>Data Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Free every Friday</p><h3>Learn Power BI &amp; SQL live, for free</h3><p>Join our free live class every Friday at 6pm UK time: hands-on lessons, live Q&amp;A and career tips from a working Senior Data Analyst.</p><div class="btn-row"><a class="btn btn--gold" href="free-training.html">Reserve your free seat <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="training.html">See all programmes</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-fabric-medallion-architecture.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Medallion architecture in Microsoft Fabric: bronze, silver and gold explained</h3><p>What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.</p>
+  <span class="post-meta">Thomas Forrester &middot; 18 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-fabric-workspace-roles.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Fabric workspace roles explained: who should get which access</h3><p>A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.</p>
+  <span class="post-meta">Elijah Parker &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-star-schema.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>Star schema in Power BI: how to shape your data model</h3><p>What fact and dimension tables are, why Power BI works best with a star schema, and how to turn a flat spreadsheet export into one.</p>
+  <span class="post-meta">Efua Angela &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "SQL order of execution: why your query doesn't run top to bottom", "description": "SQL reads your query in a different order from the one you type. Learn that order and you'll understand alias errors, WHERE vs HAVING and where LIMIT really applies.", "datePublished": "2026-11-20", "author": {"@type": "Person", "name": "Jayne Carter", "jobTitle": "Data Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-sql-order-of-execution.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-sql-order-of-execution.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-sql-order-of-execution.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-sql-order-of-execution.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
