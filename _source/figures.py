@@ -141,4 +141,26 @@ FIGURES = {
   </div>
   <figcaption>WHERE removes individual rows before grouping (the cancelled order goes). GROUP BY then totals what is left, and HAVING removes whole groups afterwards (East, at 75, goes). Only some of the orders are shown in step 1.</figcaption>
 </figure>''',
+
+    # ---------------------------------------------------------------- power bi shared semantic model
+    "pbi-shared-model": f'''
+<figure class="fig">
+  <div class="fig-row">
+    <div class="fig-label fig-label--bad"><span>Copied</span><em>One model per report</em></div>
+    {flow(step("Sales report", "own copy of the data", "bad"), step("Finance report", "own copy, own measures", "bad"), step("Board pack", "another copy", "bad"), step("Three refreshes", "three versions of revenue", "bad"))}
+  </div>
+  <div class="fig-row">
+    <div class="fig-label fig-label--good"><span>Shared</span><em>One model, many reports</em></div>
+    {flow(step("One semantic model", "refreshed once", "good"), step("Live connection", "reports point at it", "good"), step("Sales, finance, board", "thin reports, no data", "good"), step("One revenue figure", "everywhere", "good gold"))}
+  </div>
+  <figcaption>The same three reports, two ways. When each report carries its own copy of the data, definitions drift apart. When every report connects to one shared semantic model, a measure is defined and refreshed in one place.</figcaption>
+</figure>''',
+
+    "pbi-shared-model-roles": f'''
+<figure class="fig">
+  <div class="tbl-grid tbl-grid--one">
+    {table("Who needs what", ["person", "works on", "needs"], [["Model owner", "the semantic model: data, relationships, measures", "Admin, Member or Contributor role on the model workspace"], ["Report author", "thin reports connected to the model", "Build permission on the model"], ["Report reader", "viewing reports", "access to the report or app, not Build"]], hl=(1,))}
+  </div>
+  <figcaption>Three jobs, three levels of access. The key one is Build permission: it lets a report author create new reports from the shared model without being able to change the model itself.</figcaption>
+</figure>''',
 }

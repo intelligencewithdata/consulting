@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One semantic model, many reports: stop copying data in Power BI | Intelligence With Data</title>
+<meta name="description" content="Why every new Power BI report shouldn't bring its own copy of the data, and how a shared semantic model gives your business one version of the numbers.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-power-bi-shared-semantic-model.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="One semantic model, many reports: stop copying data in Power BI | Intelligence With Data">
+<meta property="og:description" content="Why every new Power BI report shouldn't bring its own copy of the data, and how a shared semantic model gives your business one version of the numbers.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-power-bi-shared-semantic-model.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-shared-semantic-model.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; Power BI</p>
+    <span class="post-cat post-cat--light">Power BI</span>
+    <h1>One semantic model, many reports: stop copying data in Power BI</h1>
+    <p class="lead">Why every new Power BI report shouldn&#x27;t bring its own copy of the data, and how a shared semantic model gives your business one version of the numbers.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">EA</span><span><strong>Efua Angela</strong><small>Senior Supply Chain Analyst &middot; 23 November 2026 &middot; 7 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#in-short">In short</a></li><li><a href="#what-a-semantic-model-is-and-why-copies-cause-trouble">What a semantic model is (and why copies cause trouble)</a></li><li><a href="#the-shared-model-approach">The shared model approach</a></li><li><a href="#how-to-connect-a-report-to-a-shared-model">How to connect a report to a shared model</a></li><li><a href="#who-can-do-what-build-permission">Who can do what: Build permission</a></li><li><a href="#point-people-at-the-right-model-endorsement">Point people at the right model: endorsement</a></li><li><a href="#when-a-separate-model-still-makes-sense">When a separate model still makes sense</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-shared-semantic-model.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=One%20semantic%20model%2C%20many%20reports%3A%20stop%20copying%20data%20in%20Power%20BI%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-shared-semantic-model.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=One%20semantic%20model%2C%20many%20reports%3A%20stop%20copying%20data%20in%20Power%20BI&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-power-bi-shared-semantic-model.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-power-bi-shared-semantic-model.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>Ask three managers for last month's revenue and you might get three different answers, each backed by a Power BI report. Nobody is being careless. The usual cause is that <strong>each report was built with its own copy of the data and its own version of the measures</strong>, so small differences crept in over time.</p>
+<p>Power BI has a built-in answer to this: build the data model once, publish it as a <strong>shared semantic model</strong>, and connect every report to it. This guide explains what that means, why it matters for a growing business, and how to set it up.</p>
+<h2 id="in-short">In short</h2>
+<ul>
+<li>A <strong>semantic model</strong> holds your data, relationships and measures. A report is just the pages and visuals on top.</li>
+<li>Most businesses end up with one model per report. That means repeated refreshes and definitions that drift apart.</li>
+<li>Instead, publish <strong>one shared model</strong> and connect new reports to it with a <strong>live connection</strong>.</li>
+<li>Control who can build reports with <strong>Build permission</strong>, and flag the trusted model with <strong>endorsement</strong>.</li>
+</ul>
+<h2 id="what-a-semantic-model-is-and-why-copies-cause-trouble">What a semantic model is (and why copies cause trouble)</h2>
+<p>When you build a report in Power BI Desktop, you are really building two things in one file. The first is the <strong>semantic model</strong>: the imported tables, the relationships between them and the DAX measures such as Total Sales or Gross Margin. The second is the <strong>report</strong>: the pages, charts and slicers people look at.</p>
+<p>Publish that file and both parts go to the Power BI service together. That is fine for the first report. The trouble starts with the second and third, when someone opens a new file, imports the same sales data again and rewrites the measures.</p>
+<p>Now you have several semantic models covering the same data. Each one:</p>
+<ul>
+<li><strong>refreshes separately</strong>, putting extra load on your source systems and gateways;</li>
+<li><strong>holds its own measure definitions</strong>, so a change to how revenue is calculated has to be made in several places, and is easy to miss in one;</li>
+<li><strong>needs its own security</strong>, so a row-level security rule added to one model doesn't protect the others.</li>
+</ul>
+
+<figure class="fig">
+  <div class="fig-row">
+    <div class="fig-label fig-label--bad"><span>Copied</span><em>One model per report</em></div>
+    <div class="flow"><div class="fstep bad"><strong>Sales report</strong><small>own copy of the data</small></div><div class="fstep bad"><strong>Finance report</strong><small>own copy, own measures</small></div><div class="fstep bad"><strong>Board pack</strong><small>another copy</small></div><div class="fstep bad"><strong>Three refreshes</strong><small>three versions of revenue</small></div></div>
+  </div>
+  <div class="fig-row">
+    <div class="fig-label fig-label--good"><span>Shared</span><em>One model, many reports</em></div>
+    <div class="flow"><div class="fstep good"><strong>One semantic model</strong><small>refreshed once</small></div><div class="fstep good"><strong>Live connection</strong><small>reports point at it</small></div><div class="fstep good"><strong>Sales, finance, board</strong><small>thin reports, no data</small></div><div class="fstep good gold"><strong>One revenue figure</strong><small>everywhere</small></div></div>
+  </div>
+  <figcaption>The same three reports, two ways. When each report carries its own copy of the data, definitions drift apart. When every report connects to one shared semantic model, a measure is defined and refreshed in one place.</figcaption>
+</figure>
+<h2 id="the-shared-model-approach">The shared model approach</h2>
+<p>Microsoft's guidance on managed self-service BI is direct about this. It says the key to making the approach work is <strong>"to minimize the number of semantic models"</strong>, and it recommends decoupling the semantic model from the reports.</p>
+<p>In practice that means two kinds of Power BI Desktop file:</p>
+<ol>
+<li><strong>The model file.</strong> It contains the data, relationships and measures. It may have no report pages, or just a simple test page. It is published once and refreshed on a schedule.</li>
+<li><strong>Thin report files.</strong> They contain no data of their own. Each one connects to the published model and holds only pages and visuals.</li>
+</ol>
+<p>Microsoft's scenario goes a step further and suggests keeping the shared model in <strong>its own workspace</strong>, separate from the workspace that holds the reports. That makes it clear who is responsible for which content.</p>
+<p>The trade-off is worth stating plainly. Because every report depends on the shared model, <strong>any change to the model affects every report connected to it</strong>. Renaming or removing a measure can break visuals elsewhere, so changes to the model need a little more care.</p>
+<h2 id="how-to-connect-a-report-to-a-shared-model">How to connect a report to a shared model</h2>
+<p>Once the model is published, report authors connect to it from Power BI Desktop rather than importing the data again.</p>
+<ol>
+<li>Open Power BI Desktop and start a new, blank report.</li>
+<li>On the <strong>Home</strong> tab, select <strong>Get data</strong>, then <strong>Power BI semantic models</strong>.</li>
+<li>In the OneLake catalog that opens, choose the shared model and select <strong>Connect</strong>.</li>
+<li>Build your pages and visuals using the tables and measures from the model.</li>
+<li>Publish the report to the reports workspace.</li>
+</ol>
+<p>Microsoft calls this a <strong>Power BI service live connection</strong>. The report points at the existing model, so <strong>no new semantic model is created</strong> when you publish it. Microsoft's guide to <a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-report-lifecycle-datasets">connecting to semantic models in Power BI</a> shows these screens step by step.</p>
+<p>On a live connection the model itself is read-only from the report. Report authors <strong>can't add new tables or change the model's relationships</strong>, but they can still add report-level measures for one-off calculations. If a measure proves useful to more than one report, it belongs in the shared model instead.</p>
+<h2 id="who-can-do-what-build-permission">Who can do what: Build permission</h2>
+<p>Not everyone who reads reports should be creating them. Power BI handles this with <strong>Build permission</strong> on the semantic model. According to Microsoft's documentation on semantic model permissions, Build lets a user create new content from the model, and only users with Build can connect to it with a live connection.</p>
+<p>There are several ways a person gets Build:</p>
+<ul>
+<li><strong>Workspace roles.</strong> Admin, Member and Contributor roles on the model's workspace include Build automatically. The Viewer role does not.</li>
+<li><strong>Direct permission.</strong> A workspace Admin or Member can grant Build to individual people or groups from the model's manage permissions page.</li>
+<li><strong>Through an app.</strong> An app owner can allow app users to build content from the semantic models the app uses.</li>
+</ul>
+<p>Licensing matters here too. Microsoft notes that users need a <strong>Pro or Premium Per User licence</strong> to store reports in another workspace or share them. Check your own licences before rolling this out.</p>
+
+<figure class="fig">
+  <div class="tbl-grid tbl-grid--one">
+    <div class="mini-table"><p>Who needs what</p><table><thead><tr><th>person</th><th>works on</th><th>needs</th></tr></thead><tbody><tr><td>Model owner</td><td>the semantic model: data, relationships, measures</td><td>Admin, Member or Contributor role on the model workspace</td></tr><tr class="hl"><td>Report author</td><td>thin reports connected to the model</td><td>Build permission on the model</td></tr><tr><td>Report reader</td><td>viewing reports</td><td>access to the report or app, not Build</td></tr></tbody></table></div>
+  </div>
+  <figcaption>Three jobs, three levels of access. The key one is Build permission: it lets a report author create new reports from the shared model without being able to change the model itself.</figcaption>
+</figure>
+<p>Security carries through as well. If the shared model uses row-level security, readers of the connected reports still only see the rows they are allowed to see, so you define the rules once in the model rather than in every report.</p>
+<h2 id="point-people-at-the-right-model-endorsement">Point people at the right model: endorsement</h2>
+<p>Once you have a trusted shared model, you want people to find it rather than build yet another copy. Power BI's <strong>endorsement</strong> feature helps with this. There are two levels:</p>
+<ul>
+<li><strong>Promoted.</strong> The content owner, or a workspace member with write permissions, can promote a semantic model to say it is ready for others to use.</li>
+<li><strong>Certified.</strong> Only reviewers authorised by your Power BI administrator can certify content, and the administrator must enable and configure certification first. It signals that the model meets the organisation's quality standards.</li>
+</ul>
+<p>Endorsed models are labelled when people browse for data, which nudges report authors towards the approved model and away from importing their own.</p>
+<h2 id="when-a-separate-model-still-makes-sense">When a separate model still makes sense</h2>
+<p>A shared model is not a rule for every situation. A one-off analysis using data nobody else needs doesn't have to join it. If a team needs to add its own data to the shared model, Power BI also supports <strong>composite models</strong>, which combine a published model with other sources; that is a bigger topic and worth planning carefully.</p>
+<p>As a simple test, ask: <strong>will more than one report need these numbers?</strong> If the answer is yes, the data and measures belong in a shared model.</p>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Multiple copies of the same data are the quiet cause of most "which number is right?" conversations. Building <strong>one shared semantic model</strong> and connecting thin reports to it means measures are defined once, refreshed once and secured once.</p>
+<p>Start with your most-used data, such as sales or finance. Publish it as a shared model, grant Build permission to the people who create reports, and promote or certify it so everyone can find it. New reports then become quicker to build, and the numbers agree from one report to the next.</p>
+      <div class="author-box"><span class="avatar">EA</span><div><strong>Efua Angela</strong><p>Senior Supply Chain Analyst at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-sql-order-of-execution.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>SQL order of execution: why your query doesn&#x27;t run top to bottom</h3><p>SQL reads your query in a different order from the one you type. Learn that order and you&#x27;ll understand alias errors, WHERE vs HAVING and where LIMIT really applies.</p>
+  <span class="post-meta">Jayne Carter &middot; 20 November 2026 &middot; 7 min read</span></div>
+</a><a class="post-card reveal" href="insights-fabric-medallion-architecture.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Medallion architecture in Microsoft Fabric: bronze, silver and gold explained</h3><p>What the bronze, silver and gold layers are, what belongs in each, and how to set them up in Microsoft Fabric without overcomplicating your first project.</p>
+  <span class="post-meta">Thomas Forrester &middot; 18 November 2026 &middot; 6 min read</span></div>
+</a><a class="post-card reveal" href="insights-fabric-workspace-roles.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>Fabric workspace roles explained: who should get which access</h3><p>A practical guide to the four Microsoft Fabric workspace roles, what each one can really do, and a simple access plan that keeps your data safe as your team grows.</p>
+  <span class="post-meta">Elijah Parker &middot; 13 November 2026 &middot; 6 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "One semantic model, many reports: stop copying data in Power BI", "description": "Why every new Power BI report shouldn't bring its own copy of the data, and how a shared semantic model gives your business one version of the numbers.", "datePublished": "2026-11-23", "author": {"@type": "Person", "name": "Efua Angela", "jobTitle": "Senior Supply Chain Analyst"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-power-bi-shared-semantic-model.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-power-bi-shared-semantic-model.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-power-bi-shared-semantic-model.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-power-bi-shared-semantic-model.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
