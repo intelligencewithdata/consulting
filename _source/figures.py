@@ -163,4 +163,30 @@ FIGURES = {
   </div>
   <figcaption>Three jobs, three levels of access. The key one is Build permission: it lets a report author create new reports from the shared model without being able to change the model itself.</figcaption>
 </figure>''',
+
+    # ---------------------------------------------------------------- fabric onelake shortcuts
+    "onelake-shortcut": f'''
+<figure class="fig">
+  <div class="arch">
+    <div class="arch-col"><p class="arch-h">Data stays where it lives</p>{step("Sales lakehouse", "another Fabric workspace")}{step("Azure Data Lake", "ADLS Gen2")}{step("Amazon S3", "another cloud")}</div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col arch-col--fabric">
+      <p class="arch-h arch-h--light">Your lakehouse in OneLake</p>
+      {step("Tables / sales_orders", "shortcut, read as a table", "dark")}
+      {step("Tables / budgets", "shortcut, read as a table", "dark")}
+      {step("Files / supplier_feeds", "shortcut to raw files", "dark")}
+    </div>
+    <div class="arch-arrow" aria-hidden="true"></div>
+    <div class="arch-col"><p class="arch-h">People use</p>{step("SQL analytics endpoint", "", "gold")}{step("Power BI semantic model", "", "gold")}{step("Notebooks", "", "gold")}</div>
+  </div>
+  <figcaption>Shortcuts are pointers, not copies. The data stays in its original location, but it appears as folders in your lakehouse, so SQL, Power BI and notebooks can read it in one place.</figcaption>
+</figure>''',
+
+    "shortcut-or-copy": f'''
+<figure class="fig">
+  <div class="tbl-grid tbl-grid--one">
+    {table("Shortcut or copy?", ["situation", "use", "why"], [["Clean Delta table owned by another team", "Shortcut", "one source of truth, nothing to sync"], ["Raw files in another cloud, needed as-is", "Shortcut", "no new pipeline to build"], ["Messy data that needs cleaning first", "Copy &amp; transform", "fix it once, then report from the result"], ["Month-end figures that must not change", "Copy", "a snapshot stays fixed when the source changes"]], hl=(0, 1))}
+  </div>
+  <figcaption>A simple rule of thumb: if the data is already fit for use, point to it with a shortcut. If it needs work or must be frozen at a point in time, copy it.</figcaption>
+</figure>''',
 }
