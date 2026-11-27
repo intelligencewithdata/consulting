@@ -189,4 +189,23 @@ FIGURES = {
   </div>
   <figcaption>A simple rule of thumb: if the data is already fit for use, point to it with a shortcut. If it needs work or must be frozen at a point in time, copy it.</figcaption>
 </figure>''',
+
+    # ---------------------------------------------------------------- sql lapsed customers
+    "sql-lapsed-bands": f'''
+<figure class="fig">
+  <div class="fig-row">
+    <div class="fig-label"><span>Last order</span><em>Checked on 1 Dec 2026</em></div>
+    {flow(step("Active", "in the last 3 months", "good"), step("At risk", "3 to 6 months ago", "gold"), step("Lapsed", "more than 6 months ago", "bad"), step("Never ordered", "no completed orders", "bad"))}
+  </div>
+  <figcaption>Every customer lands in exactly one group, based only on the date of their most recent completed order. The cut-off dates move forward each time you run the check.</figcaption>
+</figure>''',
+
+    "sql-lapsed-shape": f'''
+<figure class="fig">
+  <div class="tbl-grid">
+    {table("orders: one row per order", ["customer", "order_date", "status"], [["Ada", "2026-09-02", "Complete"], ["Ada", "2026-10-20", "Complete"], ["Ben", "2026-06-18", "Complete"], ["Eve", "2026-04-02", "Complete"], ["Eve", "2026-10-05", "Cancelled"]], hl=(4,))}
+    {table("result: one row per customer", ["customer", "last_order_date", "customer_status"], [["Ada", "2026-10-20", "Active"], ["Ben", "2026-06-18", "At risk"], ["Eve", "2026-04-02", "Lapsed"], ["Dee", '<span class="null">NULL</span>', "Never ordered"]], hl=(2, 3))}
+  </div>
+  <figcaption>The query turns many order rows into one row per customer. Eve's cancelled October order is ignored, so she shows as lapsed. Dee is on the customer list but has no orders, so the LEFT JOIN keeps her with a NULL date.</figcaption>
+</figure>''',
 }

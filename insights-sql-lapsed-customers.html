@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find customers who've stopped buying with one SQL query | Intelligence With Data</title>
+<meta name="description" content="A simple SQL query that sorts every customer into active, at risk, lapsed or never ordered, so you know who to contact before they're gone for good.">
+<meta name="theme-color" content="#0B1B3F">
+<link rel="canonical" href="https://www.intelligencewithdata.com/insights-sql-lapsed-customers.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Find customers who've stopped buying with one SQL query | Intelligence With Data">
+<meta property="og:description" content="A simple SQL query that sorts every customer into active, at risk, lapsed or never ordered, so you know who to contact before they're gone for good.">
+<meta property="og:url" content="https://www.intelligencewithdata.com/insights-sql-lapsed-customers.html">
+<meta property="og:site_name" content="Intelligence With Data">
+<meta property="og:image" content="https://www.intelligencewithdata.com/assets/img/og-insights-sql-lapsed-customers.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=40f9fe4a">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="topbar"><div class="container topbar-inner"><span class="topbar-spacer" aria-hidden="true"></span><a class="promo-bar" href="free-training.html"><span class="promo-dot" aria-hidden="true"></span><span><strong>Free live training</strong><span class="promo-long"> &middot; Power BI &amp; SQL every Friday, 6pm UK</span></span><span class="promo-cta"><span class="promo-cta-text">Save your seat</span> <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="topbar-staff" href="staff.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Staff login</span></a></div></div>
+<header class="site-header" data-header>
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="Intelligence With Data — home"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle><span></span><span></span><span></span><span class="sr-only">Menu</span></button>
+    <nav id="nav-menu" class="nav-menu" data-nav-menu aria-label="Main"><a href="index.html">Home</a><a href="services.html">Consulting</a><div class="nav-drop"><a href="training.html" class="nav-drop-toggle" aria-haspopup="true">Training<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="nav-sub"><a href="courses.html"><strong>Programmes &amp; fees</strong><small>Excel &amp; AI, Power BI, SQL &middot; Saturday cohorts</small></a><a href="internship.html"><strong>Data analytics internship</strong><small>4 weeks, one-to-one, real client work</small></a><a href="free-training.html"><strong>Free Fridays</strong><small>Free live Power BI &amp; SQL class</small></a><a href="training.html"><strong>All training</strong><small>Coaching, internships, Kids in Tech</small></a></div></div><a href="insights.html" aria-current="page">Insights</a><a href="about.html">About</a><a class="btn btn--gold btn--sm" href="contact.html">Book a call</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="read-progress" aria-hidden="true"><span data-read-progress></span></div>
+<section class="page-hero article-hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container article-head">
+    <p class="crumbs"><a href="index.html">Home</a> &nbsp;/&nbsp; <a href="insights.html">Insights</a> &nbsp;/&nbsp; SQL</p>
+    <span class="post-cat post-cat--light">SQL</span>
+    <h1>Find customers who&#x27;ve stopped buying with one SQL query</h1>
+    <p class="lead">A simple SQL query that sorts every customer into active, at risk, lapsed or never ordered, so you know who to contact before they&#x27;re gone for good.</p>
+    <div class="byline byline--light"><span class="avatar avatar--sm">TF</span><span><strong>Thomas Forrester</strong><small>AI Engineer &middot; 27 November 2026 &middot; 7 min read</small></span></div>
+  </div>
+</section>
+
+<section class="section article-section">
+  <div class="container article-layout">
+    <aside class="article-aside">
+      <nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#in-short">In short</a></li><li><a href="#the-idea-one-row-per-customer">The idea: one row per customer</a></li><li><a href="#step-1-find-each-customers-last-order">Step 1: find each customer&#x27;s last order</a></li><li><a href="#step-2-start-from-the-customer-list">Step 2: start from the customer list</a></li><li><a href="#the-mistake-that-hides-your-never-ordered-customers">The mistake that hides your never-ordered customers</a></li><li><a href="#step-3-give-every-customer-a-status">Step 3: give every customer a status</a></li><li><a href="#make-the-dates-move-on-their-own">Make the dates move on their own</a></li><li><a href="#turn-it-into-a-list-people-can-use">Turn it into a list people can use</a></li><li><a href="#the-bottom-line">The bottom line</a></li></ol></nav>
+      <div class="share"><p>Share</p>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-lapsed-customers.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn">in</a>
+        <a href="https://wa.me/?text=Find%20customers%20who%27ve%20stopped%20buying%20with%20one%20SQL%20query%20https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-lapsed-customers.html" target="_blank" rel="noopener" aria-label="Share on WhatsApp">WA</a>
+        <a href="https://x.com/intent/post?text=Find%20customers%20who%27ve%20stopped%20buying%20with%20one%20SQL%20query&amp;url=https%3A%2F%2Fwww.intelligencewithdata.com%2Finsights-sql-lapsed-customers.html" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <button type="button" data-copy-link="https://www.intelligencewithdata.com/insights-sql-lapsed-customers.html" aria-label="Copy link">Copy</button>
+      </div>
+    </aside>
+    <article class="prose" data-article>
+      <p>Most businesses can tell you how many customers bought last month. Far fewer can tell you which regular customers <strong>quietly stopped buying</strong> three or six months ago. Those customers rarely announce that they've gone. They just stop appearing in the sales figures.</p>
+<p>If your orders are stored in a database, you can answer that question with one query. It needs nothing more advanced than <code>GROUP BY</code>, a <code>LEFT JOIN</code> and a <code>CASE</code> expression.</p>
+<p>This article builds the query step by step, points out the two mistakes that make the results look better than they are, and shows how to turn it into a short list your team can act on.</p>
+<h2 id="in-short">In short</h2>
+<ul>
+<li>Find each customer's <strong>most recent completed order</strong> with <code>MAX(order_date)</code> and <code>GROUP BY</code>.</li>
+<li>Start from the <strong>customer list with a LEFT JOIN</strong>, so customers who have never ordered aren't missed.</li>
+<li>Put the status filter in the <strong>join condition, not WHERE</strong>, or the never-ordered customers disappear.</li>
+<li>Use <code>CASE</code> to give every customer <strong>one clear status</strong>: active, at risk, lapsed or never ordered.</li>
+</ul>
+<h2 id="the-idea-one-row-per-customer">The idea: one row per customer</h2>
+<p>Your order data has <strong>one row per order</strong>. To spot lapsed customers you need <strong>one row per customer</strong>, showing the date they last bought. Once you have that date, sorting customers into groups is simple.</p>
+<p>The examples use two small tables:</p>
+<pre><code class="language-sql">customers (customer_id, name)
+orders    (order_id, customer_id, order_date, amount, status)
+</code></pre>
+<p>Each order has a status of <code>Complete</code> or <code>Cancelled</code>. We'll pretend we are running the check on <strong>1 December 2026</strong> and use these groups:</p>
+
+<figure class="fig">
+  <div class="fig-row">
+    <div class="fig-label"><span>Last order</span><em>Checked on 1 Dec 2026</em></div>
+    <div class="flow"><div class="fstep good"><strong>Active</strong><small>in the last 3 months</small></div><div class="fstep gold"><strong>At risk</strong><small>3 to 6 months ago</small></div><div class="fstep bad"><strong>Lapsed</strong><small>more than 6 months ago</small></div><div class="fstep bad"><strong>Never ordered</strong><small>no completed orders</small></div></div>
+  </div>
+  <figcaption>Every customer lands in exactly one group, based only on the date of their most recent completed order. The cut-off dates move forward each time you run the check.</figcaption>
+</figure>
+<p>The three-month and six-month windows are only a starting point. A café's regulars might buy every week, while a business customer might reorder twice a year. <strong>Choose windows that match how often your customers normally buy</strong>, and agree them with whoever will act on the list.</p>
+<h2 id="step-1-find-each-customers-last-order">Step 1: find each customer's last order</h2>
+<p>Start with the orders table on its own. <code>MAX</code> on a date column returns the latest date, and <code>GROUP BY</code> gives you one row for each customer:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> customer_id,
+       MAX(order_date) <span class="tok-kw">AS</span> last_order_date,
+       <span class="tok-kw">COUNT</span>(*)        <span class="tok-kw">AS</span> order_count,
+       <span class="tok-kw">SUM</span>(amount)     <span class="tok-kw">AS</span> total_spend
+<span class="tok-kw">FROM</span> orders
+<span class="tok-kw">WHERE</span> status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> customer_id;
+</code></pre>
+<p>The <code>WHERE</code> clause matters. Without it, a cancelled order counts as recent activity. In our sample data, one customer placed an order in October and then cancelled it. Counting that order would label her <strong>active</strong> when she hasn't completed a purchase since April.</p>
+<p>This query has a blind spot, though. It only sees customers who appear in the orders table. Anyone who signed up but <strong>never completed an order</strong> is missing entirely.</p>
+<h2 id="step-2-start-from-the-customer-list">Step 2: start from the customer list</h2>
+<p>To include every customer, start from the <code>customers</code> table and use a <code>LEFT JOIN</code> to bring in their orders. Customers with no matching orders are kept, with <code>NULL</code> in the order columns:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> c.customer_id,
+       c.name,
+       MAX(o.order_date) <span class="tok-kw">AS</span> last_order_date,
+       <span class="tok-kw">COUNT</span>(o.order_id) <span class="tok-kw">AS</span> order_count
+<span class="tok-kw">FROM</span> customers <span class="tok-kw">AS</span> c
+<span class="tok-kw">LEFT JOIN</span> orders <span class="tok-kw">AS</span> o
+       <span class="tok-kw">ON</span> o.customer_id = c.customer_id
+      <span class="tok-kw">AND</span> o.status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> c.customer_id, c.name;
+</code></pre>
+<p>Two details make this work:</p>
+<ol>
+<li><strong><code>COUNT(o.order_id)</code> instead of <code>COUNT(*)</code>.</strong> <code>COUNT(*)</code> counts rows, so a customer with no orders would still show 1. Counting a column from the orders table skips the <code>NULL</code> and correctly shows 0.</li>
+<li><strong>The status filter is in the <code>ON</code> clause.</strong> This is the mistake that catches most people, so it gets its own section.</li>
+</ol>
+<h2 id="the-mistake-that-hides-your-never-ordered-customers">The mistake that hides your never-ordered customers</h2>
+<p>It feels natural to filter cancelled orders in a <code>WHERE</code> clause, as we did in step 1:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> c.customer_id,
+       c.name,
+       MAX(o.order_date) <span class="tok-kw">AS</span> last_order_date,
+       <span class="tok-kw">COUNT</span>(o.order_id) <span class="tok-kw">AS</span> order_count
+<span class="tok-kw">FROM</span> customers <span class="tok-kw">AS</span> c
+<span class="tok-kw">LEFT JOIN</span> orders <span class="tok-kw">AS</span> o
+       <span class="tok-kw">ON</span> o.customer_id = c.customer_id
+<span class="tok-kw">WHERE</span> o.status = <span class="tok-str">'Complete'</span>
+<span class="tok-kw">GROUP BY</span> c.customer_id, c.name;
+</code></pre>
+<p>This query runs without any error, but it quietly drops every customer who has never ordered. <strong><code>WHERE</code> runs after the join.</strong> For those customers, <code>o.status</code> is <code>NULL</code>, and <code>NULL = 'Complete'</code> is not true, so the row is filtered out. Your <code>LEFT JOIN</code> now behaves like an <code>INNER JOIN</code>.</p>
+<p>Moving the condition into <code>ON</code> changes its meaning. It now says "only join completed orders", and customers without any are still kept. When you filter the right-hand table of a <code>LEFT JOIN</code>, <strong>the filter belongs in <code>ON</code></strong>.</p>
+<h2 id="step-3-give-every-customer-a-status">Step 3: give every customer a status</h2>
+<p>Now wrap the query in a common table expression (CTE) and add a <code>CASE</code> expression. <code>CASE</code> checks each condition in order and uses the first one that is true, so the order of the lines matters:</p>
+<pre><code class="language-sql"><span class="tok-kw">WITH</span> last_orders <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> c.customer_id,
+           c.name,
+           MAX(o.order_date) <span class="tok-kw">AS</span> last_order_date,
+           <span class="tok-kw">COUNT</span>(o.order_id) <span class="tok-kw">AS</span> order_count
+    <span class="tok-kw">FROM</span> customers <span class="tok-kw">AS</span> c
+    <span class="tok-kw">LEFT JOIN</span> orders <span class="tok-kw">AS</span> o
+           <span class="tok-kw">ON</span> o.customer_id = c.customer_id
+          <span class="tok-kw">AND</span> o.status = <span class="tok-str">'Complete'</span>
+    <span class="tok-kw">GROUP BY</span> c.customer_id, c.name
+),
+banded <span class="tok-kw">AS</span> (
+    <span class="tok-kw">SELECT</span> name,
+           last_order_date,
+           order_count,
+           <span class="tok-kw">CASE</span>
+               <span class="tok-kw">WHEN</span> last_order_date <span class="tok-kw">IS NULL</span>         <span class="tok-kw">THEN</span> <span class="tok-str">'Never ordered'</span>
+               <span class="tok-kw">WHEN</span> last_order_date &gt;= <span class="tok-str">'2026-09-01'</span> <span class="tok-kw">THEN</span> <span class="tok-str">'Active'</span>
+               <span class="tok-kw">WHEN</span> last_order_date &gt;= <span class="tok-str">'2026-06-01'</span> <span class="tok-kw">THEN</span> <span class="tok-str">'At risk'</span>
+               <span class="tok-kw">ELSE</span> <span class="tok-str">'Lapsed'</span>
+           <span class="tok-kw">END</span> <span class="tok-kw">AS</span> customer_status
+    <span class="tok-kw">FROM</span> last_orders
+)
+<span class="tok-kw">SELECT</span> name, last_order_date, order_count, customer_status
+<span class="tok-kw">FROM</span> banded
+<span class="tok-kw">ORDER BY</span> last_order_date;
+</code></pre>
+<p>The <code>NULL</code> check comes first. If it came later, a missing date would fail every comparison and fall through to <code>ELSE</code>, and a never-ordered customer would be labelled <strong>lapsed</strong>. Those are two different conversations, so keep them apart.</p>
+
+<figure class="fig">
+  <div class="tbl-grid">
+    <div class="mini-table"><p>orders: one row per order</p><table><thead><tr><th>customer</th><th>order_date</th><th>status</th></tr></thead><tbody><tr><td>Ada</td><td>2026-09-02</td><td>Complete</td></tr><tr><td>Ada</td><td>2026-10-20</td><td>Complete</td></tr><tr><td>Ben</td><td>2026-06-18</td><td>Complete</td></tr><tr><td>Eve</td><td>2026-04-02</td><td>Complete</td></tr><tr class="hl"><td>Eve</td><td>2026-10-05</td><td>Cancelled</td></tr></tbody></table></div>
+    <div class="mini-table"><p>result: one row per customer</p><table><thead><tr><th>customer</th><th>last_order_date</th><th>customer_status</th></tr></thead><tbody><tr><td>Ada</td><td>2026-10-20</td><td>Active</td></tr><tr><td>Ben</td><td>2026-06-18</td><td>At risk</td></tr><tr class="hl"><td>Eve</td><td>2026-04-02</td><td>Lapsed</td></tr><tr class="hl"><td>Dee</td><td><span class="null">NULL</span></td><td>Never ordered</td></tr></tbody></table></div>
+  </div>
+  <figcaption>The query turns many order rows into one row per customer. Eve's cancelled October order is ignored, so she shows as lapsed. Dee is on the customer list but has no orders, so the LEFT JOIN keeps her with a NULL date.</figcaption>
+</figure>
+<h2 id="make-the-dates-move-on-their-own">Make the dates move on their own</h2>
+<p>Typing cut-off dates by hand is fine for a one-off check, but a report you run every month should <strong>work out the dates itself</strong>.</p>
+<p>In SQL Server, or a Microsoft Fabric warehouse, use <code>DATEADD</code>. Its arguments are the date part, the number to add and the starting date. Microsoft's documentation notes that <code>GETDATE()</code> returns the current date <strong>and time</strong>, so convert it to a <code>date</code> first:</p>
+<pre><code class="language-sql">DECLARE @run_date date = CAST(GETDATE() <span class="tok-kw">AS</span> date);
+
+-- inside the <span class="tok-kw">CASE</span> expression:
+<span class="tok-kw">WHEN</span> last_order_date &gt;= DATEADD(month, -3, @run_date) <span class="tok-kw">THEN</span> <span class="tok-str">'Active'</span>
+<span class="tok-kw">WHEN</span> last_order_date &gt;= DATEADD(month, -6, @run_date) <span class="tok-kw">THEN</span> <span class="tok-str">'At risk'</span>
+</code></pre>
+<p>If you also want a "days since last order" column, SQL Server's <code>DATEDIFF(day, last_order_date, @run_date)</code> gives it. Be aware that <code>DATEDIFF</code> counts <strong>boundaries crossed</strong> rather than complete periods, so <code>DATEDIFF(month, ...)</code> between 31 January and 1 February returns 1. Day-level differences avoid that surprise.</p>
+<p>Other databases use different date functions. SQLite, for example, uses <code>date('now', '-3 months')</code>. The structure of the query stays the same.</p>
+<h2 id="turn-it-into-a-list-people-can-use">Turn it into a list people can use</h2>
+<p>A one-line summary is useful for a management meeting. Replace the final <code>SELECT</code> with a count by status:</p>
+<pre><code class="language-sql"><span class="tok-kw">SELECT</span> customer_status,
+       <span class="tok-kw">COUNT</span>(*) <span class="tok-kw">AS</span> customers
+<span class="tok-kw">FROM</span> banded
+<span class="tok-kw">GROUP BY</span> customer_status
+<span class="tok-kw">ORDER BY</span> customers <span class="tok-kw">DESC</span>;
+</code></pre>
+<p>For the team who will pick up the phone, the detailed list matters more. A few practical points:</p>
+<ol>
+<li><strong>Add value to the list.</strong> Include <code>total_spend</code> from step 1 so the team calls high-value at-risk customers first.</li>
+<li><strong>Act on "at risk", not just "lapsed".</strong> A customer who stopped buying four months ago is easier to win back than one who left a year ago.</li>
+<li><strong>Track the counts over time.</strong> If the at-risk group grows month after month, that is an early warning worth investigating.</li>
+<li><strong>Feed it into your reporting.</strong> The same query can sit behind a Power BI report, so the list refreshes without anyone rerunning it.</li>
+</ol>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>Lapsed customers don't show up as a problem in a sales total. They show up as an absence. One query that finds <strong>each customer's last completed order</strong>, starting from the <strong>full customer list</strong>, and sorts the results with <strong><code>CASE</code></strong> turns that absence into a named list.</p>
+<p>Watch the two traps: filter cancelled orders in the <strong><code>ON</code> clause</strong>, and check for <strong><code>NULL</code> dates first</strong>. Get those right and you'll have a dependable, repeatable view of who has stopped buying, while there is still time to do something about it.</p>
+      <div class="author-box"><span class="avatar">TF</span><div><strong>Thomas Forrester</strong><p>AI Engineer at Intelligence With Data.</p></div></div>
+      <div class="article-cta"><p class="eyebrow eyebrow--gold">Work with us</p><h3>Want your reporting to run itself?</h3><p>We automate reporting with Power BI and Microsoft Fabric, then train your team to own it. Tell us which reports eat your week.</p><div class="btn-row"><a class="btn btn--gold" href="contact.html">Book a discovery call <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn btn--ghost" href="services.html">Explore consulting</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head reveal"><p class="eyebrow">Keep reading</p><h2>More <em>insights.</em></h2></div>
+    <div class="post-grid"><a class="post-card reveal" href="insights-fabric-onelake-shortcuts.html" data-cat="fabric">
+  <div class="cover cover--fabric " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M20 7 33 14 20 21 7 14Z"/><path d="M7 20l13 7 13-7" fill="none" stroke-width="2.4"/><path d="M7 26l13 7 13-7" fill="none" stroke-width="2.4"/></svg><span class="cover-label">Microsoft Fabric</span></div>
+  <div class="post-body"><span class="post-cat">Microsoft Fabric</span><h3>OneLake shortcuts: use your data in Fabric without copying it</h3><p>What OneLake shortcuts are, which sources they can point to, and when a shortcut beats copying data into Microsoft Fabric for your business.</p>
+  <span class="post-meta">Elijah Parker &middot; 25 November 2026 &middot; 7 min read</span></div>
+</a><a class="post-card reveal" href="insights-power-bi-shared-semantic-model.html" data-cat="powerbi">
+  <div class="cover cover--powerbi " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><rect x="9" y="22" width="5.5" height="9" rx="1.6"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6"/></svg><span class="cover-label">Power BI</span></div>
+  <div class="post-body"><span class="post-cat">Power BI</span><h3>One semantic model, many reports: stop copying data in Power BI</h3><p>Why every new Power BI report shouldn&#x27;t bring its own copy of the data, and how a shared semantic model gives your business one version of the numbers.</p>
+  <span class="post-meta">Efua Angela &middot; 23 November 2026 &middot; 7 min read</span></div>
+</a><a class="post-card reveal" href="insights-sql-order-of-execution.html" data-cat="sql">
+  <div class="cover cover--sql " aria-hidden="true"><span class="cover-grid"></span><svg class="cover-icon" viewBox="0 0 40 40"><path d="M14 11 7 20l7 9M26 11l7 9-7 9" fill="none" stroke-width="2.8"/><path d="M22.5 9 17.5 31" fill="none" stroke-width="2.4"/></svg><span class="cover-label">SQL</span></div>
+  <div class="post-body"><span class="post-cat">SQL</span><h3>SQL order of execution: why your query doesn&#x27;t run top to bottom</h3><p>SQL reads your query in a different order from the one you type. Learn that order and you&#x27;ll understand alias errors, WHERE vs HAVING and where LIMIT really applies.</p>
+  <span class="post-meta">Jayne Carter &middot; 20 November 2026 &middot; 7 min read</span></div>
+</a></div>
+  </div>
+</section>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Find customers who've stopped buying with one SQL query", "description": "A simple SQL query that sorts every customer into active, at risk, lapsed or never ordered, so you know who to contact before they're gone for good.", "datePublished": "2026-11-27", "author": {"@type": "Person", "name": "Thomas Forrester", "jobTitle": "AI Engineer"}, "publisher": {"@type": "Organization", "name": "Intelligence With Data Ltd"}, "image": "https://www.intelligencewithdata.com/assets/img/og-insights-sql-lapsed-customers.png", "mainEntityOfPage": "https://www.intelligencewithdata.com/insights-sql-lapsed-customers.html"}</script>
+
+<section class="nl-band-wrap">
+  <div class="container">
+    <div class="nl-band reveal">
+      <div class="nl-band-copy">
+        <p class="eyebrow eyebrow--gold">The Data Brief</p>
+        <h2>Practical data tips, <em>once a week.</em></h2>
+        <p>New guides on Power BI, Fabric and SQL, plus class and cohort dates first. Free, and you can unsubscribe any time.</p>
+      </div>
+      <div>
+        <form class="nl-form nl-form--dark" data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Band: insights-sql-lapsed-customers.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nlb-email">Email address</label><input id="nlb-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+        <div class="nl-done nl-done--dark" data-nl-done hidden><strong>You're subscribed.</strong><span>Look out for your first issue soon.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<aside class="nl-slide" data-nl-slide hidden aria-labelledby="nl-slide-title">
+  <button class="nl-close" type="button" data-nl-close aria-label="Close and don't show again for a while">&times;</button>
+  <p class="session-label">Free weekly newsletter</p>
+  <h2 id="nl-slide-title">Enjoying this? Get The Data Brief.</h2>
+  <p class="nl-slide-text">One short email a week with practical Power BI, Fabric and SQL tips.</p>
+  <form class="nl-form " data-newsletter-form data-endpoint="https://formspree.io/f/mgaozrav" data-webhook="" novalidate>
+      <input type="hidden" name="_subject" value="New newsletter subscriber (The Data Brief)">
+      <input type="hidden" name="interest" value="Newsletter subscription">
+      <input type="hidden" name="signup_source" value="Slide-in: insights-sql-lapsed-customers.html">
+      <div hidden aria-hidden="true"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="nl-fields nl-fields--compact">
+        <div class="field"><label for="nls-email">Email address</label><input id="nls-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      </div>
+      <label class="nl-consent"><input type="checkbox" name="consent" value="Yes, send me The Data Brief" required><span>Yes, send me The Data Brief. I can unsubscribe at any time.</span></label>
+      <button class="btn btn--gold nl-btn" type="submit">Subscribe</button>
+      <p class="nl-status" data-nl-status role="status" aria-live="polite"></p>
+    </form>
+  <div class="nl-done" data-nl-done hidden><strong>You're subscribed.</strong><span>Thank you. Your first issue is on its way soon.</span></div>
+  <a class="nl-more" href="newsletter.html">What's in it?</a>
+</aside>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#142B5E"/><rect x="9" y="22" width="5.5" height="9" rx="1.6" fill="#5B8CFF"/><rect x="17.25" y="15" width="5.5" height="16" rx="1.6" fill="#BFD0FF"/><rect x="25.5" y="8.5" width="5.5" height="22.5" rx="1.6" fill="#C9A227"/></svg><span class="brand-text"><strong>Intelligence With Data</strong><small>Strategy and Mastery</small></span></a>
+        <p>A UK data consultancy automating reporting with Power BI and Microsoft Fabric, and upskilling the people who use it.</p>
+      </div>
+      <div><h4>Consulting</h4><ul>
+        <li><a href="services.html#automation">Report automation</a></li>
+        <li><a href="services.html#fabric">Microsoft Fabric</a></li>
+        <li><a href="services.html#upskilling">Team upskilling</a></li>
+        <li><a href="services.html#ai">AI &amp; prompting</a></li>
+        <li><a href="services.html#contract">Contract support</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="training.html">Training &amp; careers</a></li>
+        <li><a href="courses.html">Programmes &amp; fees</a></li>
+        <li><a href="internship.html">Data analytics internship</a></li>
+        <li><a href="free-training.html">Free Friday training</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="insights.html">Insights</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Get in touch</h4><ul>
+        <li><a href="mailto:training@intelligencewithdata.com">training@intelligencewithdata.com</a></li>
+        <li><a href="tel:+447344099129">+44 7344 099 129</a></li>
+        <li><a href="https://wa.me/447344099129" target="_blank" rel="noopener">WhatsApp us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Intelligence With Data Ltd. All rights reserved.</span>
+      <span>Microsoft Certified Professional &middot; BCS member &middot; <a href="staff.html" class="staff-link">Staff email</a></span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js?v=40f9fe4a" defer></script>
+</body>
+</html>
